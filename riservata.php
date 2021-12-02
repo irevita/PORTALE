@@ -11,6 +11,24 @@
   
 ?>
 
+
+<?php // bottone elimina php
+    if (isset($_POST['delete'])) {
+        if (mysqli_query($connessione, $query_eliminautente)) {    
+            //eliminazione riuscita 
+            header('Location: index.php?action=eliminautente');
+        }else {
+            // eliminazione non riuscita 
+            // $error= mysqli_error($connessione);
+            header('Location: area_riservata.php?action=erroreliminaut');
+        }
+    }
+    if (isset($_POST['indietro'])) {
+        header('Location: area_riservata.php');
+    }
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -39,7 +57,7 @@
 <body class="body">
 
     <header>
-        <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()">Esci dalla tua area personale :'(</span>
+        <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()"><i class="fas fa-bars"></i> PORTALE </span>
         <a href="logout.php">
             <button type="button" class="btn btn-danger">Logout</button>
         </a>
@@ -80,13 +98,6 @@
         <input type="text" name="post_txt" value="Scrivi il tuo post..">
     </div>
 
-<!-- ICONA MENU -->
-
-<div class="container" onclick="aprimenu()">
-  <div class="bar1"></div>
-  <div class="bar2"></div>
-  <div class="bar3"></div>
-</div>
 
     <!-- menu principale -->
     <nav id="menu" class="unvisible">
@@ -96,7 +107,7 @@
             <span>Categorie</span>
             <!-- sottocategoria -->
             <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-      <li><?php echo $row["Categoria"]; ?></li><?php }?>
+                <li><?php echo $row["Categoria"]; ?></li><?php }?>
             </ul>
         </div>
 
@@ -105,10 +116,10 @@
             <span>Tema</span>
             <!-- sottocategoria -->
             <ul>
-      <li>
-          <input id="colorpicker" type="color" value="#ffffff">
-          <button id="color"> change Color </button>
-      </li>
+                <li>
+                    <input id="colorpicker" type="color" value="#ffffff">
+                    <button id="color"> change Color </button>
+                </li>
             </ul>
         </div>
 
@@ -117,7 +128,7 @@
             <span>Blog seguiti</span>
             <!-- sottocategoria -->
             <ul>
-      <li></li>
+                <li></li>
             </ul>
         </div>
 
@@ -126,11 +137,16 @@
             <span>Impostazioni profilo</span>
             <!-- sottocategoria -->
             <ul>
-      <li> </li>
+                <li>
+                    <span>
+                        <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteModal"><i class="fas fa-trash"></i> Elimina account</button>
+                    </span>
+                </li>
             </ul>
         </div>
     </nav>
-    
+
 
 
 
@@ -142,66 +158,45 @@
         <div id='articoli'>
             <?php while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
             <article>
-      <h3><?php echo $row["Titolo"];?></h3>
-      <p><?php echo $row["TESTO"];?></p>
-      <span class="likes">
-          <i class="fas fa-thumbs-up"></i> Like
-          <span class="likes_number"></span>
-      </span>
+                <h3><?php echo $row["Titolo"];?></h3>
+                <p><?php echo $row["TESTO"];?></p>
+                <span class="likes">
+                    <i class="fas fa-thumbs-up"></i> Like
+                    <span class="likes_number"></span>
+                </span>
             </article>
             <?php } ?>
         </div>
 
-<!-- bottone elimina account -->
+        <!-- modale elimina account --> 
 
-          <span>
-              <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
-    data-target="#loginModal"><i class="fas fa-trash"></i> Elimina account</button>
-          </span>
-
-          <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
-              aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Eliminazione account</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminazione account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sei sicuro di voler eliminare il tuo account? </br> Se lo farai, eliminerai il
+                            tuo blog e tutto il suo contenuto!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="area_riservata.php" method="post">
+                            <button name="delete" type="submit" class="btn btn-secondary">Si,
+                                elimina</button>
+                            <button name="indietro" type="submit" class="btn btn-primary">Torna
+                                indietro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <p>Sei sicuro di voler eliminare il tuo account? </br> Se lo farai, eliminerai il
-                tuo blog e tutto il suo contenuto!</p>
-        </div>
-        <div class="modal-footer">
-            <form action="area_riservata.php" method="post">
-                <button name="delete" type="submit" class="btn btn-secondary">Si,
-      elimina</button>
-                <button name="indietro" type="submit" class="btn btn-primary">Torna
-      indietro</button>
-            </form>
-        </div>
-    </div>
-              </div>
-      </div>
 
 
-<?php
-    if (isset($_POST['delete'])) {
-        if (mysqli_query($connessione, $query_eliminautente)) {    
-            //eliminazione riuscita 
-            header('Location: index.php?action=eliminautente');
-        }else {
-            // eliminazione non riuscita 
-            // $error= mysqli_error($connessione);
-            header('Location: area_riservata.php?action=erroreliminaut');
-        }
-    }
-    if (isset($_POST['indietro'])) {
-        header('Location: area_riservata.php');
-    }
- ?>
-          
 
 
         <?php include "footer.php" ?>

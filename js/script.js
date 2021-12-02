@@ -22,9 +22,3 @@ b.onclick = function(){
 }, 200);
 
 }; 
-
-// ICONA MENU
-
-function aprimenu() {
-  x.classList.toggle("change");
-};
