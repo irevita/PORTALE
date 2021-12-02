@@ -19,10 +19,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Connessione al DB con PHP</title>
     <!-- JS -->
-    <!-- il primo l'ho riaggiunto per il bottone elimina -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- è commentato per il bottone elimina -->
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script> -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
     <script src="js/script.js" defer></script>
     <!-- CSS -->
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
@@ -189,10 +189,12 @@
 <?php
     if (isset($_POST['delete'])) {
         if (mysqli_query($connessione, $query_eliminautente)) {    
+            //eliminazione riuscita 
             header('Location: index.php?action=eliminautente');
         }else {
-            echo "Error deleting record: " . mysqli_error($connessione);
-            header('Location: area_riservata.php');
+            // eliminazione non riuscita 
+            // $error= mysqli_error($connessione);
+            header('Location: area_riservata.php?action=erroreliminaut');
         }
     }
     if (isset($_POST['indietro'])) {
