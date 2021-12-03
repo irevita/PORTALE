@@ -56,118 +56,90 @@
 
 </head>
 
-<body class="body">
+<body>
 
-    <header>
-        <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()"><i class="fas fa-bars"></i> PORTALE </span>
-        <a href="logout.php">
-            <button type="button" class="btn btn-danger">Logout</button>
-        </a>
-    </header>
+    <div class="container">
 
-</br>
-
-
-    <div class="title">
-        <h1>Area riservata</h1>
-        <h3>Ciao <?php echo $_SESSION['utente']; ?>, benvenut nella tua area personale!</h3>
-    </div>
+        <header>
+            <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()"><i class="fas fa-bars"></i> PORTALE
+            </span>
+            <a href="logout.php">
+                <button type="button" class="btn btn-danger">Logout</button>
+            </a>
+        </header>
 
 
-
-    <div class="w3-col m3">
-        <h4 class="w3-marginLeft">Il mio profilo</h4>
-        <ul>
-            <li>
-                <img src="iconaut.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
-            </li>
-            <?php while($row=mysqli_fetch_array($query_mostraProfilo)){?>
-            <li> <i class='fa fa-angellist'> </i> <?php echo $row["Nick"];?> </li>
-            <li> <i class='fa fa-home fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["Nazione"];?> </li>
-            <li> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i>
-                <?php echo $row["DatadiNascita"];?>
-            </li>
-            <li> <i class='fa fa-paper-plane-o'> </i> <?php echo $row["Email"];?> </li>
-            <?php  }   ?>
-        </ul>
-    </div>
-
-    <!--pulsante aggiungi post -->
-
-    <div class="w3-center">
-        <button class="w3-button w3-xlarge w3-circle w3-teal">+</button>
-        <input type="text" name="post_txt" value="Scrivi il tuo post..">
-    </div>
-
-
-    <!-- menu principale -->
-    <nav id="menu" class="unvisible">
-
-        <!-- CATEGORIA -->
-        <div class="list-item">
-            <span>Categorie</span>
-            <!-- sottocategoria -->
-            <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-                <li><?php echo $row["Categoria"]; ?></li><?php }?>
-            </ul>
+        <div class="title">
+            <h1>Area riservata</h1>
+            <h3>Ciao <?php echo $_SESSION['utente']; ?>, benvenut nella tua area personale!</h3>
         </div>
 
-        <!-- TEMA -->
-        <div class="list-item">
-            <span>Tema</span>
-            <!-- sottocategoria -->
-            <ul>
-                <li>
-                    <input id="colorpicker" type="color" value="#ffffff">
-                    <button id="color"> change Color </button>
-                </li>
-            </ul>
-        </div>
 
-        <!-- BLOG SEGUITI -->
-        <div class="list-item">
-            <span>Blog seguiti</span>
-            <!-- sottocategoria -->
-            <ul>
-                <li></li>
-            </ul>
-        </div>
+        <!-- menu principale -->
+        <nav id="menu" class="unvisible">
 
-        <!-- IMPOSTAZIONI PROFILO -->
-        <div class="list-item">
-            <span>Impostazioni profilo</span>
-            <!-- sottocategoria -->
-            <ul>
-                <li>
-                    <span>
-                        <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
-                            data-target="#deleteModal"><i class="fas fa-trash"></i> Elimina account</button>
+            <!-- CATEGORIA -->
+            <div class="list-item">
+                <span>Categorie</span>
+                <!-- sottocategoria -->
+                <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
+                    <li><?php echo $row["Categoria"]; ?></li><?php }?>
+                </ul>
+            </div>
+
+            <!-- TEMA -->
+            <div class="list-item">
+                <span>Tema</span>
+                <!-- sottocategoria -->
+                <ul>
+                    <li>
+                        <input id="colorpicker" type="color" value="#ffffff">
+                        <button id="color"> change Color </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- BLOG SEGUITI -->
+            <div class="list-item">
+                <span>Blog seguiti</span>
+                <!-- sottocategoria -->
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+
+            <!-- IMPOSTAZIONI PROFILO -->
+            <div class="list-item">
+                <span>Impostazioni profilo</span>
+                <!-- sottocategoria -->
+                <ul>
+                    <li>
+                        <span>
+                            <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deleteModal"><i class="fas fa-trash"></i> Elimina account</button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <!-- articoli -->
+
+        <div id="homepage">
+            <h3>HOME PAGE - gli articoli del Blog che segui - </h3>
+            <div id='articoli'>
+                <?php while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+                <article>
+                    <h3><?php echo $row["Titolo"];?></h3>
+                    <p><?php echo $row["TESTO"];?></p>
+                    <span class="likes">
+                        <i class="fas fa-thumbs-up"></i> Like
+                        <span class="likes_number"></span>
                     </span>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-
-
-
-    <!-- articoli -->
-    <div id="main">
-            </br>
-        <h3>HOME PAGE - gli articoli del Blog che segui - </h3>
-        <div class="w3-container w3-card w3-white w3-round w3-margin"></div>
-
-        <div id='articoli'>
-            <?php while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
-            <article>
-                <h3><?php echo $row["Titolo"];?></h3>
-                <p><?php echo $row["TESTO"];?></p>
-                <span class="likes">
-                    <i class="fas fa-thumbs-up"></i> Like
-                    <span class="likes_number"></span>
-                </span>
-            </article>
-            <?php } ?>
+                </article>
+                <?php } ?>
+            </div>
         </div>
 
         <!-- modale elimina account -->
@@ -199,9 +171,14 @@
         </div>
 
 
+        <!--pulsante aggiungi post -->
+        <div>
+            <input type="text" name="post_txt" value="Scrivi il tuo post..">
+        </div>
 
+    </div>
 
-        <?php include "footer.php" ?>
+    <?php include "footer.php" ?>
 
 
 </body>
