@@ -7,14 +7,16 @@
   // $query_articoliseguiti 
   $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
   // query elimina utente
-  $query_eliminautente = "DELETE FROM Utenti WHERE ID_Utente={$_SESSION['id']}"; 
+   $query_eliminautente = mysqli_query($connessione, "DELETE FROM Utenti WHERE ID_Utente=".$_SESSION['id']); 
+  // query login utente
+  $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   
 ?>
 
 
 <?php // bottone elimina php
     if (isset($_POST['delete'])) {
-        if (mysqli_query($connessione, $query_eliminautente)) {    
+        if ($query_eliminautente) {    
             //eliminazione riuscita 
             header('Location: index.php?action=eliminautente');
         }else {
@@ -63,32 +65,31 @@
         </a>
     </header>
 
+</br>
+
+
     <div class="title">
         <h1>Area riservata</h1>
         <h3>Ciao <?php echo $_SESSION['utente']; ?>, benvenut nella tua area personale!</h3>
     </div>
 
 
-    <div class="w3-col m3">
 
+    <div class="w3-col m3">
         <h4 class="w3-marginLeft">Il mio profilo</h4>
-        <p class="w3-marginLeft"><img src="iconaut.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
-        </p>
-        <?php
-          $query = "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente={$_SESSION['id']}";
-          $mostraProfilo = mysqli_query($connessione, $query);
-          while($row = mysqli_fetch_array($mostraProfilo))
-            {
-          	$Nick = $row["Nick"];
-            $Nazione = $row["Nazione"];
-            $Compleanno = $row["DatadiNascita"];
-            $Email = $row["Email"];
-            echo "<p> <i class='fa fa-angellist'> </i> $Nick </p>";
-            echo "<p> <i class='fa fa-home fa-fw w3-margin-right w3-text-theme'> </i> $Nazione </p>";
-            echo "<p> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i> $Compleanno </p>";
-            echo "<p> <i class='fa fa-paper-plane-o'> </i> $Email </p>";
-            }
-          ?>
+        <ul>
+            <li>
+                <img src="iconaut.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+            </li>
+            <?php while($row=mysqli_fetch_array($query_mostraProfilo)){?>
+            <li> <i class='fa fa-angellist'> </i> <?php echo $row["Nick"];?> </li>
+            <li> <i class='fa fa-home fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["Nazione"];?> </li>
+            <li> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i>
+                <?php echo $row["DatadiNascita"];?>
+            </li>
+            <li> <i class='fa fa-paper-plane-o'> </i> <?php echo $row["Email"];?> </li>
+            <?php  }   ?>
+        </ul>
     </div>
 
     <!--pulsante aggiungi post -->
@@ -152,6 +153,7 @@
 
     <!-- articoli -->
     <div id="main">
+            </br>
         <h3>HOME PAGE - gli articoli del Blog che segui - </h3>
         <div class="w3-container w3-card w3-white w3-round w3-margin"></div>
 
@@ -168,7 +170,7 @@
             <?php } ?>
         </div>
 
-        <!-- modale elimina account --> 
+        <!-- modale elimina account -->
 
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
