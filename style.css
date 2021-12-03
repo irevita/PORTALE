@@ -8,14 +8,14 @@
 
 * {box-sizing: content-box;}
 
-/* body {
+body {
     display: flex;
     flex-direction: column;
 }
 
 body>*{
     flex:1;
-} */
+}
 
 header {
     position: fixed;
@@ -30,6 +30,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: var(--header-padding) calc(2 * var(--header-padding));
+    z-index: 10;
 }
 
 .title {
@@ -63,5 +64,6 @@ header {
 }
 
 #homepage {
-    position:sticky;
+    margin-top:30%;
 }
+
