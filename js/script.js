@@ -22,3 +22,16 @@ b.onclick = function(){
 }, 200);
 
 }; 
+
+var box = document.getElementsById("mieiblog");
+function post(){
+  //  var display=document.getElementById('nuovopost').style.display;
+    //alert(display);
+    //if (display=="none"){
+    //    display="inline";
+    //}else{
+    //    display="none";
+    //} 
+    document.getElementById('nuovopost').style.display="inline";
+}
+document.getElementById("mieiblog").addEventListener("click", post); 

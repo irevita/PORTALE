@@ -1,36 +1,24 @@
 <?php
   include "connessione.php";
   session_start();
-
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
   $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
-  // query elimina utente
-   $query_eliminautente = mysqli_query($connessione, "DELETE FROM Utenti WHERE ID_Utente=".$_SESSION['id']); 
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
-  
+  // query i miei blog
+  $query_mieiblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog WHERE Blog.Autore = {$_SESSION['id']}");
+  // query i blog di cui sono coautore
+  $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
+// $query_blogseguiti 
+    $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
+// query_articoli
+    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
+// query_articolicategoria
+    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria= \"{$_GET['categoria']}\"" );
+ 
 ?>
-
-
-
-<?php // bottone elimina php
-    if (isset($_POST['delete'])) {
-        if ($query_eliminautente) {    
-            //eliminazione riuscita 
-            header('Location: index.php?action=eliminautente');
-        }else {
-            // eliminazione non riuscita 
-            // $error= mysqli_error($connessione);
-            header('Location: area_riservata.php?action=erroreliminaut');
-        }
-    }
-    if (isset($_POST['indietro'])) {
-        header('Location: area_riservata.php');
-    }
- ?>
-
 
 <!DOCTYPE html>
 <html lang="it">
@@ -77,15 +65,15 @@
 
 
         <!-- menu principale -->
-        <nav id="menu" class="unvisible">
+        <nav id="menu" class="visible">
 
             <!-- CATEGORIA -->
             <div class="list-item">
                 <span>Categorie</span>
                 <!-- sottocategoria -->
                 <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-                    <li><?php echo $row["Categoria"]; ?></li><?php }?>
-                </ul>
+                   <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </li>
+            </ul> <?php } ?>
             </div>
 
             <!-- TEMA -->
@@ -100,14 +88,6 @@
                 </ul>
             </div>
 
-            <!-- BLOG SEGUITI -->
-            <div class="list-item">
-                <span>Blog seguiti</span>
-                <!-- sottocategoria -->
-                <ul>
-                    <li></li>
-                </ul>
-            </div>
 
             <!-- IMPOSTAZIONI PROFILO -->
             <div class="list-item">
@@ -125,12 +105,94 @@
         </nav>
 
 
-        <!-- articoli -->
+        <!-- HOMEPAGE -->
 
         <div id="homepage">
-            <h3>HOME PAGE - gli articoli del Blog che segui - </h3>
-            <div id='articoli'>
-                <?php while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+            <h3>HOME PAGE </h3>
+
+
+        <!--pulsante aggiungi post -->
+            
+            <div id="nuovopost">
+                <input type="text" name="post_txt" value="Scrivi nuovo post..">
+            </div>
+
+        <!-- CATEOGORIE CLICCABILI -->
+
+            <?php if (isset($_GET["categoria"])) {
+                    
+                    ?>
+                    <div class="contenitori">
+                    <?php while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                    </article>
+                    <?php } ?>
+                    </div> 
+            <?php } ?>
+
+            <!-- i miei blog  -->
+
+            <?php if (isset($_GET["blog"])) {
+                    
+                    ?>
+                    <div class="contenitori">
+                    <?php while($row = mysqli_fetch_array($query_articoli)) { ?> 
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                        <p><?php echo $row["Categoria"];?></p>
+                    </article>
+                    <?php } ?>
+                    </div> 
+            <?php } ?>
+            
+            
+            <div id="mieiblog" class="contenitori">
+                <h3>I miei blog: </h3>
+                <ul>
+                <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                <li class="blog">
+                    <!-- assegna ad href il link col nome blog corrente -->
+                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    <p><?php echo $row["Descrizione"];?></p>
+                </li>
+                <?php } ?> 
+                </ul>
+            </div>
+            
+           
+
+            <div id="blogcoautore" class="contenitori">
+                <h3>I blog di cui sono coautor </h3>
+                <ul>
+                <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
+                <li>
+                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                </li>
+                <?php } ?> 
+                </ul>
+            </div>
+
+
+
+            <div id="blogseguiti" class="contenitori">
+                <h3>I blog che seguo</h3>
+                <ul>
+                <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
+                <li>
+                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                </li>
+                <?php } ?> 
+                </ul>
+            </div>
+            
+            
+            <div id='articoli' class="contenitori">
+                <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?> 
                 <article>
                     <h3><?php echo $row["Titolo"];?></h3>
                     <p><?php echo $row["TESTO"];?></p>
@@ -140,7 +202,7 @@
                     </span>
                 </article>
                 <?php } ?>
-            </div>
+            </div> 
         </div>
 
         <!-- modale elimina account -->
@@ -160,7 +222,7 @@
                             tuo blog e tutto il suo contenuto!</p>
                     </div>
                     <div class="modal-footer">
-                        <form action="area_riservata.php" method="post">
+                        <form action="elimina_account.php" method="post">
                             <button name="delete" type="submit" class="btn btn-secondary">Si,
                                 elimina</button>
                             <button name="indietro" type="submit" class="btn btn-primary">Torna
@@ -172,10 +234,7 @@
         </div>
 
 
-        <!--pulsante aggiungi post -->
-        <div>
-            <input type="text" name="post_txt" value="Scrivi il tuo post..">
-        </div>
+
 
     </div>
 

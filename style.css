@@ -51,9 +51,9 @@ header {
     transition: all var(--anim-duration);
 }
 /* menu nascosto */
-#menu.unvisible {
+/* #menu.unvisible {
     left: -100%;
-}
+/* }  
 
 /* sottomenu */
 #menu .list-item ul {
@@ -65,5 +65,25 @@ header {
 
 #homepage {
     margin-top:30%;
+    
 }
 
+
+button{
+    cursor: pointer;
+}
+
+.contenitori {
+    border-radius: 25px;
+    border: 2px solid #21ad7e;
+    padding: 2%;
+    margin-top: 2%
+}
+
+#articoli {
+    display: none;
+}
+
+#nuovopost {
+    display: none;
+}
