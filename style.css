@@ -33,6 +33,10 @@ header {
     z-index: 10;
 }
 
+header span.h3 {
+    cursor: pointer;
+}
+
 .title {
     position: absolute;
     top: calc(2 * var(--header-height));
@@ -62,8 +66,12 @@ header {
 }
 #menu .list-item.visible ul {
     display: block;
-
 }
+#menu .list-item * {
+    cursor: pointer;
+    color: var(--light-txt);
+}
+
 
 #homepage {
     margin-top:30%;
@@ -106,4 +114,11 @@ button{
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+  }
+
+
+  #nuovopost .button {
+      border-radius: 2em !important;
+      box-shadow: 0 3px 10px -2px #0008 !important;
+      padding: 0 10px;
   }
