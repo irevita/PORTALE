@@ -65,15 +65,15 @@
 
 
         <!-- menu principale -->
-        <nav id="menu" class="visible">
+        <nav id="menu" class="unvisible">
 
-            <!-- CATEGORIA -->
+            <!-- CATEGORIE CLICCABILI -->
             <div class="list-item">
                 <span>Categorie</span>
                 <!-- sottocategoria -->
                 <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
                    <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </li>
-            </ul> <?php } ?>
+                </ul> <?php } ?>
             </div>
 
             <!-- TEMA -->
@@ -113,11 +113,12 @@
 
         <!--pulsante aggiungi post -->
             
-            <div id="nuovopost">
+            <div id="nuovopost">  
                 <input type="text" name="post_txt" value="Scrivi nuovo post..">
+                <button class="button">+</button>
             </div>
 
-        <!-- CATEOGORIE CLICCABILI -->
+        <!-- CATEOGORIE -->
 
             <?php if (isset($_GET["categoria"])) {
                     
@@ -144,7 +145,7 @@
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
-                        <p><?php echo $row["Categoria"];?></p>
+                        <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
                     </article>
                     <?php } ?>
                     </div> 
@@ -167,7 +168,7 @@
            
 
             <div id="blogcoautore" class="contenitori">
-                <h3>I blog di cui sono coautor </h3>
+                <h3>I blog di cui sono coautore </h3>
                 <ul>
                 <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
                 <li>
