@@ -16,7 +16,7 @@
   // query_articoli
   $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
   // query_articolicategoria
-  $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria= \"{$_GET['categoria']}\"" );
+  $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria= {$_GET['categoria']}" );
  
 ?>
 
@@ -72,8 +72,8 @@
                 <span>Categorie</span>
                 <!-- sottocategoria -->
                 <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-                   <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </li>
-                </ul> <?php } ?>
+                   <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </li><?php } ?>
+                </ul>
             </div>
 
             <!-- TEMA -->
