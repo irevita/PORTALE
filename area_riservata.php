@@ -41,8 +41,6 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="style.css">
     <!-- <link href="reg2.css" rel="stylesheet"/> -->
-
-
 </head>
 
 <body>
@@ -110,20 +108,16 @@
         <div id="homepage">
             <h3>HOME PAGE </h3>
 
-
-        <!--pulsante aggiungi post -->
-            
+            <!--pulsante aggiungi post -->            
             <div id="nuovopost">  
                 <input type="text" name="post_txt" value="Scrivi nuovo post..">
                 <button class="button">+</button>
             </div>
 
-        <!-- CATEOGORIE -->
+            <!-- CATEOGORIE -->
 
-            <?php if (isset($_GET["categoria"])) {
-                    
-                    ?>
-                    <div class="contenitori">
+            <?php if (isset($_GET["categoria"])) { ?>
+                <div class="contenitori">
                     <?php while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
@@ -131,15 +125,13 @@
                         <p><?php echo $row["TESTO"];?></p>
                     </article>
                     <?php } ?>
-                    </div> 
+                </div> 
             <?php } ?>
 
-            <!-- i miei blog  -->
 
-            <?php if (isset($_GET["blog"])) {
-                    
-                    ?>
-                    <div class="contenitori">
+            <!-- i miei blog  -->
+            <?php if (isset($_GET["blog"])) { ?>
+                <div class="contenitori">
                     <?php while($row = mysqli_fetch_array($query_articoli)) { ?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
@@ -148,20 +140,20 @@
                         <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
                     </article>
                     <?php } ?>
-                    </div> 
+                </div> 
             <?php } ?>
             
             
             <div id="mieiblog" class="contenitori">
                 <h3>I miei blog: </h3>
                 <ul>
-                <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
-                <li class="blog">
-                    <!-- assegna ad href il link col nome blog corrente -->
-                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                    <p><?php echo $row["Descrizione"];?></p>
-                </li>
-                <?php } ?> 
+                    <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                    <li class="blog">
+                        <!-- assegna ad href il link col nome blog corrente -->
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                        <p><?php echo $row["Descrizione"];?></p>
+                    </li>
+                    <?php } ?> 
                 </ul>
             </div>
             
@@ -170,11 +162,11 @@
             <div id="blogcoautore" class="contenitori">
                 <h3>I blog di cui sono coautore </h3>
                 <ul>
-                <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
-                <li>
-                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                </li>
-                <?php } ?> 
+                    <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
+                    <li>
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    </li>
+                    <?php } ?> 
                 </ul>
             </div>
 
@@ -183,11 +175,11 @@
             <div id="blogseguiti" class="contenitori">
                 <h3>I blog che seguo</h3>
                 <ul>
-                <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
-                <li>
-                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                </li>
-                <?php } ?> 
+                    <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
+                    <li>
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    </li>
+                    <?php } ?> 
                 </ul>
             </div>
             
