@@ -13,11 +13,10 @@
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
   $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
-  // query_articoli
-  $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
-  // query_articolicategoria
-  $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria= {$_GET['categoria']}" );
- 
+  // query_articoli tutti, problema di scoping per la get, vedere sotto
+//   $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
+  // query_articolicategoria, problema di scoping della get, vedere sotto
+//   $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria= {$_GET['categoria']}" ); 
 ?>
 
 <!DOCTYPE html>
@@ -120,11 +119,12 @@
 
         <!-- CATEOGORIE -->
 
-            <?php if (isset($_GET["categoria"])) {
-                    
-                    ?>
-                    <div class="contenitori">
-                    <?php while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
+            <?php if (isset($_GET["categoria"])) { ?>
+                    <div class="contenitori" >
+                    <?php 
+                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                    while($row = mysqli_fetch_array($query_articolicategoria)) {
+                        var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
@@ -136,11 +136,11 @@
 
             <!-- i miei blog  -->
 
-            <?php if (isset($_GET["blog"])) {
-                    
-                    ?>
+            <?php if (isset($_GET["blog"])) { ?>
                     <div class="contenitori">
-                    <?php while($row = mysqli_fetch_array($query_articoli)) { ?> 
+                    <?php 
+                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                    while($row = mysqli_fetch_array($query_articoli)) { var_dump($row);?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
