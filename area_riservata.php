@@ -134,7 +134,7 @@
             <?php if (isset($_GET["blog"])) { ?>
                     <div class="contenitori">
                     <?php 
-                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, 25pxArticoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row = mysqli_fetch_array($query_articoli)) { //var_dump($row);?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
