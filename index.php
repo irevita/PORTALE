@@ -59,9 +59,7 @@ if(isset($_POST['submit'])){
 
 <body>
 
-<?php
-  include "header.php"
-?>
+  <?php include "header.php"?>
 
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -148,55 +146,60 @@ if(isset($_POST['submit'])){
       </div>
 
 
-      <div class="col-md-9">
-    <br />
-    <h3>ARTICOLI DI TENDENZA</h3>
+      <div class="col-md-9">  
 
-    <?php
+        <div class="articoli_tendenza">
 
-      $query = "SELECT Articoli.Titolo, Articoli.TESTO
-    FROM Likes, Articoli
-    WHERE Likes.CodiceArt = Articoli.CodiceArt
-    GROUP BY (Articoli.CodiceArt)
-    ORDER BY (COUNT(Articoli.CodiceArt)) DESC";
+          <h3>ARTICOLI DI TENDENZA</h3>
 
-      $mostraArticoli = mysqli_query($connessione,$query);
+          <?php
 
-      while ($row = mysqli_fetch_array($mostraArticoli)){
-        $NomeArticolo =$row["Titolo"];
-        $TestoArticolo =$row["TESTO"];
+            $query = "SELECT Articoli.Titolo, Articoli.TESTO
+              FROM Likes, Articoli
+              WHERE Likes.CodiceArt = Articoli.CodiceArt
+              GROUP BY (Articoli.CodiceArt)
+              ORDER BY (COUNT(Articoli.CodiceArt)) DESC";
 
-        echo "<tr>";
-        echo "<td> <h3> {$NomeArticolo} </h3> </td> <br/>";
-        echo "<p> {$TestoArticolo} </p> <br/>";
-        echo "</tr>";
-      }
+            $mostraArticoli = mysqli_query($connessione,$query);
 
-    ?>
+            while ($row = mysqli_fetch_array($mostraArticoli)){
+              $NomeArticolo =$row["Titolo"];
+              $TestoArticolo =$row["TESTO"];
 
-<?php if (isset($_GET["categoria"])) { ?>
-                <div class="contenitori" >
-                    <?php 
-                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
-                    while($row = mysqli_fetch_array($query_articolicategoria)) {
-                        //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
-                    <article>
-                        <h3><?php echo $row["Titolo"];?></h3>
-                        <p><?php echo $row["Data"];?></p>
-                        <p><?php echo $row["TESTO"];?></p>
-                    </article>
-                    <?php } ?>
-                </div> 
-            <?php } ?>
-      
+              echo "<tr>";
+              echo "<td> <h3> {$NomeArticolo} </h3> </td> <br/>";
+              echo "<p> {$TestoArticolo} </p> <br/>";
+              echo "</tr>";
+            }
+
+          ?>
+
+        </div>
+            
+        <div class="sputa_categoria">
+
+          <?php if (isset($_GET["categoria"])) { ?>
+            <div class="contenitori" >
+              <?php 
+                $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                while($row = mysqli_fetch_array($query_articolicategoria)) {
+                    //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
+                <article>
+                  <h3><?php echo $row["Titolo"];?></h3>
+                  <p><?php echo $row["Data"];?></p>
+                  <p><?php echo $row["TESTO"];?></p>
+                </article>
+              <?php } ?>
+            </div> 
+          <?php } ?>
+
+        </div>    
+         
+      </div>
+    </div>
   </div>
-  </div>
-  </div>
 
-
-<?php
-  include "footer.php"
-?>
+  <?php include "footer.php" ?>
 
 </body>
 </html>
