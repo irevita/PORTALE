@@ -1,4 +1,7 @@
-<?php include "connessione.php"; ?>
+<?php include "connessione.php"; 
+  $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
+
+?>
 
 <?php
 
@@ -133,26 +136,19 @@ if(isset($_POST['submit'])){
 
   <div class="container">
     <div class="row">
-    <div class="col-md-3">
-      <br/>
-    <h3>CATEGORIE</h3>
+      <div class="col-md-3">
+        <br/>
+        <h3>CATEGORIE</h3>
+        <div class="list-item">
+            <!-- sottocategoria -->
+          <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
+            <button type='button' class='btn btn-block'> <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </button><?php } ?>
+          </ul>
+        </div>
+      </div>
 
 
-  <?php
-
-  $query = "SELECT Categoria FROM Categoria";
-  $mostraCategorie = mysqli_query($connessione, $query);
-  while($row = mysqli_fetch_array($mostraCategorie)){
-    $NomeCategoria = $row["Categoria"];
-    echo "<ul>";
-    echo "<button name='{$NomeCategoria}' type='button' class='btn btn-block'>{$NomeCategoria}</button>";
-    echo "</ul>";
-
-  }
-
-  ?>
-</div>
-<div class="col-md-9">
+      <div class="col-md-9">
     <br />
     <h3>ARTICOLI DI TENDENZA</h3>
 
@@ -177,6 +173,22 @@ if(isset($_POST['submit'])){
       }
 
     ?>
+
+<?php if (isset($_GET["categoria"])) { ?>
+                <div class="contenitori" >
+                    <?php 
+                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                    while($row = mysqli_fetch_array($query_articolicategoria)) {
+                        //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                    </article>
+                    <?php } ?>
+                </div> 
+            <?php } ?>
+      
   </div>
   </div>
   </div>
