@@ -23,23 +23,9 @@
 <html lang="it">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Connessione al DB con PHP</title>
-    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <!-- è commentato per il bottone elimina -->
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script> -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" defer></script>
-    <script src="js/script.js" defer></script>
-    <!-- CSS -->
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="style.css">
-    <!-- <link href="reg2.css" rel="stylesheet"/> -->
+    <?php include "header.php"?>
 </head>
 
 <body>
@@ -145,7 +131,7 @@
             <!-- CATEOGORIE -->
 
             <?php if (isset($_GET["categoria"])) { ?>
-                    <div class="contenitori" >
+                <div class="contenitori" >
                     <?php 
                     $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
                     while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
@@ -153,6 +139,17 @@
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
+                        
+                        <div>
+                            <h4>Post : Your Comment</h4>
+                        </div>
+                        <div class="full comment_form">
+                            <!-- <form action="index.html">    -->
+                            <textarea placeholder="Comment"></textarea>
+                            <button>Send</button>
+                             <!-- </form> -->
+                        </div>
+
                     </article>
                     <?php } ?>
                 </div> 
@@ -160,7 +157,7 @@
 
 
             <?php if (isset($_GET["blog"])) { ?>
-                    <div class="contenitori">
+                <div class="contenitori">
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row = mysqli_fetch_array($query_articoli)) {?> 
@@ -168,6 +165,17 @@
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
+                        
+                        <div>
+                            <h4>Post : Your Comment</h4>
+                        </div>
+                        <div class="full comment_form">
+                            <!-- <form action="index.html">    -->
+                            <textarea  placeholder="Comment"></textarea>
+                            <button>Send</button>
+                             <!-- </form> -->
+                        </div>
+
                         <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
                     </article>
                     <?php } ?>
@@ -231,8 +239,6 @@
         </div>
 
 
-
-
     </div>
 
     <?php include "footer.php" ?>
@@ -241,3 +247,5 @@
 </body>
 
 </html>
+                         
+                  

@@ -47,27 +47,20 @@ if(isset($_POST['submit'])){
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Connessione al DB con PHP</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="js/script.js" defer></script>
-  <link href="style.css" rel="stylesheet"/>
-  <!-- <script>
-    $(document).ready(function(){
-      $(".btn.btn-block.btn-ctg").click(function(){
-        $("#articoli_tendenza").css("display", "none");
-      });
-    });
-  </script> -->
+  <?php include "header.php"?>
 </head>
 
 <body>
 
-  <?php include "header.php"?>
+  <header>
+      <h1>Portale Blog</h1>
+      <span>
+        <button name="registrazione" type="submit" class="btn btn-success" data-toggle ="modal" data-target="#regModal">Registrati</button>
+        <button type="button" class="btn btn-success" data-toggle ="modal" data-target="#loginModal">Accedi</button>
+      </span>
+  </header>
 
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
