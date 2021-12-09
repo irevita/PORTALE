@@ -33,7 +33,8 @@
     <div class="container">
 
         <header>
-            <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()"><i class="fas fa-bars"></i> PORTALE
+            <span onclick="toggleMenu()">
+                <h1 class="pointer">&#9776; PORTALE</h1>
             </span>
             <a href="logout.php">
                 <button type="button" class="btn btn-danger">Logout</button>
@@ -55,7 +56,8 @@
                 <span>Categorie</span>
                 <!-- sottocategoria -->
                 <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-                   <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </li><?php } ?>
+                    <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
+                    </li><?php } ?>
                 </ul>
             </div>
 
@@ -63,12 +65,10 @@
             <div class="list-item">
                 <span>Tema</span>
                 <!-- sottocategoria -->
-                <ul>
-                    <li>
-                        <input id="colorpicker" type="color" value="#ffffff">
-                        <button id="color"> change Color </button>
-                    </li>
-                </ul>
+                <div class="sub-menu flex row center justify">
+                    <input id="colorpicker" type="color" value="#ffffff">
+                    <button id="color" class="btn-primary">Change</button>
+                </div>
             </div>
 
 
@@ -76,19 +76,16 @@
             <div class="list-item">
                 <span>Impostazioni profilo</span>
                 <!-- sottocategoria -->
-                <ul>
-                    <li>
-                        <span>
-                            <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
-                                data-target="#deleteModal"><i class="fas fa-trash"></i> Elimina account</button>
-                        </span>
-                    </li>
-                </ul>
+                <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal">
+                    <span class="material-icons">delete</span> 
+                    Elimina account
+                </button>
             </div>
 
+            <br class="line">
             <!-- I MIEI BLOG -->
-                       
-            <div id="mieiblog" >
+
+            <div id="mieiblog">
                 <h4>I miei blog: </h4>
                 <ul>
                     <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
@@ -97,7 +94,7 @@
                         <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
                         <p><?php echo $row["Descrizione"];?></p>
                     </li>
-                    <?php } ?> 
+                    <?php } ?>
                 </ul>
             </div>
 
@@ -109,7 +106,7 @@
                     <li>
                         <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
                     </li>
-                    <?php } ?> 
+                    <?php } ?>
                 </ul>
             </div>
 
@@ -122,11 +119,13 @@
         <div id="homepage">
             <h3>HOME PAGE </h3>
 
-            <!--pulsante aggiungi post -->            
-            <div id="nuovopost">  
+            <!--pulsante aggiungi post -->
+            <div id="nuovopost">
                 <input type="text" name="post_txt" value="Scrivi nuovo post..">
                 <button class="button">+</button>
             </div>
+
+
 
             <!-- CATEOGORIE -->
 
@@ -181,8 +180,8 @@
                     <?php } ?>
                 </div> 
             <?php } ?>
-            
-         
+
+
 
             <div id="blogseguiti" class="contenitori">
                 <h3>I blog che seguo</h3>
@@ -191,13 +190,13 @@
                     <li>
                         <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
                     </li>
-                    <?php } ?> 
+                    <?php } ?>
                 </ul>
             </div>
-            
-            
+
+
             <div id='articoli' class="contenitori">
-                <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?> 
+                <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
                 <article>
                     <h3><?php echo $row["Titolo"];?></h3>
                     <p><?php echo $row["TESTO"];?></p>
@@ -207,8 +206,11 @@
                     </span>
                 </article>
                 <?php } ?>
-            </div> 
+            </div>
         </div>
+
+
+
 
         <!-- modale elimina account -->
 
