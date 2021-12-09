@@ -54,7 +54,15 @@ if(isset($_POST['submit'])){
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="js/script.js" defer></script>
   <!-- <link href="reg2.css" rel="stylesheet"/> -->
+  <script>
+    $(document).ready(function(){
+      $(".btn.btn-block.btn-ctg").click(function(){
+        $("#articoli_tendenza").css("display", "none");
+      });
+    });
+  </script>
 </head>
 
 <body>
@@ -140,15 +148,16 @@ if(isset($_POST['submit'])){
         <div class="list-item">
             <!-- sottocategoria -->
           <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-            <button type='button' class='btn btn-block'> <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </button><?php } ?>
+            <!-- onclick="stutaTendenza()" -->
+            <button type='button' class='btn btn-block btn-ctg' > <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </button><?php } ?>
           </ul>
         </div>
       </div>
 
 
       <div class="col-md-9">  
-
-        <div class="articoli_tendenza">
+      <!-- class="<?php //if (isset($_GET)){echo "hidden";}  ?>"-->
+        <div id="articoli_tendenza" >
 
           <h3>ARTICOLI DI TENDENZA</h3>
 
@@ -176,7 +185,7 @@ if(isset($_POST['submit'])){
 
         </div>
             
-        <div class="sputa_categoria">
+        <div id="sputa_categoria">
 
           <?php if (isset($_GET["categoria"])) { ?>
             <div class="contenitori" >
@@ -194,10 +203,13 @@ if(isset($_POST['submit'])){
           <?php } ?>
 
         </div>    
-         
+
       </div>
     </div>
   </div>
+
+  
+
 
   <?php include "footer.php" ?>
 
