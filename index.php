@@ -55,14 +55,14 @@ if(isset($_POST['submit'])){
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="js/script.js" defer></script>
-  <!-- <link href="reg2.css" rel="stylesheet"/> -->
-  <script>
+  <link href="style.css" rel="stylesheet"/>
+  <!-- <script>
     $(document).ready(function(){
       $(".btn.btn-block.btn-ctg").click(function(){
         $("#articoli_tendenza").css("display", "none");
       });
     });
-  </script>
+  </script> -->
 </head>
 
 <body>
@@ -140,25 +140,26 @@ if(isset($_POST['submit'])){
   </div>
 
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
+  <div class="container horizontal">
+    <!-- <div class="row"> -->
+      <div id="sinistra">
         <br/>
         <h3>CATEGORIE</h3>
-        <div class="list-item">
+        <!-- <div class="list-item"> -->
             <!-- sottocategoria -->
           <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
             <!-- onclick="stutaTendenza()" -->
-            <button type='button' class='btn btn-block btn-ctg' > <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </button><?php } ?>
+            <p> <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </p><?php } ?>
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
 
 
-      <div class="col-md-9">  
-      <!-- class="<?php //if (isset($_GET)){echo "hidden";}  ?>"-->
-        <div id="articoli_tendenza" >
-
+      <div id="destra">  
+      
+        <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}  ?>">
+          
+          <br />
           <h3>ARTICOLI DI TENDENZA</h3>
 
           <?php
@@ -176,7 +177,7 @@ if(isset($_POST['submit'])){
               $TestoArticolo =$row["TESTO"];
 
               echo "<tr>";
-              echo "<td> <h3> {$NomeArticolo} </h3> </td> <br/>";
+              echo "<td> <h3> {$NomeArticolo} </h3> </td> ";
               echo "<p> {$TestoArticolo} </p> <br/>";
               echo "</tr>";
             }
@@ -205,7 +206,7 @@ if(isset($_POST['submit'])){
         </div>    
 
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 
   
