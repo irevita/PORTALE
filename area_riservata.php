@@ -9,6 +9,8 @@
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
   $query_mieiblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog WHERE Blog.Autore = {$_SESSION['id']}");
+  //QUERY SCEGLI TEMA
+  $query_tema = mysqli_query($connessione, "SELECT Tema FROM Blog WHERE Autore = {$_SESSION['id']}");
   // query i blog di cui sono coautore
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
@@ -28,8 +30,8 @@
     <?php include "header.php"?>
 </head>
 
-<body>
 
+<body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">
     <div class="container">
 
         <header>
