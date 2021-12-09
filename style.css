@@ -8,6 +8,8 @@
 
 * {box-sizing: content-box;}
 
+/* https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg */
+
 body {
     display: flex;
     flex-direction: column;
@@ -74,12 +76,24 @@ header span.h3 {
 
 
 #homepage {
-    margin-top:30%;
+    margin-top:20%;
     
 }
 
 button{
     cursor: pointer;
+}
+
+.container.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+.container.horizontal #sinistra {
+    margin: 4em 2em 1em 1em;
+}
+.container.horizontal #sinistra ul {
+    padding: 0;
+    overflow-x: hidden;
 }
 
 .contenitori {
@@ -121,4 +135,12 @@ button{
       border-radius: 2em !important;
       box-shadow: 0 3px 10px -2px #0008 !important;
       padding: 0 10px;
+  }
+
+  #articoli_tendenza{
+      display: block;
+  }
+
+  #articoli_tendenza.hidden {
+      display: none !important;
   }
