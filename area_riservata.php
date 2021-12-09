@@ -99,6 +99,35 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- I MIEI BLOG -->
+                       
+            <div id="mieiblog" >
+                <h4>I miei blog: </h4>
+                <ul>
+                    <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                    <li class="blog">
+                        <!-- assegna ad href il link col nome blog corrente -->
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                        <p><?php echo $row["Descrizione"];?></p>
+                    </li>
+                    <?php } ?> 
+                </ul>
+            </div>
+
+            <!-- BLOG DI CUI SONO COAUTORE -->
+            <div id="blogcoautore">
+                <h4>I blog di cui sono coautore </h4>
+                <ul>
+                    <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
+                    <li>
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    </li>
+                    <?php } ?> 
+                </ul>
+            </div>
+
+
         </nav>
 
 
@@ -119,8 +148,7 @@
                     <div class="contenitori" >
                     <?php 
                     $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
-                    while($row = mysqli_fetch_array($query_articolicategoria)) {
-                        //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
+                    while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
@@ -135,7 +163,7 @@
                     <div class="contenitori">
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
-                    while($row = mysqli_fetch_array($query_articoli)) { //var_dump($row);?> 
+                    while($row = mysqli_fetch_array($query_articoli)) {?> 
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
@@ -146,34 +174,7 @@
                 </div> 
             <?php } ?>
             
-            
-            <div id="mieiblog" class="contenitori">
-                <h3>I miei blog: </h3>
-                <ul>
-                    <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
-                    <li class="blog">
-                        <!-- assegna ad href il link col nome blog corrente -->
-                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                        <p><?php echo $row["Descrizione"];?></p>
-                    </li>
-                    <?php } ?> 
-                </ul>
-            </div>
-            
-           
-
-            <div id="blogcoautore" class="contenitori">
-                <h3>I blog di cui sono coautore </h3>
-                <ul>
-                    <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
-                    <li>
-                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                    </li>
-                    <?php } ?> 
-                </ul>
-            </div>
-
-
+         
 
             <div id="blogseguiti" class="contenitori">
                 <h3>I blog che seguo</h3>
