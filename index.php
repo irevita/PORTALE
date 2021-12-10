@@ -56,13 +56,6 @@ if(isset($_POST['submit'])){
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="js/script.js" defer></script>
   <link href="style.css" rel="stylesheet"/>
-  <!-- <script>
-    $(document).ready(function(){
-      $(".btn.btn-block.btn-ctg").click(function(){
-        $("#articoli_tendenza").css("display", "none");
-      });
-    });
-  </script> -->
 </head>
 
 <body>
