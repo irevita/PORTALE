@@ -96,29 +96,13 @@
         <form action="index.php" method="post">
           <div class="form-group">
               <input name="nome" type="text" class="form-control" placeholder="Nome">
-          </div>
-          <div class="form-group">
               <input name="cognome" type="text" class="form-control" placeholder="Cognome">
-          </div>
-          <div class="form-group">
               <input name="nazione" type="text" class="form-control" placeholder="Nazione">
-          </div>
-          <div class="form-group">
               <input name="email" type="email" class="form-control" placeholder="Email Address">
-          </div>
-          <div class="form-group">
               <input name="data" type="date" class="form-control" placeholder="Data di nascita">
-          </div>
-          <div class="form-group">
               <input name="tel" type="tel" class="form-control" placeholder="Telefono">
-          </div>
-          <div class="form-group">
               <input name="documento" type="text" class="form-control" placeholder="Documento">
-          </div>
-          <div class="form-group">
               <input name="username" type="text" class="form-control" placeholder="Nickname">
-          </div>
-          <div class="form-group">
               <input name="password" type="password" class="form-control" placeholder="Password">
           </div>
           <button name="submit" type="submit" class="btn btn-primary">Invia</button>
