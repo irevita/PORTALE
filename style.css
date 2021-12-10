@@ -8,6 +8,11 @@
 
 * {box-sizing: content-box;}
 
+.pointer {cursor: pointer !important;}
+.flex {display: flex;}
+.row {flex-direction: row;}
+.center {align-items: center !important;}
+.justify {justify-content: center !important;}
 /* https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg 
     
 
@@ -17,6 +22,12 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+body.theme-0 {background-color: red;}
+body.theme-1 {background-color: blue;}
+body.theme-2 {background-color: pink;}
+body.theme-3 {background-color: green;}
+body.theme-4 {background-color: teal;}
 
 body>*{
     flex:1;
@@ -38,10 +49,6 @@ header {
     z-index: 10;
 }
 
-header span.h3 {
-    cursor: pointer;
-}
-
 .title {
     position: absolute;
     top: calc(2 * var(--header-height));
@@ -58,19 +65,25 @@ header span.h3 {
     color: var(--light-txt);
     padding: 1em 2em;
     transition: all var(--anim-duration);
+    box-shadow: 3px 0 1em #0007;
 }
 /* menu nascosto */
 
 #menu.unvisible {
     left: -100%;
+    box-shadow: 3px 0 1em #0000;
  }  
 
 /* sottomenu */
-#menu .list-item ul {
+#menu .list-item ul, 
+#menu .list-item .sub-menu {
     display: none;
 }
 #menu .list-item.visible ul {
     display: block;
+} 
+#menu .list-item.visible .sub-menu {
+    display: flex;
 }
 #menu .list-item * {
     cursor: pointer;
@@ -78,13 +91,17 @@ header span.h3 {
 }
 
 
+
 #homepage {
     margin-top:20%;
     
 }
 
-button{
+button {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .container.horizontal {

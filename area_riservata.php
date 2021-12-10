@@ -9,6 +9,8 @@
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
   $query_mieiblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog WHERE Blog.Autore = {$_SESSION['id']}");
+  //QUERY SCEGLI TEMA
+  $query_tema = mysqli_query($connessione, "SELECT Tema FROM Blog WHERE Autore = {$_SESSION['id']}");
   // query i blog di cui sono coautore
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
@@ -23,31 +25,18 @@
 <html lang="it">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Connessione al DB con PHP</title>
-    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <!-- è commentato per il bottone elimina -->
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script> -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" defer></script>
-    <script src="js/script.js" defer></script>
-    <!-- CSS -->
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="style.css">
-
+    <?php include "header.php"?>
 </head>
 
-<body>
 
+<body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">
     <div class="container">
 
         <header>
-            <span class="h3" class="navbar-brand mb-0" onclick="toggleMenu()"><i class="fas fa-bars"></i> PORTALE
+            <span onclick="toggleMenu()">
+                <h1 class="pointer">&#9776; PORTALE</h1>
             </span>
             <a href="logout.php">
                 <button type="button" class="btn btn-danger">Logout</button>
@@ -78,12 +67,10 @@
             <div class="list-item">
                 <span>Tema</span>
                 <!-- sottocategoria -->
-                <ul>
-                    <li>
-                        <input id="colorpicker" type="color" value="#ffffff">
-                        <button id="color"> change Color </button>
-                    </li>
-                </ul>
+                <div class="sub-menu flex row center justify">
+                    <input id="colorpicker" type="color" value="#ffffff">
+                    <button id="color" class="btn-primary">Change</button>
+                </div>
             </div>
 
 
@@ -91,16 +78,13 @@
             <div class="list-item">
                 <span>Impostazioni profilo</span>
                 <!-- sottocategoria -->
-                <ul>
-                    <li>
-                        <span>
-                            <button name="eliminazione" type="submit" class="btn btn-danger" data-toggle="modal"
-                                data-target="#deleteModal"><i class="fas fa-trash"></i> Elimina account</button>
-                        </span>
-                    </li>
-                </ul>
+                <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal">
+                    <span class="material-icons">delete</span> 
+                    Elimina account
+                </button>
             </div>
 
+            <br class="line">
             <!-- I MIEI BLOG -->
 
             <div id="mieiblog">
@@ -148,63 +132,55 @@
             <!-- CATEOGORIE -->
 
             <?php if (isset($_GET["categoria"])) { ?>
-            <div class="contenitori">
-                <?php 
+                <div class="contenitori" >
+                    <?php 
                     $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
-                    while($row = mysqli_fetch_array($query_articolicategoria)) { ?>
-                <article>
-                    <h3><?php echo $row["Titolo"];?></h3>
-                    <p><?php echo $row["Data"];?></p>
-                    <p><?php echo $row["TESTO"];?></p>
+                    while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                        
+                        <div>
+                            <h4>Post : Your Comment</h4>
+                        </div>
+                        <div class="full comment_form">
+                            <!-- <form action="index.html">    -->
+                            <textarea placeholder="Comment"></textarea>
+                            <button>Send</button>
+                             <!-- </form> -->
+                        </div>
 
-
-                    <div>
-                        <h4>Post : Your Comment</h4>
-                    </div>
-                    <div class="full comment_form">
-                        <!-- <form action="index.html">    -->
-                    </div>
-                    <textarea placeholder="Comment"></textarea>
-                    <button>Send</button>
-                    </form>
-
-
-
-                </article>
-                <?php } ?>
-            </div>
+                    </article>
+                    <?php } ?>
+                </div> 
             <?php } ?>
 
 
             <?php if (isset($_GET["blog"])) { ?>
-            <div class="contenitori">
-                <?php 
+                <div class="contenitori">
+                    <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
-                    while($row = mysqli_fetch_array($query_articoli)) {?>
-                <article>
-                    <h3><?php echo $row["Titolo"];?></h3>
-                    <p><?php echo $row["Data"];?></p>
-                    <p><?php echo $row["TESTO"];?></p>
+                    while($row = mysqli_fetch_array($query_articoli)) {?> 
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                        
+                        <div>
+                            <h4>Post : Your Comment</h4>
+                        </div>
+                        <div class="full comment_form">
+                            <!-- <form action="index.html">    -->
+                            <textarea  placeholder="Comment"></textarea>
+                            <button>Send</button>
+                             <!-- </form> -->
+                        </div>
 
-                    <div>
-                        <h4>Post : Your Comment</h4>
-                    </div>
-                    <div class="full comment_form">
-                        <!-- <form action="index.html">    -->
-                    </div>
-                    <textarea placeholder="Comment"></textarea>
-                    <button>Send</button>
-                    </form>
-
-
-
-                        <h5>Categoria:<p>
-                                <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
-                            </p>
-                        </h5>
-                </article>
-                <?php } ?>
-            </div>
+                        <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
+                    </article>
+                    <?php } ?>
+                </div> 
             <?php } ?>
 
 
@@ -267,8 +243,6 @@
         </div>
 
 
-
-
     </div>
 
     <?php include "footer.php" ?>
@@ -277,3 +251,5 @@
 </body>
 
 </html>
+                         
+                  
