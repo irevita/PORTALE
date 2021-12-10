@@ -54,7 +54,7 @@
 <body>
 
   <header>
-      <h1>Portale Blog</h1>
+      <a href="index.php"><h1>Portale Blog</h1></a>
       <span>
         <button name="registrazione" type="submit" class="btn btn-success" data-toggle ="modal" data-target="#regModal">Registrati</button>
         <button type="button" class="btn btn-success" data-toggle ="modal" data-target="#loginModal">Accedi</button>
@@ -174,6 +174,16 @@
         <div id="sputa_categoria">
 
           <?php if (isset($_GET["categoria"])) { ?>
+            
+            <!-- <div class="cosesopra"> -->
+              <div class="annunciazio">
+                <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
+              </div>
+              <div>
+                <a href="index.php">Torna inditro</a>
+              </div>
+            <!-- </div> -->
+
             <div class="contenitori" >
               <?php 
                 $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 

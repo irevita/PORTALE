@@ -55,6 +55,14 @@ header {
     
 }
 
+.annunciazio h4{
+    display: inline-flex;
+    
+}
+.annunciazio h5{
+    display: inline-flex;
+    
+}
 #menu, #menu.visible {
     left: 0%;
     position: fixed;
@@ -110,6 +118,7 @@ button {
 }
 .container.horizontal #sinistra {
     margin: 4em 2em 1em 1em;
+
 }
 
 .container.horizontal #destra {
@@ -132,6 +141,7 @@ button {
 #articoli {
     display: none;
 }
+
 
 .button {
     display: inline-block;
@@ -184,3 +194,4 @@ button {
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+
