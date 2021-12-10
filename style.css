@@ -55,6 +55,14 @@ header {
     
 }
 
+.annunciazio h4{
+    display: inline-flex;
+    
+}
+.annunciazio h5{
+    display: inline-flex;
+    
+}
 #menu, #menu.visible {
     left: 0%;
     position: fixed;
@@ -110,7 +118,14 @@ button {
 }
 .container.horizontal #sinistra {
     margin: 4em 2em 1em 1em;
+
 }
+
+.container.horizontal #destra {
+    margin: 4em 2em 1em 1em;
+}
+
+
 .container.horizontal #sinistra ul {
     padding: 0;
     overflow-x: hidden;
@@ -126,6 +141,7 @@ button {
 #articoli {
     display: none;
 }
+
 
 .button {
     display: inline-block;
@@ -164,3 +180,18 @@ button {
   #articoli_tendenza.hidden {
       display: none !important;
   }
+
+  .form-control {
+    display: block;
+    width: 95%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+

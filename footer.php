@@ -1,5 +1,5 @@
 <footer class="footer">
-  <div class="container">
+  <div class="foott">
     <p class="text-muter">
       <br />
       <?php
