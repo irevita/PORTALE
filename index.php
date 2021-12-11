@@ -28,7 +28,7 @@
       $creaUtenti = mysqli_query($connessione, $query);
 
       if(!$creaUtenti){
-        die('Query fallita'.mysqli_error($connessioneDB));
+        die('Query fallita'.mysqli_error($connessione));
         echo "query fallita";
       }
 
