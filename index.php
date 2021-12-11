@@ -119,7 +119,7 @@
         <h3>CATEGORIE</h3>
             <!-- sottocategoria -->
         <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-          <p> <?php echo '<a href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </p><?php } ?>
+          <p> <?php echo '<a class="menu-ctg" href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </p><?php } ?>
         </ul>
       </div>
 
@@ -163,9 +163,9 @@
               <div class="annunciazio">
                 <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
               </div>
-              <div>
+              <!-- <div>
                 <a href="index.php">Torna inditro</a>
-              </div>
+              </div> -->
             <!-- </div> -->
 
             <div class="contenitori" >

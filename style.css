@@ -43,19 +43,30 @@ header {
     padding: var(--header-padding) calc(2 * var(--header-padding));
     z-index: 10;
 }
-
+header a{
+    color: #28a745;
+    text-decoration: none;
+    background-color: transparent;   
+}
+header a:hover{
+    color: #1e7e34;
+    text-decoration: none;
+}
+header h1{
+    margin:0;
+}
 footer {
     text-align: center;
-    position: absolute; bottom: 0;
+    bottom: 0;
     width: calc(100% - calc(4 * var(--header-padding)) );
     padding: var(--header-padding) calc(2 * var(--header-padding));
 }
 
-.title {
-    /* position: absolute; */
-    /* top: calc(2 * var(--header-height)); */
+/* .title {
+    position: absolute;
+    top: calc(2 * var(--header-height));
     
-}
+} */
 
 .annunciazio h4{
     display: inline-flex;
@@ -102,10 +113,10 @@ footer {
 
 
 
-#homepage {
-    /* margin-top:20%; */
+/* #homepage {
+    margin-top:20%;
     
-}
+} */
 
 button {
     cursor: pointer;
@@ -119,12 +130,12 @@ button {
     flex-direction: row;
 }
 .container.horizontal #sinistra {
-    margin: 4em 2em 1em 1em;
+    margin: 1em 2em 1em 1em;
 
 }
 
 .container.horizontal #destra {
-    margin: 4em 2em 1em 1em;
+    margin: 1em 2em 1em 1em;
 }
 
 
@@ -133,6 +144,18 @@ button {
     overflow-x: hidden;
 }
 
+.menu-ctg{
+    background-color: #f8f9fa;
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+.menu-ctg:hover{
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+}
 .container-flex {
     display: flex;
     flex-direction: column;
@@ -148,7 +171,7 @@ button {
 
 .contenitori {
     border-radius: 25px;
-    border: 6px double #159aa3;
+    border: 6px double #28a745;
     padding: 2%;
     margin-top: 2%
 }
