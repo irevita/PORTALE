@@ -58,7 +58,9 @@
 <body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">
     <header>
         <span onclick="toggleMenu()">
-            <h1 class="pointer">&#9776; PORTALE</h1>
+            <h1 class="pointer">&#9776;</h1>
+            <a href="area_riservata.php"><h1 class="pointer">Portale Blog</h1></a>
+            <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
         <a href="logout.php">
             <button type="button" class="btn btn-danger">Logout</button>
@@ -206,24 +208,23 @@
 
     </div>
     
-    <?php include "footer.php" ?>
-
+    
      <!-- menu principale -->
     <nav id="menu" class="unvisible">
 
         <!-- CATEGORIE CLICCABILI -->
         <div class="list-item">
-            <span>Categorie</span>
+            <span><h5>Categorie</h5></span>
             <!-- sottocategoria -->
             <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-                <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
-                </li><?php } ?>
+                <p> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
+            </p><?php } ?>
             </ul>
         </div>
 
         <!-- TEMA -->
         <div class="list-item">
-            <span>Tema</span>
+            <span><h5>Tema</h5></span>
             <!-- sottocategoria -->
             <div class="sub-menu flex row center justify">
                 <input id="colorpicker" type="color" value="#ffffff">
@@ -234,7 +235,7 @@
 
         <!-- IMPOSTAZIONI PROFILO -->
         <div class="list-item">
-            <span>Impostazioni profilo</span>
+            <span><h5>Impostazioni profilo</h5></span>
             <!-- sottocategoria -->
             <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal">
                 <span class="material-icons">delete</span> 
@@ -245,8 +246,8 @@
         <br class="line">
         <!-- I MIEI BLOG -->
 
-        <div id="mieiblog">
-            <h4>I miei blog: </h4>
+        <div class="list-item" id="mieiblog">
+            <h5>I miei blog </h5>
             <ul>
                 <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
                 <li class="blog">
@@ -259,8 +260,8 @@
         </div>
 
         <!-- BLOG DI CUI SONO COAUTORE -->
-        <div id="blogcoautore">
-            <h4>I blog di cui sono coautore </h4>
+        <div class="list-item" id="blogcoautore">
+            <h5>I blog di cui sono coautore </h5>
             <ul>
                 <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
                 <li>
@@ -271,6 +272,9 @@
         </div>
 
     </nav>
+
+    <?php include "footer.php" ?>
+
 
 </body>
 

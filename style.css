@@ -48,18 +48,24 @@ header a{
     text-decoration: none;
     background-color: transparent;   
 }
-header a:hover{
-    color: #1e7e34;
-    text-decoration: none;
+header h1:hover{
+    color: #28a745;
 }
 header h1{
     margin:0;
+    display: contents;
+}
+header a:hover{
+    color:#1e7e34;
+    text-decoration: none;     
 }
 footer {
     text-align: center;
     bottom: 0;
     width: calc(100% - calc(4 * var(--header-padding)) );
     padding: var(--header-padding) calc(2 * var(--header-padding));
+    /* position: absolute; */
+
 }
 
 /* .title {
@@ -87,6 +93,7 @@ footer {
     padding: 1em 2em;
     transition: all var(--anim-duration);
     box-shadow: 3px 0 1em #0007;
+    
 }
 /* menu nascosto */
 
@@ -104,14 +111,17 @@ footer {
     display: block;
 } 
 #menu .list-item.visible .sub-menu {
-    display: flex;
+    display: block;
 }
 #menu .list-item * {
     cursor: pointer;
     color: var(--light-txt);
 }
 
-
+#menu .list-item *:hover{
+    color: #28a745;
+    text-decoration: none;
+}
 
 /* #homepage {
     margin-top:20%;
