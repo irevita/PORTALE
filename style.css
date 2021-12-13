@@ -123,7 +123,8 @@ footer {
 }
 
 #menu .btn-danger:hover{
-    color: rgb(247, 58, 58) !important;
+    background-color: rgb(247, 58, 58) !important;
+    color: seashell;
 }
 
 /* #homepage {

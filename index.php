@@ -145,10 +145,9 @@
               $NomeArticolo =$row["Titolo"];
               $TestoArticolo =$row["TESTO"];
 
-              echo "<tr>";
-              echo "<td> <h3> {$NomeArticolo} </h3> </td> ";
-              echo "<p> {$TestoArticolo} </p> <br/>";
-              echo "</tr>";
+              echo "<div class='contenitori'><h3> {$NomeArticolo} </h3>";
+              echo "<p> {$TestoArticolo} </p> <br/></div>";
+
             }
 
           ?>
