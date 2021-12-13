@@ -54,11 +54,11 @@
 <body>
 
   <header>
-      <a href="index.php"><h1>Portale Blog</h1></a>
-      <span>
-        <button name="registrazione" type="submit" class="btn btn-success" data-toggle ="modal" data-target="#regModal">Registrati</button>
-        <button type="button" class="btn btn-success" data-toggle ="modal" data-target="#loginModal">Accedi</button>
-      </span>
+    <a href="index.php" id="pb"><h1 class="pointer">Portale Blog</h1></a>
+    <span>
+      <button name="registrazione" type="submit" class="btn btn-success" data-toggle ="modal" data-target="#regModal">Registrati</button>
+      <button type="button" class="btn btn-success" data-toggle ="modal" data-target="#loginModal">Accedi</button>
+    </span>
   </header>
 
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,10 +145,9 @@
               $NomeArticolo =$row["Titolo"];
               $TestoArticolo =$row["TESTO"];
 
-              echo "<tr>";
-              echo "<td> <h3> {$NomeArticolo} </h3> </td> ";
-              echo "<p> {$TestoArticolo} </p> <br/>";
-              echo "</tr>";
+              echo "<div class='contenitori'><h3> {$NomeArticolo} </h3>";
+              echo "<p> {$TestoArticolo} </p> <br/></div>";
+
             }
 
           ?>

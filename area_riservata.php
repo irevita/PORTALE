@@ -14,7 +14,7 @@
   // query i blog di cui sono coautore
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
-  $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
+  $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog, Blog.Descrizione FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
   // query_articoli tutti, problema di scoping per la get, vedere sotto
 //   $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
   // query_articolicategoria, problema di scoping della get, vedere sotto
@@ -60,7 +60,9 @@ if(isset($_POST["add_post"])){
 <body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">
     <header>
         <span onclick="toggleMenu()">
-            <h1 class="pointer">&#9776; PORTALE</h1>
+            <h1 class="pointer" id="pbmenu">&#9776;</h1>
+            <a href="area_riservata.php" id="pb"><h1 class="pointer">Portale Blog</h1></a>
+            <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
         <a href="logout.php">
             <button type="button" class="btn btn-danger">Logout</button>
@@ -70,8 +72,9 @@ if(isset($_POST["add_post"])){
     <div class="container-flex">
 
         <div class="title">
-            <h1>Area riservata</h1>
-            <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenut nella tua area personale!</h4>
+            <h1>Homepage</h1>
+            <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!<br />Questi sono i blog che segui.</h4>
+            
         </div>
 
 
@@ -79,8 +82,8 @@ if(isset($_POST["add_post"])){
         <!-- HOMEPAGE -->
 
         <div id="homepage">
-            <h3>HOME PAGE </h3>
 
+<<<<<<< HEAD
 
 
 
@@ -89,6 +92,18 @@ if(isset($_POST["add_post"])){
                 <input type="text" name="post_txt" value="Scrivi nuovo post..">
                 <button name="add_post" class="button">+</button>
             </div>
+=======
+            <!-- HO COMMENTATO AL MOMENTO QUESTA PARTE SOLO PERCHÈ VA SPOSTATA -->
+            
+            <!-- <h3>HOME PAGE </h3>
+
+            <div id="nuovopost">
+                <form action="area_riservata.php" method="post">
+                    <input type="text" name="titolo_txt" placeholder="Scrivi titolo">
+                    <button name ="add_titolo" type= "submit" class="button">+</button>
+                </form>
+            </div> -->
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
 
 
 
@@ -98,83 +113,86 @@ if(isset($_POST["add_post"])){
             <!-- CATEOGORIE -->
 
             <?php if (isset($_GET["categoria"])) { ?>
-                <div class="contenitori" >
+                <div>
                     <?php 
                     $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
                     while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
-                    <article>
+                    <div class="contenitori">
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
                         
-                        <div>
-                            <h4>Post : Your Comment</h4>
-                        </div>
                         <div class="full comment_form">
+                            <h4>Post your comment</h4>
                             <!-- <form action="index.html">    -->
-                            <textarea placeholder="Comment"></textarea>
-                            <button>Send</button>
-                             <!-- </form> -->
+                            <input placeholder="Comment"></input>
+                            <button type="button" class="btn btn-success">Send</button>
+                            <!-- </form> -->
                         </div>
 
-                    </article>
+                    </div>
                     <?php } ?>
                 </div> 
             <?php } ?>
 
 
             <?php if (isset($_GET["blog"])) { ?>
-                <div class="contenitori">
+                <div>
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row = mysqli_fetch_array($query_articoli)) {?> 
-                    <article>
+                    <div class="contenitori">
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
                         
-                        <div>
-                            <h4>Post : Your Comment</h4>
-                        </div>
+                            
                         <div class="full comment_form">
+                            <h4>Post your comment</h4>
                             <!-- <form action="index.html">    -->
-                            <textarea  placeholder="Comment"></textarea>
-                            <button>Send</button>
-                             <!-- </form> -->
+                            <input  placeholder="Comment"></input>
+                            <button type="button" class="btn btn-success">Send</button>
+                            <!-- </form> -->
                         </div>
-
-                        <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
-                    </article>
+                        <div class="vedi-ctg">
+                            <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
+                        </div>
+                    </div>
                     <?php } ?>
                 </div> 
             <?php } ?>
 
 
 
-            <div id="blogseguiti" class="contenitori">
-                <h3>I blog che seguo</h3>
+            <div id="blogseguiti" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}  ?>">
+                <!-- <h3>I blog che seguo</h3> -->
                 <ul>
                     <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
-                    <li>
-                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                    </li>
+                    <div class="contenitori">    
+                        <h6>
+                            <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                        </h6>
+                        <p><?php echo $row["Descrizione"];?></p>
+                    </div>
                     <?php } ?>
                 </ul>
             </div>
 
+            
+            <!-- QUESTA L'HO COMMENTATA PERCHÈ NON VIENE USATA DA NESSUNA PARTE MA POTREBBE SERVIRE -->
 
-            <div id='articoli' class="contenitori">
-                <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
-                <article>
-                    <h3><?php echo $row["Titolo"];?></h3>
-                    <p><?php echo $row["TESTO"];?></p>
+            <!-- <div id='articoli'>
+                <?php  //while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+                <div class="contenitori">
+                    <h3><?php //echo $row["Titolo"];?></h3>
+                    <p><?php //echo $row["TESTO"];?></p>
                     <span class="likes">
                         <i class="fas fa-thumbs-up"></i> Like
                         <span class="likes_number"></span>
                     </span>
-                </article>
-                <?php } ?>
-            </div>
+                </div>
+                <?php //} ?>
+            </div> -->
         </div>
 
 
@@ -211,11 +229,11 @@ if(isset($_POST["add_post"])){
 
     </div>
     
-    <?php include "footer.php" ?>
-
+    
      <!-- menu principale -->
         <nav id="menu" class="unvisible">
 
+<<<<<<< HEAD
             <!-- CATEGORIE CLICCABILI -->
             <div class="list-item">
                 <span>Categorie</span>
@@ -234,9 +252,29 @@ if(isset($_POST["add_post"])){
                     <input id="colorpicker" type="color" value="#ffffff">
                     <button id="color" class="btn-primary">Change</button>
                 </div>
+=======
+        <!-- CATEGORIE CLICCABILI -->
+        <div class="list-item">
+            <span><h5>Categorie</h5></span>
+            <!-- sottocategoria -->
+            <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
+                <h6> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
+                </h6><?php } ?>
+            </ul>
+        </div>
+
+        <!-- TEMA -->
+        <div class="list-item">
+            <span><h5>Tema</h5></span>
+            <!-- sottocategoria -->
+            <div class="sub-menu flex row center justify">
+                <input id="colorpicker" type="color" value="#ffffff">
+                <button id="color" class="btn-primary">Change</button>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
             </div>
 
 
+<<<<<<< HEAD
             <!-- IMPOSTAZIONI PROFILO -->
             <div class="list-item">
                 <span>Impostazioni profilo</span>
@@ -246,10 +284,22 @@ if(isset($_POST["add_post"])){
                     Elimina account
                 </button>
             </div>
+=======
+        <!-- IMPOSTAZIONI PROFILO -->
+        <div class="list-item">
+            <span><h5>Impostazioni profilo</h5></span>
+            <!-- sottocategoria -->
+            <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal" id="mexdel">
+                <!-- <span class="material-icons">delete</span>  -->
+                Elimina account
+            </button>
+        </div>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
 
             <br class="line">
             <!-- I MIEI BLOG -->
 
+<<<<<<< HEAD
             <div id="mieiblog">
                 <h4>I miei blog: </h4>
                 <ul>
@@ -274,8 +324,37 @@ if(isset($_POST["add_post"])){
                     <?php } ?>
                 </ul>
             </div>
+=======
+        <div class="list-item" id="mieiblog">
+            <h5>I miei blog </h5>
+            <ul>
+                <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                <h6><a>+ CREA NUOVO</a></h6>
+                <h6 class="blog">
+                    <!-- assegna ad href il link col nome blog corrente -->
+                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                </h6>
+                <?php } ?>
+            </ul>
+        </div>
+
+        <!-- BLOG DI CUI SONO COAUTORE -->
+        <div class="list-item" id="blogcoautore">
+            <h5>I blog di cui sono coautore </h5>
+            <ul>
+                <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
+                <h6>
+                    <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                </h6>
+                <?php } ?>
+            </ul>
+        </div>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
 
         </nav>
+
+    <?php include "footer.php" ?>
+
 
 </body>
 

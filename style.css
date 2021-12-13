@@ -48,25 +48,30 @@ header a{
     text-decoration: none;
     background-color: transparent;   
 }
-header a:hover{
-    color: #1e7e34;
-    text-decoration: none;
+header #pbmenu:hover{
+    color: #28a745;
 }
 header h1{
     margin:0;
+    display: contents;
+}
+header #pb:hover{
+    color:#1e7e34;
+    text-decoration: none;     
 }
 footer {
     text-align: center;
     bottom: 0;
     width: calc(100% - calc(4 * var(--header-padding)) );
     padding: var(--header-padding) calc(2 * var(--header-padding));
+    /* position: absolute; */
+
 }
 
-/* .title {
-    position: absolute;
-    top: calc(2 * var(--header-height));
+.title {
+    display: contents;
     
-} */
+}
 
 .annunciazio h4{
     display: inline-flex;
@@ -87,6 +92,7 @@ footer {
     padding: 1em 2em;
     transition: all var(--anim-duration);
     box-shadow: 3px 0 1em #0007;
+    
 }
 /* menu nascosto */
 
@@ -104,14 +110,22 @@ footer {
     display: block;
 } 
 #menu .list-item.visible .sub-menu {
-    display: flex;
+    display: block;
 }
 #menu .list-item * {
     cursor: pointer;
     color: var(--light-txt);
 }
 
+#menu .list-item *:hover{
+    color: #28a745;
+    text-decoration: none;
+}
 
+#menu .btn-danger:hover{
+    background-color: rgb(247, 58, 58) !important;
+    color: seashell;
+}
 
 /* #homepage {
     margin-top:20%;
@@ -235,4 +249,17 @@ button {
 
 .form-group input {
     margin-bottom: .4em;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #495057;
+    border-color: #212529;
+}
+.btn-danger:hover{
+    background-color: #6c757d;
+    border-color: #212529;
+}
+
+#blogseguiti.hidden{
+    display: none !important;
 }
