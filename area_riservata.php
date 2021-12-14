@@ -23,27 +23,29 @@
 
 <?php 
 
-    if(isset($_POST["add_titolo"])){
 
-        $newTitolo = $_POST["titolo_txt"];
+if(isset($_POST["add_post"])){
 
-        if(!empty($newTitolo)){
+    $newpost = $_POST["post_txt"];
 
-            $queryTitolo = "INSERT INTO Articoli(Titolo) VALUES ('{$newTitolo}')";
+    if(!empty($newpost)){
 
-            $creaTitolo = mysqli_query($connessione, $queryTitolo);
-        
-            if(!$creaTitolo){
-            die('Query fallita'.mysqli_error($connessione));
-            echo "query fallita";
-            }else{
-                echo 'nuovo post aggiunto';
-            }
+        $querypost = "INSERT INTO Articoli(TESTO, AutoreArt) VALUES ('{$newpost}', '{$_SESSION['id']}')";
 
+        $creaPost = mysqli_query($connessione, $querypost);
+    
+        if(!$creaPost){
+        die('Query fallita'.mysqli_error($connessione));
+        echo "query fallita";
+        }else{
+            echo 'nuovo post aggiunto';
         }
-    }
 
-?> 
+    }
+}
+
+    ?>
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -81,6 +83,16 @@
 
         <div id="homepage">
 
+<<<<<<< HEAD
+
+
+
+            <!--pulsante aggiungi post -->
+            <div id="nuovopost">
+                <input type="text" name="post_txt" value="Scrivi nuovo post..">
+                <button name="add_post" class="button">+</button>
+            </div>
+=======
             <!-- HO COMMENTATO AL MOMENTO QUESTA PARTE SOLO PERCHÈ VA SPOSTATA -->
             
             <!-- <h3>HOME PAGE </h3>
@@ -91,6 +103,9 @@
                     <button name ="add_titolo" type= "submit" class="button">+</button>
                 </form>
             </div> -->
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
+
+
 
 
 
@@ -214,8 +229,28 @@
     
     
      <!-- menu principale -->
-    <nav id="menu" class="unvisible">
+        <nav id="menu" class="unvisible">
 
+<<<<<<< HEAD
+            <!-- CATEGORIE CLICCABILI -->
+            <div class="list-item">
+                <span>Categorie</span>
+                <!-- sottocategoria -->
+                <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
+                    <li> <?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?>
+                    </li><?php } ?>
+                </ul>
+            </div>
+
+            <!-- TEMA -->
+            <div class="list-item">
+                <span>Tema</span>
+                <!-- sottocategoria -->
+                <div class="sub-menu flex row center justify">
+                    <input id="colorpicker" type="color" value="#ffffff">
+                    <button id="color" class="btn-primary">Change</button>
+                </div>
+=======
         <!-- CATEGORIE CLICCABILI -->
         <div class="list-item">
             <span><h5>Categorie</h5></span>
@@ -233,10 +268,21 @@
             <div class="sub-menu flex row center justify">
                 <input id="colorpicker" type="color" value="#ffffff">
                 <button id="color" class="btn-primary">Change</button>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
             </div>
-        </div>
 
 
+<<<<<<< HEAD
+            <!-- IMPOSTAZIONI PROFILO -->
+            <div class="list-item">
+                <span>Impostazioni profilo</span>
+                <!-- sottocategoria -->
+                <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal">
+                    <span class="material-icons">delete</span> 
+                    Elimina account
+                </button>
+            </div>
+=======
         <!-- IMPOSTAZIONI PROFILO -->
         <div class="list-item">
             <span><h5>Impostazioni profilo</h5></span>
@@ -246,10 +292,37 @@
                 Elimina account
             </button>
         </div>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
 
-        <br class="line">
-        <!-- I MIEI BLOG -->
+            <br class="line">
+            <!-- I MIEI BLOG -->
 
+<<<<<<< HEAD
+            <div id="mieiblog">
+                <h4>I miei blog: </h4>
+                <ul>
+                    <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                    <li class="blog">
+                        <!-- assegna ad href il link col nome blog corrente -->
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                        <p><?php echo $row["Descrizione"];?></p>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
+
+            <!-- BLOG DI CUI SONO COAUTORE -->
+            <div id="blogcoautore">
+                <h4>I blog di cui sono coautore </h4>
+                <ul>
+                    <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
+                    <li>
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
+=======
         <div class="list-item" id="mieiblog">
             <h5>I miei blog </h5>
             <ul>
@@ -274,8 +347,9 @@
                 <?php } ?>
             </ul>
         </div>
+>>>>>>> b31e2edef2ad82fa4d2c586c7de8d641df3bac7e
 
-    </nav>
+        </nav>
 
     <?php include "footer.php" ?>
 
