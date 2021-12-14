@@ -49,7 +49,7 @@
 <html lang="it">
 
 <head>
-    <title>Connessione al DB con PHP</title>
+    <title>Area riservata</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <?php include "header.php"?>
 </head>
@@ -151,16 +151,14 @@
 
             <div id="blogseguiti" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}  ?>">
                 <!-- <h3>I blog che seguo</h3> -->
-                <ul>
-                    <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
-                    <div class="contenitori">    
-                        <h6>
-                            <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
-                        </h6>
-                        <p><?php echo $row["Descrizione"];?></p>
-                    </div>
-                    <?php } ?>
-                </ul>
+                <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?>
+                <div class="contenitori">    
+                    <h6>
+                        <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
+                    </h6>
+                    <p><?php echo $row["Descrizione"];?></p>
+                </div>
+                <?php } ?>
             </div>
 
             
@@ -256,7 +254,7 @@
             <h5>I miei blog </h5>
             <ul>
                 <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
-                <h6><a>+ CREA NUOVO</a></h6>
+                <h6><a href="blog.php">+ CREA NUOVO</a></h6>
                 <h6 class="blog">
                     <!-- assegna ad href il link col nome blog corrente -->
                     <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
