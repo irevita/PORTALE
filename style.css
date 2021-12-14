@@ -42,6 +42,7 @@ header {
     width: calc(100% - calc(4 * var(--header-padding)) );
     padding: var(--header-padding) calc(2 * var(--header-padding));
     z-index: 10;
+    position: fixed;
 }
 header a{
     color: #28a745;
@@ -174,7 +175,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1.4em 2.4em;
+    padding: 7.3em 2.4em 1em;
 }
 
 

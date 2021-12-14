@@ -46,7 +46,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <title>Connessione al DB con PHP</title>
+  <title>Portale Blog</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <?php include "header.php"?>
 </head>
