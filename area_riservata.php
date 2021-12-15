@@ -150,6 +150,7 @@ if(isset($_POST["add_post"])){
                     <?php } ?>
                 </div> 
             <?php } ?>
+            
 
 
 
