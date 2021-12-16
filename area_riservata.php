@@ -48,8 +48,7 @@
 
         <div class="title">
             <h1>Homepage</h1>
-            <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>
-            
+            <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>    
         </div>
 
         <!-- HOMEPAGE -->
@@ -128,10 +127,12 @@
                 </div> 
             <?php } ?>
 
+
             <?php if(isset($_POST["blog_seguiti"])){ ?>
                 <div>
                     <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?> 
                     <div class="contenitori">
+                        <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                         <h3><?php echo $row["NomeBlog"];?></h3>
                         <p><?php echo $row["Descrizione"];?></p>
                         
@@ -142,7 +143,7 @@
 
         </div>
 
-        
+
         <!-- modale elimina account -->
 
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

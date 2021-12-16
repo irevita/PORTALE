@@ -21,6 +21,7 @@
 body {
     display: flex;
     flex-direction: column;
+    /* background-color: #feefdd; */
 }
 body>*{
     flex:1;
@@ -83,14 +84,14 @@ footer {
     flex-direction: row;
     padding: 4em 2.4em 1em;
 }
-.container.horizontal #destra {
+.container.horizontal #right{
     margin: 1em 2em 1em 1em;
 }
-.container.horizontal #sinistra {
+.container.horizontal #left {
     margin: 1em 2em 1em 1em;
 
 }
-.container.horizontal #sinistra ul {
+.container.horizontal #left ul {
     padding: 0;
     overflow-x: hidden;
 }

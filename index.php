@@ -1,5 +1,13 @@
 <?php include "connessione.php"; 
+  //elenco categorie
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
+  //elenco articoli in ordine di popolarità
+  $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Blog.NomeBlog
+    FROM Likes, Articoli, Blog
+    WHERE Likes.CodiceArt = Articoli.CodiceArt && Articoli.Blog=Blog.CodiceBlog
+    GROUP BY (Articoli.CodiceArt)
+    ORDER BY (COUNT(Articoli.CodiceArt)) DESC");
+
 ?>
 
 <?php
@@ -113,78 +121,81 @@
 
 
   <div class="container horizontal">
-    <!-- <div class="row"> -->
-      <div id="sinistra">
-        <br/>
-        <h3>CATEGORIE</h3>
-            <!-- sottocategoria -->
-        <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
-          <p> <?php echo '<a class="menu-ctg" href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </p><?php } ?>
-        </ul>
-      </div>
+    
+    <div id="left">
+
+      <br/>
+      <h3>CATEGORIE</h3>
+          <!-- sottocategoria -->
+      <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
+        <p> <?php echo '<a class="menu-ctg" href="index.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?> </p><?php } ?>
+      </ul>
+
+      <!-- <div class="contenitori" style="background-color:lightyellow">Qua vanno i vari cerca per..</div> -->
+
+    </div>
 
 
-      <div id="destra">  
+    <div id="right">  
+    
+      <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}  ?>">
+        
+        <br />
+        <h3>ARTICOLI DI TENDENZA</h3>
+
+        <?php while($row = mysqli_fetch_array($query_articolitendenza)) { ?>
+
+          <div class="contenitori">
+
+            <h3><?php echo $row["Titolo"];?></h3>
+            <p><?php echo $row["TESTO"];?></p>
+
+            <div class="info_blog">
+              <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+            </div>
       
-        <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}  ?>">
-          
-          <br />
-          <h3>ARTICOLI DI TENDENZA</h3>
+          </div>
 
-          <?php
-
-            $query = "SELECT Articoli.Titolo, Articoli.TESTO
-              FROM Likes, Articoli
-              WHERE Likes.CodiceArt = Articoli.CodiceArt
-              GROUP BY (Articoli.CodiceArt)
-              ORDER BY (COUNT(Articoli.CodiceArt)) DESC";
-
-            $mostraArticoli = mysqli_query($connessione,$query);
-
-            while ($row = mysqli_fetch_array($mostraArticoli)){
-              $NomeArticolo =$row["Titolo"];
-              $TestoArticolo =$row["TESTO"];
-
-              echo "<div class='contenitori'><h3> {$NomeArticolo} </h3>";
-              echo "<p> {$TestoArticolo} </p> <br/></div>";
-
-            }
-
-          ?>
-
-        </div>
-            
-        <div id="sputa_categoria">
-
-          <?php if (isset($_GET["categoria"])) { ?>
-            
-            <!-- <div class="cosesopra"> -->
-              <div class="annunciazio">
-                <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
-              </div>
-              <!-- <div>
-                <a href="index.php">Torna inditro</a>
-              </div> -->
-            <!-- </div> -->
-
-            <div class="contenitori" >
-              <?php 
-                $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
-                while($row = mysqli_fetch_array($query_articolicategoria)) {
-                    //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
-                <article>
-                  <h3><?php echo $row["Titolo"];?></h3>
-                  <p><?php echo $row["Data"];?></p>
-                  <p><?php echo $row["TESTO"];?></p>
-                </article>
-              <?php } ?>
-            </div> 
-          <?php } ?>
-
-        </div>    
+        <?php } ?>
 
       </div>
-    <!-- </div> -->
+          
+      <div id="sputa_categoria">
+
+        <?php if (isset($_GET["categoria"])) { ?>
+          
+          <!-- <div class="cosesopra"> -->
+            <div class="annunciazio">
+              <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
+            </div>
+            <!-- <div>
+              <a href="index.php">Torna inditro</a>
+            </div> -->
+          <!-- </div> -->
+
+          <div class="contenitori" >
+            <?php 
+              $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog FROM Articoli, Blog WHERE Articoli.Blog=Blog.CodiceBlog && Articoli.Categoria='".$_GET['categoria']."'"); 
+              while($row = mysqli_fetch_array($query_articolicategoria)) {
+                  //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
+              <article>
+                <h3><?php echo $row["Titolo"];?></h3>
+                <p><?php echo $row["Data"];?></p>
+                <p><?php echo $row["TESTO"];?></p>
+              </article>
+
+              <div class="info_blog">
+                <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+              </div>
+
+            <?php } ?>
+          </div> 
+        <?php } ?>
+
+      </div>    
+
+    </div>
+    
   </div>
 
   <?php include "footer.php" ?>
