@@ -1,3 +1,6 @@
+
+/* COSE IN COMUNE */
+
 :root {
     --header-height: 3em;
     --header-padding: .5em;
@@ -13,22 +16,12 @@
 .row {flex-direction: row;}
 .center {align-items: center !important;}
 .justify {justify-content: center !important;}
-/* https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg 
-    
-
-*/
+/* https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg */
 
 body {
     display: flex;
     flex-direction: column;
 }
-
-body.theme-0 {background-color: red;}
-body.theme-1 {background-color: blue;}
-body.theme-2 {background-color: pink;}
-body.theme-3 {background-color: green;}
-body.theme-4 {background-color: teal;}
-
 body>*{
     flex:1;
 }
@@ -49,9 +42,6 @@ header a{
     text-decoration: none;
     background-color: transparent;   
 }
-header #pbmenu:hover{
-    color: #28a745;
-}
 header h1{
     margin:0;
     display: contents;
@@ -60,18 +50,49 @@ header #pb:hover{
     color:#1e7e34;
     text-decoration: none;     
 }
+
+button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.contenitori {
+    border-radius: 25px;
+    border: 6px double #28a745;
+    padding: 2%;
+    margin-top: 2%
+}
+
 footer {
     text-align: center;
     bottom: 0;
     width: calc(100% - calc(4 * var(--header-padding)) );
     padding: var(--header-padding) calc(2 * var(--header-padding));
     /* position: absolute; */
-
 }
 
-.title {
-    display: contents;
-    
+
+
+
+/* INDEX STYLE     */
+
+.container.horizontal {
+    display: flex;
+    flex-direction: row;
+    padding: 4em 2.4em 1em;
+}
+.container.horizontal #destra {
+    margin: 1em 2em 1em 1em;
+}
+.container.horizontal #sinistra {
+    margin: 1em 2em 1em 1em;
+
+}
+.container.horizontal #sinistra ul {
+    padding: 0;
+    overflow-x: hidden;
 }
 
 .annunciazio h4{
@@ -82,6 +103,65 @@ footer {
     display: inline-flex;
     
 }
+
+.menu-ctg{
+    background-color: #f8f9fa;
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+.menu-ctg:hover{
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+}
+
+.container-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 7.3em 2.4em 1em;
+}
+.container-flex > *{
+    min-width: 50%;
+}
+
+.form-control {
+    display: block;
+    width: 95%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+}
+.form-group input {
+    margin-bottom: .4em;
+}
+
+
+
+
+/* AREA RISERVATA STYLE */
+
+header #pbmenu:hover{
+    color: #28a745;
+}
+header #pbmenu:hover{
+    color: #28a745;
+}
+
+.title {
+    display: contents;
+    
+}
+
 #menu, #menu.visible {
     left: 0%;
     position: fixed;
@@ -95,8 +175,8 @@ footer {
     box-shadow: 3px 0 1em #0007;
     
 }
-/* menu nascosto */
 
+/* menu nascosto */
 #menu.unvisible {
     left: -100%;
     box-shadow: 3px 0 1em #0000;
@@ -117,85 +197,22 @@ footer {
     cursor: pointer;
     color: var(--light-txt);
 }
-
 #menu .list-item *:hover{
     color: #28a745;
     text-decoration: none;
 }
-
+#menu .btn-danger{
+    margin: 0px 12px;
+}
 #menu .btn-danger:hover{
     background-color: rgb(247, 58, 58) !important;
     color: seashell;
-}
 
+}
 /* #homepage {
     margin-top:20%;
     
 } */
-
-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.container.horizontal {
-    display: flex;
-    flex-direction: row;
-}
-.container.horizontal #sinistra {
-    margin: 1em 2em 1em 1em;
-
-}
-
-.container.horizontal #destra {
-    margin: 1em 2em 1em 1em;
-}
-
-
-.container.horizontal #sinistra ul {
-    padding: 0;
-    overflow-x: hidden;
-}
-
-.menu-ctg{
-    background-color: #f8f9fa;
-    display: block;
-    color: black;
-    padding: 16px;
-    text-decoration: none;
-}
-.menu-ctg:hover{
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-}
-.container-flex {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 7.3em 2.4em 1em;
-}
-
-
-.container-flex > *{
-    min-width: 50%;
-}
-
-
-.contenitori {
-    border-radius: 25px;
-    border: 6px double #28a745;
-    padding: 2%;
-    margin-top: 2%
-}
-
-#articoli {
-    display: none;
-}
-
-
 .button {
     display: inline-block;
     padding: 15px 25px;
@@ -209,48 +226,22 @@ button {
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
-  }
-  
-  .button:hover {background-color: #3e8e41}
-  
-  .button:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-  }
+  }  
+.button:hover {background-color: #3e8e41}
 
+.button:active {
+background-color: #3e8e41;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
 
-  #nuovopost .button {
-      border-radius: 2em !important;
-      box-shadow: 0 3px 10px -2px #0008 !important;
-      padding: 0 10px;
-  }
-
-  #articoli_tendenza{
-      display: block;
-  }
-
-  #articoli_tendenza.hidden {
-      display: none !important;
-  }
-
-  .form-control {
+#articoli_tendenza{
     display: block;
-    width: 95%;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+#articoli_tendenza.hidden {
+    display: none !important;
 }
 
-.form-group input {
-    margin-bottom: .4em;
-}
 .btn-danger {
     color: #fff;
     background-color: #495057;
@@ -263,4 +254,38 @@ button {
 
 #blogseguiti.hidden{
     display: none !important;
+}
+#articoli.hidden{
+    display: none !important;
+}
+
+.list-item .menu-btn {
+    border: none;
+    background-color: inherit;
+    padding: 6px 12px;
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+}
+.list-item .menu-btn:focus {
+    outline: none;
+    border: none;
+    
+}
+
+
+
+
+/* MYBLOG STYLE */
+
+body.theme-0 {background-color: red;}
+body.theme-1 {background-color: blue;}
+body.theme-2 {background-color: pink;}
+body.theme-3 {background-color: green;}
+body.theme-4 {background-color: teal;}
+
+#nuovopost .button {
+    border-radius: 2em !important;
+    box-shadow: 0 3px 10px -2px #0008 !important;
+    padding: 0 10px;
 }
