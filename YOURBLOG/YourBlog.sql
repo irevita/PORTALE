@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Set 13, 2021 alle 11:47
--- Versione del server: 10.4.17-MariaDB
--- Versione PHP: 8.0.2
+-- Creato il: Set 01, 2020 alle 19:04
+-- Versione del server: 10.4.11-MariaDB
+-- Versione PHP: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yourblog`
+-- Database: `YourBlog`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +28,7 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `blog`
 --
 
-CREATE TABLE `blog` (
+CREATE TABLE `Blog` (
   `id_blog` int(11) NOT NULL,
   `titolo` varchar(40) NOT NULL,
   `descrizione` varchar(60) CHARACTER SET utf8 NOT NULL,
@@ -41,7 +42,7 @@ CREATE TABLE `blog` (
 -- Dump dei dati per la tabella `blog`
 --
 
-INSERT INTO `blog` (`id_blog`, `titolo`, `descrizione`, `categoria`, `immagine`, `autore`, `data_blog`) VALUES
+INSERT INTO `Blog` (`id_blog`, `titolo`, `descrizione`, `categoria`, `immagine`, `autore`, `data_blog`) VALUES
 (148, 'Generi Musicali', 'Alla scoperta dei generi muiscali  dai classici ai più conte', 272, 'images/noimage.png', 28, '2020-09-01 18:47:26'),
 (149, 'Vacanze nel Mediterraneo', 'Alla scoperta dei luoghi, delle spiagge e degli itinerari pi', 273, 'images/noimage.png', 29, '2020-09-01 18:49:54'),
 (150, 'Paracadutismo', 'Prepariamoci al lancio!', 274, 'images/noimage.png', 29, '2020-09-01 18:53:43'),
@@ -55,7 +56,7 @@ INSERT INTO `blog` (`id_blog`, `titolo`, `descrizione`, `categoria`, `immagine`,
 -- Struttura della tabella `categoria`
 --
 
-CREATE TABLE `categoria` (
+CREATE TABLE `Categoria` (
   `id_categoria` int(11) NOT NULL,
   `nomeC` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -64,7 +65,7 @@ CREATE TABLE `categoria` (
 -- Dump dei dati per la tabella `categoria`
 --
 
-INSERT INTO `categoria` (`id_categoria`, `nomeC`) VALUES
+INSERT INTO `Categoria` (`id_categoria`, `nomeC`) VALUES
 (272, 'Musica'),
 (273, 'Viaggiare'),
 (274, 'Sport'),
@@ -78,7 +79,7 @@ INSERT INTO `categoria` (`id_categoria`, `nomeC`) VALUES
 -- Struttura della tabella `collaboratore`
 --
 
-CREATE TABLE `collaboratore` (
+CREATE TABLE `Collaboratore` (
   `blog` int(11) NOT NULL,
   `utente` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -87,7 +88,7 @@ CREATE TABLE `collaboratore` (
 -- Dump dei dati per la tabella `collaboratore`
 --
 
-INSERT INTO `collaboratore` (`blog`, `utente`) VALUES
+INSERT INTO `Collaboratore` (`blog`, `utente`) VALUES
 (153, 28);
 
 -- --------------------------------------------------------
@@ -96,7 +97,7 @@ INSERT INTO `collaboratore` (`blog`, `utente`) VALUES
 -- Struttura della tabella `commento`
 --
 
-CREATE TABLE `commento` (
+CREATE TABLE `Commento` (
   `id_commento` int(11) NOT NULL,
   `utente` int(11) NOT NULL,
   `post` int(11) NOT NULL,
@@ -108,7 +109,7 @@ CREATE TABLE `commento` (
 -- Dump dei dati per la tabella `commento`
 --
 
-INSERT INTO `commento` (`id_commento`, `utente`, `post`, `testo`, `data_commento`) VALUES
+INSERT INTO `Commento` (`id_commento`, `utente`, `post`, `testo`, `data_commento`) VALUES
 (20, 28, 98, 'Poco informativo.', '2020-09-01 19:01:16'),
 (21, 29, 98, 'Sono d\'accordo. Potevi scrivere di più', '2020-09-01 19:01:58'),
 (22, 29, 95, 'Interessante!!', '2020-09-01 19:02:43');
@@ -119,7 +120,7 @@ INSERT INTO `commento` (`id_commento`, `utente`, `post`, `testo`, `data_commento
 -- Struttura della tabella `post`
 --
 
-CREATE TABLE `post` (
+CREATE TABLE `Post` (
   `id_post` int(11) NOT NULL,
   `autore` int(11) NOT NULL,
   `titolo` varchar(80) NOT NULL,
@@ -133,7 +134,7 @@ CREATE TABLE `post` (
 -- Dump dei dati per la tabella `post`
 --
 
-INSERT INTO `post` (`id_post`, `autore`, `titolo`, `testo`, `data_creazione`, `immagine`, `blog`) VALUES
+INSERT INTO `Post` (`id_post`, `autore`, `titolo`, `testo`, `data_creazione`, `immagine`, `blog`) VALUES
 (94, 28, 'Rock', 'Il rock, o musica rock, è un genere della popular music sviluppatosi negli Stati Uniti e nel Regno Unito nel corso degli anni cinquanta e sessanta del XX secolo.', '2020-09-01', 'images/noimage2.png', 148),
 (95, 28, 'Blues', 'Il genere musicale detto blues è una forma di musica vocale e strumentale la cui forma originale è caratterizzata da una struttura ripetitiva di dodici battute e in particolare, nella melodia, dell\\\'uso delle cosiddette blue note.', '2020-09-01', 'images/noimage2.png', 148),
 (96, 29, 'Isole Eolie', 'Le Isole Eolie (Ìsuli Eoli in siciliano), dette anche Isole Lipari, sono un arcipelago appartenente all\\\'arco Eoliano situato nel Mar Tirreno meridionale, a nord della costa siciliana.', '2020-09-01', 'images/noimage2.png', 149),
@@ -148,7 +149,7 @@ INSERT INTO `post` (`id_post`, `autore`, `titolo`, `testo`, `data_creazione`, `i
 -- Struttura della tabella `utente`
 --
 
-CREATE TABLE `utente` (
+CREATE TABLE `Utente` (
   `id_utente` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` char(60) NOT NULL,
@@ -162,7 +163,7 @@ CREATE TABLE `utente` (
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`id_utente`, `username`, `password`, `nome`, `cognome`, `email`, `data_registrazione`) VALUES
+INSERT INTO `Utente` (`id_utente`, `username`, `password`, `nome`, `cognome`, `email`, `data_registrazione`) VALUES
 (27, 'fabio_98', '$2y$10$9A7VSSnJag0Xsz05BbU26eobw3/axzTLP4o1VE3uC4M4E3H0feWMK', 'fabio', 'armedo', 'fabiomarascia@gmail.com', '2020-09-01 15:34:42'),
 (28, 'chiaragiu', '$2y$10$MDDz6zHtr6K9lS1GFGobxuNHMYWMBgPacX8fylze9zlx/WLuMS5Yi', 'Chiara', 'Giurdanella', 'chiaragiurdanella98@gmail.com', '2020-09-01 18:44:16'),
 (29, 'nadiagiu', '$2y$10$LnRNB95j49aKeVHJ4uWdTeOnhLlXvsWMn4iIIkd9bCKat60s/tsbO', 'Nadia', 'Giurdanella', 'nadiagiurdanella@hotmail.it', '2020-09-01 18:44:57'),
@@ -175,7 +176,7 @@ INSERT INTO `utente` (`id_utente`, `username`, `password`, `nome`, `cognome`, `e
 -- Struttura della tabella `valutazione`
 --
 
-CREATE TABLE `valutazione` (
+CREATE TABLE `Valutazione` (
   `id_valutazione` int(11) NOT NULL,
   `post` int(11) NOT NULL,
   `utente` int(11) NOT NULL,
@@ -186,7 +187,7 @@ CREATE TABLE `valutazione` (
 -- Dump dei dati per la tabella `valutazione`
 --
 
-INSERT INTO `valutazione` (`id_valutazione`, `post`, `utente`, `recensione`) VALUES
+INSERT INTO `Valutazione` (`id_valutazione`, `post`, `utente`, `recensione`) VALUES
 (13, 98, 28, 1),
 (14, 95, 29, 4);
 
@@ -197,7 +198,7 @@ INSERT INTO `valutazione` (`id_valutazione`, `post`, `utente`, `recensione`) VAL
 --
 -- Indici per le tabelle `blog`
 --
-ALTER TABLE `blog`
+ALTER TABLE `Blog`
   ADD PRIMARY KEY (`id_blog`),
   ADD KEY `autore` (`autore`),
   ADD KEY `categoria` (`categoria`) USING BTREE;
@@ -205,13 +206,13 @@ ALTER TABLE `blog`
 --
 -- Indici per le tabelle `categoria`
 --
-ALTER TABLE `categoria`
+ALTER TABLE `Categoria`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
 -- Indici per le tabelle `collaboratore`
 --
-ALTER TABLE `collaboratore`
+ALTER TABLE `Collaboratore`
   ADD PRIMARY KEY (`blog`,`utente`),
   ADD UNIQUE KEY `blog` (`blog`,`utente`),
   ADD KEY `utente` (`utente`) USING BTREE;
@@ -219,7 +220,7 @@ ALTER TABLE `collaboratore`
 --
 -- Indici per le tabelle `commento`
 --
-ALTER TABLE `commento`
+ALTER TABLE `Commento`
   ADD PRIMARY KEY (`id_commento`),
   ADD KEY `post` (`post`),
   ADD KEY `utente` (`utente`);
@@ -227,7 +228,7 @@ ALTER TABLE `commento`
 --
 -- Indici per le tabelle `post`
 --
-ALTER TABLE `post`
+ALTER TABLE `Post`
   ADD PRIMARY KEY (`id_post`),
   ADD KEY `blog` (`blog`),
   ADD KEY `Post_ibfk_2` (`autore`);
@@ -235,13 +236,13 @@ ALTER TABLE `post`
 --
 -- Indici per le tabelle `utente`
 --
-ALTER TABLE `utente`
+ALTER TABLE `Utente`
   ADD PRIMARY KEY (`id_utente`);
 
 --
 -- Indici per le tabelle `valutazione`
 --
-ALTER TABLE `valutazione`
+ALTER TABLE `Valutazione`
   ADD PRIMARY KEY (`id_valutazione`),
   ADD KEY `Recensioni_ibfk_1` (`post`),
   ADD KEY `recensore` (`utente`);
@@ -253,37 +254,37 @@ ALTER TABLE `valutazione`
 --
 -- AUTO_INCREMENT per la tabella `blog`
 --
-ALTER TABLE `blog`
+ALTER TABLE `Blog`
   MODIFY `id_blog` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT per la tabella `categoria`
 --
-ALTER TABLE `categoria`
+ALTER TABLE `Categoria`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 
 --
 -- AUTO_INCREMENT per la tabella `commento`
 --
-ALTER TABLE `commento`
+ALTER TABLE `Commento`
   MODIFY `id_commento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT per la tabella `post`
 --
-ALTER TABLE `post`
+ALTER TABLE `Post`
   MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
-ALTER TABLE `utente`
+ALTER TABLE `Utente`
   MODIFY `id_utente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT per la tabella `valutazione`
 --
-ALTER TABLE `valutazione`
+ALTER TABLE `Valutazione`
   MODIFY `id_valutazione` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
@@ -293,37 +294,37 @@ ALTER TABLE `valutazione`
 --
 -- Limiti per la tabella `blog`
 --
-ALTER TABLE `blog`
-  ADD CONSTRAINT `Blog_ibfk_2` FOREIGN KEY (`autore`) REFERENCES `utente` (`id_utente`) ON DELETE CASCADE,
-  ADD CONSTRAINT `Blog_ibfk_6` FOREIGN KEY (`categoria`) REFERENCES `categoria` (`id_categoria`) ON DELETE CASCADE;
+ALTER TABLE `Blog`
+  ADD CONSTRAINT `Blog_ibfk_2` FOREIGN KEY (`autore`) REFERENCES `Utente` (`id_utente`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Blog_ibfk_6` FOREIGN KEY (`categoria`) REFERENCES `Categoria` (`id_categoria`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `collaboratore`
 --
-ALTER TABLE `collaboratore`
-  ADD CONSTRAINT `Collaboratore_ibfk_1` FOREIGN KEY (`blog`) REFERENCES `blog` (`id_blog`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Collaboratore_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `utente` (`id_utente`);
+ALTER TABLE `Collaboratore`
+  ADD CONSTRAINT `Collaboratore_ibfk_1` FOREIGN KEY (`blog`) REFERENCES `Blog` (`id_blog`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Collaboratore_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id_utente`);
 
 --
 -- Limiti per la tabella `commento`
 --
-ALTER TABLE `commento`
-  ADD CONSTRAINT `post` FOREIGN KEY (`post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `utente` FOREIGN KEY (`utente`) REFERENCES `utente` (`id_utente`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `Commento`
+  ADD CONSTRAINT `post` FOREIGN KEY (`post`) REFERENCES `Post` (`id_post`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `utente` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id_utente`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `post`
 --
-ALTER TABLE `post`
-  ADD CONSTRAINT `Post_ibfk_2` FOREIGN KEY (`autore`) REFERENCES `utente` (`id_utente`) ON DELETE CASCADE,
-  ADD CONSTRAINT `Post_ibfk_4` FOREIGN KEY (`blog`) REFERENCES `blog` (`id_blog`) ON DELETE CASCADE;
+ALTER TABLE `Post`
+  ADD CONSTRAINT `Post_ibfk_2` FOREIGN KEY (`autore`) REFERENCES `Utente` (`id_utente`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Post_ibfk_4` FOREIGN KEY (`blog`) REFERENCES `Blog` (`id_blog`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `valutazione`
 --
-ALTER TABLE `valutazione`
-  ADD CONSTRAINT `Valutazione_ibfk_1` FOREIGN KEY (`post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Valutazione_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `utente` (`id_utente`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Valutazione`
+  ADD CONSTRAINT `Valutazione_ibfk_1` FOREIGN KEY (`post`) REFERENCES `Post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Valutazione_ibfk_2` FOREIGN KEY (`utente`) REFERENCES `Utente` (`id_utente`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
