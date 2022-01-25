@@ -137,7 +137,7 @@
     </div>
 
 
-    <div id="right">  
+    <div id="center">  
     
       <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}  ?>">
         
@@ -163,6 +163,7 @@
           
       <div id="sputa_categoria">
 
+    
         <?php if (isset($_GET["categoria"])) { ?>
           
           <!-- <div class="cosesopra"> -->
@@ -196,7 +197,10 @@
       </div>    
 
     </div>
-    
+    <div id="right">
+    <?php include "cerca.php" ?>  
+    </div> 
+
   </div>
 
   <?php include "footer.php" ?>
