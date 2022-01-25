@@ -87,9 +87,11 @@ footer {
 }
 .container.horizontal #right{
     margin: 1em 2em 1em 1em;
+    width: 25%;
 }
 .container.horizontal #center{
     margin: 1em 2em 1em 1em;
+    width: 50%;
 }
 .container.horizontal #left {
     margin: 1em 2em 1em 1em;

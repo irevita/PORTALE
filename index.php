@@ -139,7 +139,7 @@
 
     <div id="center">  
     
-      <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}  ?>">
+      <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}; if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";} ?>">
         
         <br />
         <h3>ARTICOLI DI TENDENZA</h3>
@@ -194,16 +194,28 @@
           </div> 
         <?php } ?>
 
-      </div>    
+      </div>   
+      
+      <?php include "cerca.php"; ?>
 
     </div>
-    <div id="right">
-    <?php include "cerca.php" ?>  
-    </div> 
 
+    <div id="right">
+      <br/>
+      <h3>Cosa ti interessa?</h3>
+      <form method="post" action="index.php">
+          <input type="text" name="cerca_utente" placeholder="Cerca utente" />
+          <input type="submit" name="click_utente" value="CERCA"  /><br  />
+          <input type="text" name="cerca_blog" placeholder="Cerca blog" />
+          <input type="submit" name="click_blog" value="CERCA"  /><br  />
+          <input type="text" name="cerca_articolo" placeholder="Cerca articolo" />
+          <input type="submit" name="click_articolo" value="CERCA"  /><br  />
+      </form>
+    </div> 
   </div>
 
   <?php include "footer.php" ?>
 
 </body>
 </html>
+
