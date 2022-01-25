@@ -13,16 +13,9 @@
 
     include 'connessione.php'; 
 
-    $search_utente = $_POST["cerca_utente"];
-    $search_blog = $_POST["cerca_blog"];
-    $search_articolo = $_POST["cerca_articolo"];
-
-    $sql_cerca_utente = mysqli_query($connessione, "SELECT Nick FROM Utenti WHERE Nick LIKE '%" . $search_utente . "%'");
-    $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
-    $sql_cerca_articolo = mysqli_query($connessione, "SELECT Titolo FROM Articoli WHERE Titolo LIKE '%" . $search_articolo . "%'");
-
-
     if(isset($_POST['click_utente'])){
+        $search_utente = $_POST["cerca_utente"];
+        $sql_cerca_utente = mysqli_query($connessione, "SELECT Nick FROM Utenti WHERE Nick LIKE '%" . $search_utente . "%'");
         if(mysqli_num_rows($sql_cerca_utente) > 0){
 
             echo "<h2>Risultati della tua ricerca</h2>";
@@ -31,45 +24,40 @@
             while($row = mysqli_fetch_array($sql_cerca_utente)) {
 
                 echo '<p>' . $row['Nick'] . '</p>';
-
             }
-        }
-
-        else{
+        }else{
             echo "Al momento non sono stati trovati utenti con questo nome.";
         }
     }
 
     if(isset($_POST['click_blog'])){
+        $search_blog = $_POST["cerca_blog"];
+        $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
         if(mysqli_num_rows($sql_cerca_blog) > 0){
             echo "<h2>Risultati della tua ricerca</h2>";
-            echo "<p class='desc' style='margin-left:25px;'>Trovate". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_utente)."</b></p>\n";
+            echo "<p class='desc' style='margin-left:25px;'>Trovate". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
 
             while($row = mysqli_fetch_array($sql_cerca_blog)) {
 
                 echo '<p>' . $row['NomeBlog'] . '</p>';
-
             }
-        }
-
-        else{
+        }else{
             echo "Al momento non sono stati trovati blog con questo nome.";
         }
     }
 
     if(isset($_POST['click_articolo'])){
+        $search_articolo = $_POST["cerca_articolo"];
+        $sql_cerca_articolo = mysqli_query($connessione, "SELECT Titolo FROM Articoli WHERE Titolo LIKE '%" . $search_articolo . "%'");
         if(mysqli_num_rows($sql_cerca_articolo) > 0){
             echo "<h2>Risultati della tua ricerca</h2>";
-            echo "<p class='desc' style='margin-left:25px;'>Trovate". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_utente)."</b></p>\n";
+            echo "<p class='desc' style='margin-left:25px;'>Trovate". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
 
             while($row = mysqli_fetch_array($sql_cerca_articolo)) {
 
                 echo '<p>' . $row['Titolo'] . '</p>';
-
             }
-        }
-
-        else{
+        }else{
             echo "Al momento non sono stati trovati articoli con questo nome.";
         }
     }    
