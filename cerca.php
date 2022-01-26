@@ -9,12 +9,13 @@
         if(mysqli_num_rows($sql_cerca_utente) > 0){
 
             echo "<br/><h4>Risultati della tua ricerca</h4>";
-            echo "<p class='desc' style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_utente)." voci per il termine <b>".stripslashes($search_utente)."</b></p>\n";
+            echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_utente)." voci per il termine <b>".stripslashes($search_utente)."</b></p>\n";
 
             while($row = mysqli_fetch_array($sql_cerca_utente)) {
 
-                echo '<p>' . $row['Nick'] . '</p>';
+                echo '<a href="index.php?profilo='.$row["Nick"].'">'.$row["Nick"]."</a>";
             }
+            
         }else{
             echo "<br/>Al momento non sono stati trovati utenti con questo nome.";
         }
@@ -25,7 +26,7 @@
         $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
         if(mysqli_num_rows($sql_cerca_blog) > 0){
             echo "<br/><h4>Risultati della tua ricerca</h4>";
-            echo "<p class='desc' style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
+            echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
 
             while($row = mysqli_fetch_array($sql_cerca_blog)) {
 
@@ -41,7 +42,7 @@
         $sql_cerca_articolo = mysqli_query($connessione, "SELECT Titolo FROM Articoli WHERE Titolo LIKE '%" . $search_articolo . "%'");
         if(mysqli_num_rows($sql_cerca_articolo) > 0){
             echo "<br/><h4>Risultati della tua ricerca</h4>";
-            echo "<p class='desc' style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
+            echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
 
             while($row = mysqli_fetch_array($sql_cerca_articolo)) {
 
