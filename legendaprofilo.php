@@ -6,10 +6,9 @@
             while($row = mysqli_fetch_array($query_mostraProfilo)){?>
     <li> <i class='fa fa-angellist'> </i> <?php echo $row["Nick"];?> </li>
     <li> <i class='fa fa-home fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["Nazione"];?> </li>
-    <li> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["DatadiNascita"];?>
-    </li>
+    <li> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["DatadiNascita"];?> </li>
     <li> <i class='fa fa-paper-plane-o'> </i> <?php echo $row["Email"];?> </li>
-    <?php}?>
+    <?php }?>
 </ul>
 
 
