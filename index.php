@@ -10,7 +10,6 @@
 
 ?>
 
-
 <?php
 
   $avviso = "";
@@ -51,6 +50,7 @@
   }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -133,47 +133,80 @@
       </ul>
 
       <!-- <div class="contenitori" style="background-color:lightyellow">Qua vanno i vari cerca per..</div> -->
-
     </div>
 
 
-    <div id="center">  
-    
-      <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}; if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";} ?>">
-        
+    <div id="center">
+
+      <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}; if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";} ?>">
         <br />
         <h3>ARTICOLI DI TENDENZA</h3>
-
         <?php while($row = mysqli_fetch_array($query_articolitendenza)) { ?>
-
           <div class="contenitori">
-
             <h3><?php echo $row["Titolo"];?></h3>
             <p><?php echo $row["TESTO"];?></p>
 
             <div class="info_blog">
               <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
             </div>
-      
           </div>
-
         <?php } ?>
+      </div>
 
+
+      <div>
+        <?php if(isset($_GET["profilo"])) {
+
+          echo "<br/><h3>".$_GET['profilo']."</h3>";
+          $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE Nick = '".$_GET['profilo']."'");
+          while($row = mysqli_fetch_array($query_mostraProfilo)){ ?>
+
+            <li> <i class='fa fa-home fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["Nazione"];?> </li>
+            <li> <i class='fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme'> </i> <?php echo $row["DatadiNascita"];?> </li>
+            <li> <i class='fa fa-paper-plane-o'> </i> <?php echo $row["Email"];?> </li>
+          <?php }?>
+
+          <br/>  
+          <h4>Blog di cui <?php echo"<b>".$_GET['profilo']."</b>" ?> è autore </h4>
+          <?php 
+            $query_blogprofilo = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione FROM Blog, Utenti WHERE Blog.Autore = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
+            if(mysqli_num_rows($query_blogprofilo) > 0){
+              while($row = mysqli_fetch_array($query_blogprofilo)) { ?> 
+
+                <div class="contenitori">
+                  <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                  <h3><?php echo $row["NomeBlog"];?></h3>
+                  <p><?php echo $row["Descrizione"];?></p>
+                </div>
+              <?php } ?>  
+          <?php }else echo "<b>".$_GET['profilo']."</b> non è autore di blog" ?>
+
+          <br/>  
+          <h4>Blog di cui <?php echo"<b>".$_GET['profilo']."</b>" ?> è coautore </h4>
+          <?php 
+            $query_blogprofilocoautore = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione FROM Blog, Utenti, Coautore WHERE Coautore.CodiceBlog = Blog.CodiceBlog && Coautore.ID_Utente = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
+            if(mysqli_num_rows($query_blogprofilocoautore) > 0){
+              while($row = mysqli_fetch_array($query_blogprofilocoautore)) { ?> 
+
+                <div class="contenitori">
+                  <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                  <h3><?php echo $row["NomeBlog"];?></h3>
+                  <p><?php echo $row["Descrizione"];?></p>
+                </div>
+              <?php } ?>
+            <?php }else echo "<b>".$_GET['profilo']."</b> non è coautore di blog" ?>    
+
+        <?php }?>
       </div>
           
-      <div id="sputa_categoria">
 
-    
+      <div id="sputa_categoria">
         <?php if (isset($_GET["categoria"])) { ?>
           
           <!-- <div class="cosesopra"> -->
-            <div class="annunciazio">
-              <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
-            </div>
-            <!-- <div>
-              <a href="index.php">Torna inditro</a>
-            </div> -->
-          <!-- </div> -->
+          <div class="annunciazio">
+            <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
+          </div>
 
           <div class="contenitori" >
             <?php 
@@ -189,9 +222,9 @@
               <div class="info_blog">
                 <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
               </div>
-
             <?php } ?>
           </div> 
+          
         <?php } ?>
 
       </div>   
@@ -218,4 +251,3 @@
 
 </body>
 </html>
-
