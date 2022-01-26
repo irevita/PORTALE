@@ -1,6 +1,4 @@
-
 <?php 
-
     include 'connessione.php'; 
 
     if(isset($_POST['click_utente'])){

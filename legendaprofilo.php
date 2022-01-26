@@ -1,3 +1,11 @@
+<?php
+
+    include "connessione.php";
+    global $name;
+    $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE Nick = $name" );
+
+?>  
+
 <ul>
     <li>
         <img src="iconaut.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar">

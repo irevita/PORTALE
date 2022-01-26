@@ -203,7 +203,6 @@
       <div id="sputa_categoria">
         <?php if (isset($_GET["categoria"])) { ?>
           
-          <!-- <div class="cosesopra"> -->
           <div class="annunciazio">
             <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
           </div>
@@ -211,17 +210,16 @@
           <div class="contenitori" >
             <?php 
               $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog FROM Articoli, Blog WHERE Articoli.Blog=Blog.CodiceBlog && Articoli.Categoria='".$_GET['categoria']."'"); 
-              while($row = mysqli_fetch_array($query_articolicategoria)) {
-                  //var_dump("SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='Libri'"); ?> 
-              <article>
-                <h3><?php echo $row["Titolo"];?></h3>
-                <p><?php echo $row["Data"];?></p>
-                <p><?php echo $row["TESTO"];?></p>
-              </article>
+              while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
+                <article>
+                  <h3><?php echo $row["Titolo"];?></h3>
+                  <p><?php echo $row["Data"];?></p>
+                  <p><?php echo $row["TESTO"];?></p>
+                </article>
 
-              <div class="info_blog">
-                <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
-              </div>
+                <div class="info_blog">
+                  <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+                </div>
             <?php } ?>
           </div> 
           
