@@ -197,8 +197,8 @@
             <?php }else echo "<b>".$_GET['profilo']."</b> non è coautore di blog" ?>    
 
         <?php }?>
-      </div>
-          
+      </div>      
+      
 
       <div id="sputa_categoria">
         <?php if (isset($_GET["categoria"])) { ?>
