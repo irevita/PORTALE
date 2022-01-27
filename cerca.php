@@ -18,7 +18,9 @@
             echo "<br/>Al momento non sono stati trovati utenti con questo nome.";
         }
     }
+?>    
 
+<?php 
     if(isset($_POST['click_blog'])){
         $search_blog = $_POST["cerca_blog"];
         $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog, Descrizione, Sfondo FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
@@ -26,19 +28,23 @@
             echo "<br/><h4>Risultati della tua ricerca</h4>";
             echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
 
-            while($row = mysqli_fetch_array($sql_cerca_blog)) {
+            while($row = mysqli_fetch_array($sql_cerca_blog)) { ?>
 
-                echo '<div class="contenitori">';
-                echo "<img src=".$row['Sfondo'].">";
-                echo '<h3>'.$row["NomeBlog"].'</h3>';
-                echo '<p>'.$row["Descrizione"].'</p></div>';      
-            }
+                <div class="contenitori">
+                    <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                    <h3><?php echo $row["NomeBlog"];?></h3>
+                    <p><?php echo $row["Descrizione"];?></p>             
+                </div>   
+                
+            <?php }
 
         }else{
             echo "<br/>Al momento non sono stati trovati blog con questo nome.";
         }
     }
+?>    
 
+<?php 
     if(isset($_POST['click_articolo'])){
         $search_articolo = $_POST["cerca_articolo"];
         $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Articoli, Blog, Multimedia WHERE Articoli.CodiceArt = Multimedia.CodiceArt && Articoli.Blog = Blog.CodiceBlog && Articoli.Titolo LIKE '%" . $search_articolo . "%'");
@@ -46,17 +52,21 @@
             echo "<br/><h4>Risultati della tua ricerca</h4>";
             echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
 
-            while($row = mysqli_fetch_array($sql_cerca_articolo)) {
-
-                echo '<div class="contenitori"><article>';
-                echo "<img src=".$row['Nome'].">";
-                echo '<h3>'.$row["Titolo"].'</h3>';
-                echo '<p>'.$row["Data"].'</p>';   
-                echo '<p>'.$row["TESTO"].'</p></article>';
-                echo '<div class="info_blog">';
-                echo '<h4>Blog: &nbsp</h4><a href="'.$row["NomeBlog"].'.php">'.$row["NomeBlog"].'</a></div></div>';
+            while($row = mysqli_fetch_array($sql_cerca_articolo)) { ?>
                 
-            }
+                <div class="contenitori">
+                    <article>
+                        <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">  
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["Data"];?></p>
+                        <p><?php echo $row["TESTO"];?></p>
+                    </article>
+                    <div class="info_blog">
+                        <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+                    </div>
+                </div>
+                
+            <?php }
 
         }else{
             echo "<br/>Al momento non sono stati trovati articoli con questo nome.";
