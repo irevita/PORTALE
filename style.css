@@ -87,6 +87,7 @@ footer {
 }
 .container-flex #right{
     margin: 1em 2em 1em 1em;
+    display: block;
 }
 .container-flex #center{
     margin: 1em 2em 1em 1em;
@@ -220,10 +221,12 @@ header #pbmenu:hover{
     color: seashell;
 
 }
-/* #homepage {
-    margin-top:20%;
-    
-} */
+ #homepage {
+    margin: 1em 2em 1em 1em;
+    float: left;
+    display: block;
+    width: 75%;
+} 
 .button {
     display: inline-block;
     padding: 15px 25px;

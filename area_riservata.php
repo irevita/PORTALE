@@ -172,9 +172,23 @@
             </div>
         </div>
 
+    <div id="right">
+      <br/>
+      <h3>Cosa ti interessa?</h3>
+      <form method="post" action="area_riservata.php">
+          <input type="text" name="cerca_utente" placeholder="Cerca utente" />
+          <input type="submit" name="click_utente" value="CERCA"  /><br  />
+          <input type="text" name="cerca_blog" placeholder="Cerca blog" />
+          <input type="submit" name="click_blog" value="CERCA"  /><br  />
+          <input type="text" name="cerca_articolo" placeholder="Cerca articolo" />
+          <input type="submit" name="click_articolo" value="CERCA"  /><br  />
+      </form>
+    </div> 
 
-    </div>
+
+    </div >
     
+    <?php include "cerca.php"; ?>
     
      <!-- menu principale -->
     <nav id="menu" class="unvisible">
@@ -236,20 +250,7 @@
             </button>
         </div>
 
-      
-      <br class = "line" >
-      <div class="list-item">
-      <h5>Cosa ti interessa?</h5>
-      
-      <form method="post" action="area_riservata.php">
-          <input type="text" name="cerca_utente" placeholder="Cerca utente" />
-          <input type="submit" name="click_utente" value="CERCA"  /><br  />
-          <input type="text" name="cerca_blog" placeholder="Cerca blog" />
-          <input type="submit" name="click_blog" value="CERCA"  /><br  />
-          <input type="text" name="cerca_articolo" placeholder="Cerca articolo" />
-          <input type="submit" name="click_articolo" value="CERCA"  /><br  />
-      </form>
-        </div>
+    
     </nav>
 
     <?php include "footer.php" ?>
