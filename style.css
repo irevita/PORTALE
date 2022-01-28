@@ -85,19 +85,23 @@ footer {
     flex-direction: row;
     padding: 4em 2.4em 1em;
 }
-.container.horizontal #right{
+.container-flex #right{
     margin: 1em 2em 1em 1em;
-    width: 25%;
 }
-.container.horizontal #center{
+.container-flex #center{
     margin: 1em 2em 1em 1em;
-    width: 50%;
+    width: 55%;
+    float: left;
+    display: block;
 }
-.container.horizontal #left {
+.container-flex #left {
     margin: 1em 2em 1em 1em;
+    float: left;
+    display: block;
+    width: 20%;
 
 }
-.container.horizontal #left ul {
+.container-flex #left ul {
     padding: 0;
     overflow-x: hidden;
 }
@@ -125,14 +129,14 @@ footer {
 }
 
 .container-flex {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: center;
     padding: 7.3em 2.4em 1em;
 }
-.container-flex > *{
+/* .container-flex > *{
     min-width: 50%;
-}
+} */
 
 .form-control {
     display: block;

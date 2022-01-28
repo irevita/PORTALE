@@ -121,7 +121,7 @@
   </div>
 
 
-  <div class="container horizontal">
+  <div class="container-flex ">
     
     <div id="left">
 

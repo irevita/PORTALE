@@ -55,7 +55,7 @@
 
         <div id="homepage">
 
-            <div id='articoli' class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};?>">
+            <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};?>">
                 <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
                 <div class="contenitori">
                     <h3><?php echo $row["Titolo"];?></h3>
