@@ -47,7 +47,7 @@
 <?php 
     if(isset($_POST['click_articolo'])){
         $search_articolo = $_POST["cerca_articolo"];
-        $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%'");
+        $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%' GROUP BY Articoli.CodiceArt" );
         if(mysqli_num_rows($sql_cerca_articolo) > 0){
             echo "<br/><h4>Risultati della tua ricerca</h4>";
             echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
@@ -56,6 +56,7 @@
                 
                 <div class="contenitori">
                     <article>
+
                         <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">  
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
