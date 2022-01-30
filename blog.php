@@ -42,14 +42,16 @@
         // }
     }
 
-?> 
-    
+?>
+
 <body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">
 
     <header>
         <span onclick="toggleMenu()">
             <h1 class="pointer" id="pbmenu">&#9776;</h1>
-            <a href="area_riservata.php" id="pb"><h1 class="pointer">Portale Blog</h1></a>
+            <a href="area_riservata.php" id="pb">
+                <h1 class="pointer">Portale Blog</h1>
+            </a>
             <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
         <a href="logout.php">
@@ -59,21 +61,82 @@
 
     <div class="container-flex">
 
-        <h3>HOME PAGE </h3>
+        <h3>Crea il tuo blog </h3>
 
-        <div id="nuovopost">
-            <form action="area_riservata.php" method="post">
-                <input type="text" name="titolo_txt" placeholder="Scrivi titolo">
-                <button name ="add_titolo" type= "submit" class="button">+</button>
+        <div id="infoblog">
+            <form action="blog.php" method="post">
+                <input type="text" id="current_date" name="dataora" disabled>
+
+                <script>
+                    date = new Date();
+                    year = date.getFullYear();
+                    month = date.getMonth() + 1;
+                    day = date.getDate();
+                    document.getElementById("current_date").value = year + "-" + month + "-" + day;
+                </script>
+                </br>
+                <input type="text" name="nome_txt" placeholder="Nome del blog">
+                </br>
+
+                <input type="text" name="descrizione_txt" placeholder="Descrizione...">
+                <button name="add_nome" type="submit" class="button">+</button>
+
             </form>
+
+
+            <!-- funzione sfoglia  -->
+            <form enctype="multipart/form-data" action="/upload/image" method="post">
+                <input id="image-file" type="file" />
+            </form>
+            <?php
+
+
+  $avviso = "";
+
+  if(isset($_POST['add_nome'])){
+
+    $nome = $_POST['nome_txt'];
+    $descrizione = $_POST['descrizione_txt'];
+    // $querydata = "SELECT current_time()"; 
+    // $data = mysqli_query($connessione,$querydata); 
+
+    
+    if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
+
+      $query = "INSERT INTO Blog(NomeBlog, Descrizione, Data, Autore)
+      VALUES ('{$nome}','{$descrizione}', SYSDATE(), '{$_SESSION['id']}')";
+    
+      $creaBlog = mysqli_query($connessione, $query);
+
+      if(!$creaBlog){
+        die('Query fallita'.mysqli_error($connessione));
+        echo "query fallita";
+      }
+
+      $avviso = "Dati registrati con successo";
+      echo $avviso;
+
+      $query_codblog 
+
+    }else{
+      $avviso = "I campi non devono essere vuoti";
+      echo $avviso;
+    }
+  }
+
+?>
         </div>
+
+
+
 
         <a href="area_riservata.php">oh mio dio no non voglio proprio creare un nuovo blog torna indietro</a>
 
 
         <!-- modale elimina blog -->
 
-        <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -83,7 +146,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Sei sicuro di voler eliminare il tuo blog? </br> Se lo farai, eliminerai tutto il suo contenuto!</p>
+                        <p>Sei sicuro di voler eliminare il tuo blog? </br> Se lo farai, eliminerai tutto il suo
+                            contenuto!</p>
                     </div>
                     <div class="modal-footer">
                         <form action="blog.php" method="post">
@@ -102,10 +166,12 @@
     <nav id="menu" class="unvisible">
 
         <!-- CATEGORIE CLICCABILI -->
-        
+
         <!-- TEMA -->
         <div class="list-item">
-            <span><h5>Tema</h5></span>
+            <span>
+                <h5>Tema</h5>
+            </span>
             <!-- sottocategoria -->
             <div class="sub-menu flex row center justify">
                 <input id="colorpicker" type="color" value="#ffffff">
@@ -116,9 +182,11 @@
 
         <!-- IMPOSTAZIONI PROFILO -->
         <div class="list-item">
-            <span><h5>Impostazioni profilo</h5></span>
+            <span>
+                <h5>Impostazioni profilo</h5>
+            </span>
             <!-- sottocategoria -->
-            <button name="del_blog" type="button" data-toggle ="modal" data-target="#deleteBlogModal" id="mexdel">
+            <button name="del_blog" type="button" data-toggle="modal" data-target="#deleteBlogModal" id="mexdel">
                 <!-- <span class="material-icons">delete</span>  -->
                 Elimina blog
             </button>
@@ -154,5 +222,5 @@
     </nav>
 
 </body>
-</html>
 
+</html>

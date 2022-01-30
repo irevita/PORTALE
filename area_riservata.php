@@ -335,8 +335,9 @@
         <div class="list-item" id="mieiblog">
             <button class="menu-btn">I miei blog</button>
             <ul>
-                <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
                 <h6><a href="blog.php">+ CREA NUOVO</a></h6>
+                <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                
                 <h6 class="blog">
                     <!-- assegna ad href il link col nome blog corrente -->
                     <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
