@@ -75,19 +75,29 @@ footer {
     /* position: absolute; */
 }
 
+.container-flex {
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    padding: 4.4em 2.4em 1em;
+}
+
+
 
 
 
 /* INDEX STYLE     */
 
-.container.horizontal {
+/* .container.horizontal {
     display: flex;
     flex-direction: row;
     padding: 4em 2.4em 1em;
-}
+} */
 .container-flex #right{
     margin: 1em 2em 1em 1em;
     display: block;
+    width: 17%;
+    float: right;
 }
 .container-flex #center{
     margin: 1em 2em 1em 1em;
@@ -99,7 +109,7 @@ footer {
     margin: 1em 2em 1em 1em;
     float: left;
     display: block;
-    width: 20%;
+    width: 17%;
 
 }
 .container-flex #left ul {
@@ -129,16 +139,6 @@ footer {
     text-decoration: none;
 }
 
-.container-flex {
-    /* display: flex; */
-    flex-direction: column;
-    align-items: center;
-    padding: 7.3em 2.4em 1em;
-}
-/* .container-flex > *{
-    min-width: 50%;
-} */
-
 .form-control {
     display: block;
     width: 95%;
@@ -158,6 +158,12 @@ footer {
 }
 
 
+/* .container-flex > *{
+    min-width: 50%;
+} */
+
+
+
 
 
 /* AREA RISERVATA STYLE */
@@ -171,6 +177,10 @@ header #pbmenu:hover{
 
 .title {
     display: contents;
+    margin: 1em 2em 1em 1em;
+    float: left;
+    display: block;
+    width: 75%;
     
 }
 
