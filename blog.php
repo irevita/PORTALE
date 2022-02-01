@@ -115,19 +115,18 @@
 
       $avviso = "Dati registrati con successo";
       echo $avviso;
-
-      $query_codblog 
-
+      $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
+      $row = mysqli_fetch_array($queryCodblog);
+        
+      header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
+    
     }else{
       $avviso = "I campi non devono essere vuoti";
-      echo $avviso;
+   echo $avviso;
     }
-  }
-
+  } 
 ?>
         </div>
-
-
 
 
         <a href="area_riservata.php">oh mio dio no non voglio proprio creare un nuovo blog torna indietro</a>
