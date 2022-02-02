@@ -4,7 +4,7 @@
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
-  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
+  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
@@ -15,6 +15,7 @@
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
   $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog, Blog.Descrizione, Blog.Sfondo FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
+  
   // query_articoli tutti, problema di scoping per la get, vedere sotto
 //   $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
   // query_articolicategoria, problema di scoping della get, vedere sotto
@@ -46,12 +47,6 @@
 
     <div class="container-flex">
 
-        <div class="title">
-            <br />
-            <h1>Homepage</h1>
-            <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>    
-        </div>
-
         <div id="right">
             <br/>
             <h3>Cosa ti interessa?</h3>
@@ -68,28 +63,136 @@
         <!-- HOMEPAGE -->
 
         <div id="homepage">
-            <h3> Articoli dei blog che segui... </h3>
-            <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};
-            if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
-                
-                <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
-                <div class="contenitori">
-                    <h3><?php echo $row["Titolo"];?></h3>
-                    <p><?php echo $row["TESTO"];?></p>
-                    <span class="likes">
-                        <button class="btn btn-success"><i class="fas fa-thumbs-up"></i> Like</button>
-                        <!-- <span class="likes_number"></span> -->
-                    </span>
-                    <div class="full comment_form">
-                            <h4>Post your comment</h4>
-                            <!-- <form action="index.html">    -->
-                            <input placeholder="Comment"></input>
-                            <button type="button" class="btn btn-success">Send</button>
-                            <!-- </form> -->
-                        </div>
+            <?php if (!isset($_GET["blog"])) { ?>
+                <div>
+                    <br />
+                    <h1>Homepage</h1>
+                    <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>    
+                    <h6> Articoli dei blog che segui... </h6>
                 </div>
-                <?php } ?>
-            </div>
+               
+                <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};
+                if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
+                    
+                    <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+                    <div class="contenitori">
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["TESTO"];?></p>
+                        <span class="likes ">
+                        <form method="post">
+
+                        <!-- LIKESSSSS  -->
+
+                            <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
+                            <?php 
+                                $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+                                $check_like = mysqli_fetch_array($query_check_like);
+
+                                if(!empty($check_like)){
+                                    echo ' disabled=disabled ';
+                                }
+
+                                //if(isset($_POST['like_'.$row['CodiceArt'].''])){
+                                    //echo ' disabled=disabled ';
+                                //}
+                            ?>
+                            >Like</button>
+                            <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
+                            <?php 
+                                
+                                if(empty($check_like)){
+                                    echo ' disabled=disabled ';
+                                }
+                                
+                                //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+                                   //echo ' disabled=disabled ';
+                                //}
+                            ?>
+                            >Unlike</button>
+                        </form>
+
+                            <!-- <span class="likes_number"></span> -->
+                            <?php 
+                                if(isset($_POST['like_'.$row['CodiceArt'].''])){
+
+                                    $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
+                                    VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
+
+                                    if(!$query_add_like){
+
+                                        header('Location: area_riservata.php');
+                                        die('Query fallita'.mysqli_error($connessione));
+                                        echo "query fallita";
+                                    }
+
+                                }
+
+                                if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+
+                                    $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
+                                    WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+
+                                    if(!$query_remove_like){
+
+                                        header('Location: area_riservata.php');
+                                        die('Query fallita'.mysqli_error($connessione));
+                                        echo "query fallita";
+                                    }
+
+                                }
+
+                                $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
+                                $likes = mysqli_fetch_array($query_like);
+                                if(empty($likes)) { ?>
+                                    <span>Likes: 0 </span>
+                                <?php } else {?> 
+                                    <span>Likes: <?php echo $likes[0];?></span>
+                                <?php } ?> 
+                        </span>
+                        
+                        <!-- COMMENTI -->
+                        
+                        <div class="full comment_form">
+                            <h4>Post your comment</h4>
+                             <form method="post">
+                                <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
+                                <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
+                            </form>
+                            <?php
+                                
+                                if(isset($_POST['add_comm_'.$row['CodiceArt'].''])){
+                                    
+                                    $testo = $_POST['text_comment_'.$row['CodiceArt'].''];
+                                
+                                    if(!empty($testo)){ 
+
+                                        $query_insert_comment = "INSERT INTO Commenta(Testo, Data, ID_Utente, CodiceArt)
+                                        VALUES ('{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$row['CodiceArt']}')";
+                                                                                            
+                                        $creaCommento = mysqli_query($connessione, $query_insert_comment);
+                                        if(!$creaCommento){
+                                            header('Location: area_riservata.php');
+                                            die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+                                    }
+                                }
+                                
+                            ?>
+                        </div>
+                        <div id='commenti'>
+                            <h6> Commenti: </h6>
+                            <?php // query commenti
+                            $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                            while($row_comm = mysqli_fetch_array($query_commenti)) {?>
+                                <p><?php echo $row_comm["Testo"];?></p>
+                                <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+            <?php } ?> 
 
             <div>
                 <?php if(isset($_GET["profilo"])) {
@@ -141,7 +244,7 @@
             <?php if (isset($_GET["categoria"])) { ?>
                 <div>
                     <?php 
-                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
                     while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
                     <div class="contenitori">
                         <h3><?php echo $row["Titolo"];?></h3>
@@ -161,12 +264,41 @@
                 </div> 
             <?php } ?>
 
-
+            <!-- BLOGGGGG!!!!!! -->
             <?php if (isset($_GET["blog"])) { ?>
                 <div>
+                    
+                    <?php 
+                    $query_nomeblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione FROM Blog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                    $info = mysqli_fetch_array($query_nomeblog);
+                    ?>
+                    <div>
+                        <br />
+                        <h1><?php echo $info[0]; ?></h1>   
+                        <h6><?php echo $info[1]; ?></h6>
+                    </div>
+
+                    <!-- MODIFICA BLOG + AGGIUNGI ARTICOLO --> 
+
+                    <form action="" method="post">
+     
+                        <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
+                        <button name="modifica_blog" type="submit" class="button">Modifica blog</button>    
+                        </br>
+                        
+                    </form>
+
+                    <form action=<?php echo 'add_articolo.php?blog='.$_GET["blog"].'&AutoreArt='.$_SESSION["id"].'' ?> method="post">
+
+                        <!-- <input type="text" name="testoart_txt" placeholder="Testo..."> -->
+                        <button name="add_articolo" type="submit" class="button">Aggiungi nuovo articolo </button>
+
+                    </form>
+
+
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
-                    while($row = mysqli_fetch_array($query_articoli)) {?> 
+                    while($row= mysqli_fetch_array($query_articoli)) {?> 
                     <div class="contenitori">
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
