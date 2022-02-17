@@ -179,7 +179,7 @@ if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
                                             die('Query fallita'.mysqli_error($connessione));
                                             echo "query fallita";
                                         }
-                                    }
+                                    } 
                                 }
                                 
                             ?>
@@ -292,7 +292,6 @@ if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
                     </br>
 
                 </form>
-
 
                 <form action=<?php echo 'add_articolo.php?blog='.$_GET["blog"].'&AutoreArt='.$_SESSION["id"].'' ?>
                     method="post">

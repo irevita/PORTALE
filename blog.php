@@ -82,6 +82,7 @@
                 <button name="add_nome" type="submit" class="button">+</button>
 
             </form>
+            
 
 
             <!-- funzione sfoglia  -->
