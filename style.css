@@ -19,6 +19,15 @@
 .justify {justify-content: center !important;}
 /* https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg */
 
+a.clicca {
+    color:black;
+    text-decoration: none;
+} 
+a.clicca:hover {
+    color:black;
+    text-decoration: none;
+}
+
 body {
     display: flex;
     flex-direction: column;

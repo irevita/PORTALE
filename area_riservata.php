@@ -4,7 +4,7 @@
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
-  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
+  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Blog.CodiceBlog FROM Blog, Articoli, Segui WHERE Articoli.Blog=Blog.CodiceBlog && Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
@@ -78,6 +78,7 @@
                 if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
 
                 <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                 <div class="contenitori">
                     <h3><?php echo $row["Titolo"];?></h3>
                     <p><?php echo $row["TESTO"];?></p>
@@ -194,6 +195,7 @@ if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
                         <?php } ?>
                     </div>
                 </div>
+                            </a>
                 <?php } ?>
             </div>
             <?php } ?>

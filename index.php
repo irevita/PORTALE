@@ -1,4 +1,12 @@
-<?php include "connessione.php"; 
+<?php
+  session_start();
+  include "connessione.php"; 
+  $is_logged = isset($_SESSION["id"]);
+  if($is_logged){
+    
+  } else {
+
+  }
   //elenco categorie
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   //elenco articoli in ordine di popolarità
@@ -9,7 +17,17 @@
     ORDER BY (COUNT(Articoli.CodiceArt)) DESC");
 
 ?>
+<input type="color" />
+<style>
 
+  body{
+    background-color:<?php echo "colore recuperato dal db";?>;
+  }
+
+  div.foo {
+    background-image:"bar.png";
+  }
+</style>
 <?php
 
   $avviso = "";
@@ -144,6 +162,7 @@
         <br />
         <h3>ARTICOLI DI TENDENZA</h3>
         <?php while($row = mysqli_fetch_array($query_articolitendenza)) { ?>
+          <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
           <div class="contenitori">
             <h3><?php echo $row["Titolo"];?></h3>
             <p><?php echo $row["TESTO"];?></p>
@@ -152,6 +171,7 @@
             <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"] ?></a>
             </div>
           </div>
+        </a>
         <?php } ?>
       </div>
 

@@ -59,13 +59,21 @@
         </a>
     </header>
 
-    <div class="container-flex">
-
+    <div class="container-fluid">
+        <div class="row text-center" style="padding-top:130px;">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
         <h3>Crea il tuo blog </h3>
 
         <div id="infoblog">
             <form action="blog.php" method="post">
+            <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Data</span>
+  </div>
                 <input type="text" id="current_date" name="dataora" disabled>
+</div>
 
                 <script>
                     date = new Date();
@@ -74,12 +82,26 @@
                     day = date.getDate();
                     document.getElementById("current_date").value = year + "-" + month + "-" + day;
                 </script>
-                </br>
-                <input type="text" name="nome_txt" placeholder="Nome del blog">
-                </br>
+                      <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Data</span>
+  </div>
+    
+  <input type="text" name="nome_txt" placeholder="Nome del blog">
+</div>                <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Data</span>
+  </div>
+  <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."></textarea>
+<a href="https://youtube.com">
+<div>
+  <p>Ciao</p>
+</div>
+</a>
+</div>
 
-                <input type="text" name="descrizione_txt" placeholder="Descrizione...">
-                <button name="add_nome" type="submit" class="button">+</button>
+
+                <button name="add_nome" type="submit" class="btn btn-success">Aggiungi nuovo blog</button>
 
             </form>
             
@@ -131,8 +153,8 @@
 
 
         <a href="area_riservata.php">oh mio dio no non voglio proprio creare un nuovo blog torna indietro</a>
-
-
+</div>
+</div>
         <!-- modale elimina blog -->
 
         <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
