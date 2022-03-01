@@ -133,11 +133,11 @@
                             $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
                             $row = mysqli_fetch_array($queryCodblog);
                                 
-                            header("Location: visualizzablog.php?blog=".$row['CodiceBlog']);
+                            header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
                             
                             }else{
-                            $avviso = "I campi non devono essere vuoti";
-                        echo $avviso;
+                                $avviso = "I campi non devono essere vuoti";
+                                echo $avviso;
                             }
                         } 
                     ?>
@@ -177,40 +177,13 @@
 
     <nav id="menu" class="unvisible">
 
-        <!-- CATEGORIE CLICCABILI -->
-
-        <!-- TEMA -->
-        <div class="list-item">
-            <span>
-                <h5>Tema</h5>
-            </span>
-            <!-- sottocategoria -->
-            <div class="sub-menu flex row center justify">
-                <input id="colorpicker" type="color" value="#ffffff">
-                <button id="color" class="btn-primary">Change</button>
-            </div>
-        </div>
-
-
-        <!-- IMPOSTAZIONI PROFILO -->
-        <div class="list-item">
-            <span>
-                <h5>Impostazioni profilo</h5>
-            </span>
-            <!-- sottocategoria -->
-            <button name="del_blog" type="button" data-toggle="modal" data-target="#deleteBlogModal" id="mexdel">
-                <!-- <span class="material-icons">delete</span>  -->
-                Elimina blog
-            </button>
-        </div>
-
-        <br class="line">
-        <!-- I MIEI BLOG -->
-
+            <!-- I MIEI BLOG -->
         <div class="list-item" id="mieiblog">
-            <h5>I miei blog </h5>
+            <button class="menu-btn">I miei blog</button>
             <ul>
+                <h6><a href="blog.php">+ CREA NUOVO</a></h6>
                 <?php while($row = mysqli_fetch_array($query_mieiblog)) { ?>
+                
                 <h6 class="blog">
                     <!-- assegna ad href il link col nome blog corrente -->
                     <?php echo '<a href="area_riservata.php?blog='.$row["CodiceBlog"].'">'.$row["NomeBlog"]."</a>"; ?>
@@ -221,7 +194,7 @@
 
         <!-- BLOG DI CUI SONO COAUTORE -->
         <div class="list-item" id="blogcoautore">
-            <h5>I blog di cui sono coautore </h5>
+            <button class="menu-btn">I blog di cui sono coautore</button>
             <ul>
                 <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
                 <h6>
@@ -229,6 +202,19 @@
                 </h6>
                 <?php } ?>
             </ul>
+        </div>
+
+
+        <br class="line">
+        
+        <!-- IMPOSTAZIONI PROFILO -->
+        <div class="list-item">
+            <button class="menu-btn">Impostazioni profilo</button>
+            <!-- sottocategoria -->
+            <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal" id="mexdel">
+                <!-- <span class="material-icons">delete</span>  -->
+                Elimina account
+            </button>
         </div>
 
     </nav>

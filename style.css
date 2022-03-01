@@ -291,7 +291,9 @@ transform: translateY(4px);
 #articoli.hidden{
     display: none !important;
 }
-
+#right.hidden{
+    display: none !important;
+}
 .list-item .menu-btn {
     border: none;
     background-color: inherit;

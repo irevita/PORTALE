@@ -4,7 +4,7 @@
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
-  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
+  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
@@ -47,7 +47,7 @@
 
     <div class="container-flex">
 
-        <div id="right">
+        <div id="right" class="<?php if(isset($_GET["blog"])) {echo "hidden";};?>">
             <br/>
             <h3>Cosa ti interessa?</h3>
             <form method="post" action="area_riservata.php">
@@ -74,6 +74,7 @@
                 if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
                     
                     <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
+                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>    
                     <div class="contenitori">
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["TESTO"];?></p>
@@ -188,6 +189,7 @@
                                 <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
                             <?php } ?>
                         </div>
+                        </a>
                     </div>
                     <?php } ?>
                 </div>
@@ -208,14 +210,17 @@
                     <br/>  
                     <h4>Blog di cui <?php echo"<b>".$_GET['profilo']."</b>" ?> è autore </h4>
                     <?php 
-                        $query_blogprofilo = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione FROM Blog, Utenti WHERE Blog.Autore = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
+                        $query_blogprofilo = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog, Utenti WHERE Blog.Autore = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
                         if(mysqli_num_rows($query_blogprofilo) > 0){
                         while($row = mysqli_fetch_array($query_blogprofilo)) { ?> 
 
                             <div class="contenitori">
-                            <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
-                            <h3><?php echo $row["NomeBlog"];?></h3>
-                            <p><?php echo $row["Descrizione"];?></p>
+                            <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
+   
+                                <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                                <h3><?php echo $row["NomeBlog"];?></h3>
+                                <p><?php echo $row["Descrizione"];?></p>
+                            </a>    
                             </div>
                         <?php } ?>  
                     <?php }else echo "<b>".$_GET['profilo']."</b> non è autore di blog" ?>
@@ -223,14 +228,17 @@
                     <br/>  
                     <h4>Blog di cui <?php echo"<b>".$_GET['profilo']."</b>" ?> è coautore </h4>
                     <?php 
-                        $query_blogprofilocoautore = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione FROM Blog, Utenti, Coautore WHERE Coautore.CodiceBlog = Blog.CodiceBlog && Coautore.ID_Utente = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
+                        $query_blogprofilocoautore = mysqli_query($connessione, "SELECT Blog.Sfondo, Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog, Utenti, Coautore WHERE Coautore.CodiceBlog = Blog.CodiceBlog && Coautore.ID_Utente = Utenti.ID_Utente && Utenti.Nick='".$_GET['profilo']."'"); 
                         if(mysqli_num_rows($query_blogprofilocoautore) > 0){
                         while($row = mysqli_fetch_array($query_blogprofilocoautore)) { ?> 
 
                             <div class="contenitori">
-                            <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
-                            <h3><?php echo $row["NomeBlog"];?></h3>
-                            <p><?php echo $row["Descrizione"];?></p>
+                            <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
+    
+                                <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                                <h3><?php echo $row["NomeBlog"];?></h3>
+                                <p><?php echo $row["Descrizione"];?></p>
+                            </a>
                             </div>
                         <?php } ?>
                         <?php }else echo "<b>".$_GET['profilo']."</b> non è coautore di blog" ?>    
@@ -243,9 +251,11 @@
             <?php if (isset($_GET["categoria"])) { ?>
                 <div>
                     <?php 
-                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Articoli.Blog FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
                     while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
                     <div class="contenitori">
+                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
+
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["Data"];?></p>
                         <p><?php echo $row["TESTO"];?></p>
@@ -257,7 +267,7 @@
                             <button type="button" class="btn btn-success">Send</button>
                             <!-- </form> -->
                         </div>
-
+                    </a>
                     </div>
                     <?php } ?>
                 </div> 
@@ -324,10 +334,12 @@
                 <div>
                     <?php while($row = mysqli_fetch_array($query_blogseguiti)) { ?> 
                     <div class="contenitori">
+                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
+                     
                         <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                         <h3><?php echo $row["NomeBlog"];?></h3>
                         <p><?php echo $row["Descrizione"];?></p>
-                        
+                    </a>    
                     </div>
                     <?php } ?>
                 </div> 
@@ -356,7 +368,7 @@
             <?php 
                 if(isset($_POST['click_blog'])){
                     $search_blog = $_POST["cerca_blog"];
-                    $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog, Descrizione, Sfondo FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
+                    $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog, Descrizione, Sfondo, CodiceBlog FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
                     if(mysqli_num_rows($sql_cerca_blog) > 0){
                         echo "<br/><h4>Risultati della tua ricerca</h4>";
                         echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
@@ -364,9 +376,12 @@
                         while($row = mysqli_fetch_array($sql_cerca_blog)) { ?>
 
                             <div class="contenitori">
+                            <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
+
                                 <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                                 <h3><?php echo $row["NomeBlog"];?></h3>
-                                <p><?php echo $row["Descrizione"];?></p>             
+                                <p><?php echo $row["Descrizione"];?></p> 
+                            </a>                
                             </div>   
                             
                         <?php }
@@ -380,7 +395,7 @@
             <?php 
                 if(isset($_POST['click_articolo'])){
                     $search_articolo = $_POST["cerca_articolo"];
-                    $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%' GROUP BY Articoli.CodiceArt" );
+                    $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome, Blog.CodiceBlog FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%' GROUP BY Articoli.CodiceArt" );
                     if(mysqli_num_rows($sql_cerca_articolo) > 0){
                         echo "<br/><h4>Risultati della tua ricerca</h4>";
                         echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
@@ -388,6 +403,8 @@
                         while($row = mysqli_fetch_array($sql_cerca_articolo)) { ?>
                             
                             <div class="contenitori">
+                                <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
+
                                 <article>
                                     <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">  
                                     <h3><?php echo $row["Titolo"];?></h3>
@@ -397,6 +414,7 @@
                                 <div class="info_blog">
                                     <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
                                 </div>
+                                </a>
                             </div>
                             
                         <?php }
