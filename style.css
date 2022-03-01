@@ -322,3 +322,29 @@ body.theme-4 {background-color: teal;}
     box-shadow: 0 3px 10px -2px #0008 !important;
     padding: 0 10px;
 }
+
+nav.sticky ul li {
+	display: inline;
+	padding: 2%;
+}
+#meno {
+	text-align: center;
+	background-color: #0D0E17;
+	margin: 0px;
+    padding: 10px;
+    border-top: 2px solid rgb(255,241,175);
+}
+nav.sticky a {
+	color: rgb(255,241,175);
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 10px 12px;
+}
+nav.sticky a:hover {
+	background-color: #C2776F;
+	transition: 200ms background-color;
+}
+div #articoliBlog.hidden{
+    display: none !important;
+}

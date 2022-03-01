@@ -61,100 +61,90 @@
 
     <div class="container-fluid">
         <div class="row text-center" style="padding-top:130px;">
-        <div class="col-md-4">
+            <div class="col-md-4">
+            </div>
+
+            <div class="col-md-4">
+                <h3>Crea il tuo blog </h3>
+
+                <div id="infoblog">
+                    <!-- funzione sfoglia  -->
+                    <form enctype="multipart/form-data" action="/upload/image" method="post">
+                        <input id="image-file" type="file" />
+                    </form>
+
+                    <form action="blog.php" method="post">
+                        <div class="input-group mb-3">
+                        </div>
+
+                        <script>
+                            date = new Date();
+                            year = date.getFullYear();
+                            month = date.getMonth() + 1;
+                            day = date.getDate();
+                            document.getElementById("current_date").value = year + "-" + month + "-" + day;
+                        </script>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Titolo</span>
+                            </div>
+    
+                            <input type="text" name="nome_txt" placeholder="Nome del blog">
+                        </div>   
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Descrizione</span>
+                            </div>
+                            <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."></textarea>
+
+                        </div>
+                        <button name="add_nome" type="submit" class="btn btn-success">Aggiungi nuovo blog</button>
+
+                    </form>
+
+                    <?php
+
+                        $avviso = "";
+
+                        if(isset($_POST['add_nome'])){
+
+                            $nome = $_POST['nome_txt'];
+                            $descrizione = $_POST['descrizione_txt'];
+                            // $querydata = "SELECT current_time()"; 
+                            // $data = mysqli_query($connessione,$querydata); 
+
+                            
+                            if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
+
+                            $query = "INSERT INTO Blog(NomeBlog, Descrizione, Data, Autore)
+                            VALUES ('{$nome}','{$descrizione}', SYSDATE(), '{$_SESSION['id']}')";
+                            
+                            $creaBlog = mysqli_query($connessione, $query);
+
+                            if(!$creaBlog){
+                                die('Query fallita'.mysqli_error($connessione));
+                                echo "query fallita";
+                            }
+
+                            $avviso = "Dati registrati con successo";
+                            echo $avviso;
+                            $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
+                            $row = mysqli_fetch_array($queryCodblog);
+                                
+                            header("Location: visualizzablog.php?blog=".$row['CodiceBlog']);
+                            
+                            }else{
+                            $avviso = "I campi non devono essere vuoti";
+                        echo $avviso;
+                            }
+                        } 
+                    ?>
+
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-        <h3>Crea il tuo blog </h3>
-
-        <div id="infoblog">
-            <form action="blog.php" method="post">
-            <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">Data</span>
-  </div>
-                <input type="text" id="current_date" name="dataora" disabled>
-</div>
-
-                <script>
-                    date = new Date();
-                    year = date.getFullYear();
-                    month = date.getMonth() + 1;
-                    day = date.getDate();
-                    document.getElementById("current_date").value = year + "-" + month + "-" + day;
-                </script>
-                      <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">Data</span>
-  </div>
-    
-  <input type="text" name="nome_txt" placeholder="Nome del blog">
-</div>                <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">Data</span>
-  </div>
-  <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."></textarea>
-<a href="https://youtube.com">
-<div>
-  <p>Ciao</p>
-</div>
-</a>
-</div>
-
-
-                <button name="add_nome" type="submit" class="btn btn-success">Aggiungi nuovo blog</button>
-
-            </form>
-            
-
-
-            <!-- funzione sfoglia  -->
-            <form enctype="multipart/form-data" action="/upload/image" method="post">
-                <input id="image-file" type="file" />
-            </form>
-            <?php
-
-
-  $avviso = "";
-
-  if(isset($_POST['add_nome'])){
-
-    $nome = $_POST['nome_txt'];
-    $descrizione = $_POST['descrizione_txt'];
-    // $querydata = "SELECT current_time()"; 
-    // $data = mysqli_query($connessione,$querydata); 
-
-    
-    if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
-
-      $query = "INSERT INTO Blog(NomeBlog, Descrizione, Data, Autore)
-      VALUES ('{$nome}','{$descrizione}', SYSDATE(), '{$_SESSION['id']}')";
-    
-      $creaBlog = mysqli_query($connessione, $query);
-
-      if(!$creaBlog){
-        die('Query fallita'.mysqli_error($connessione));
-        echo "query fallita";
-      }
-
-      $avviso = "Dati registrati con successo";
-      echo $avviso;
-      $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
-      $row = mysqli_fetch_array($queryCodblog);
-        
-      header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
-    
-    }else{
-      $avviso = "I campi non devono essere vuoti";
-   echo $avviso;
-    }
-  } 
-?>
-        </div>
-
-
-        <a href="area_riservata.php">oh mio dio no non voglio proprio creare un nuovo blog torna indietro</a>
-</div>
-</div>
         <!-- modale elimina blog -->
 
         <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

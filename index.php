@@ -10,24 +10,14 @@
   //elenco categorie
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   //elenco articoli in ordine di popolarità
-  $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Blog.CodiceBlog, Articoli.TESTO, Blog.NomeBlog
+  $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Blog.CodiceBlog, Articoli.TESTO, Blog.NomeBlog, Articoli.Data
     FROM Likes, Articoli, Blog
     WHERE Likes.CodiceArt = Articoli.CodiceArt && Articoli.Blog=Blog.CodiceBlog
     GROUP BY (Articoli.CodiceArt)
     ORDER BY (COUNT(Articoli.CodiceArt)) DESC");
 
 ?>
-<input type="color" />
-<style>
 
-  body{
-    background-color:<?php echo "colore recuperato dal db";?>;
-  }
-
-  div.foo {
-    background-image:"bar.png";
-  }
-</style>
 <?php
 
   $avviso = "";
@@ -143,7 +133,6 @@
     
     <div id="left">
 
-      <br/>
       <h3>CATEGORIE</h3>
           <!-- sottocategoria -->
       <ul><?php while($row = mysqli_fetch_array($query_categorie)) { ?>
@@ -157,14 +146,16 @@
     <div id="center">
 
       <div id="articoli_tendenza" class="<?php if(isset($_GET["categoria"])){echo "hidden";}; if(isset($_POST["click_utente"])){echo "hidden";}; 
-      if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";} ?>">
+        if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";} ?>">
 
-        <br />
         <h3>ARTICOLI DI TENDENZA</h3>
         <?php while($row = mysqli_fetch_array($query_articolitendenza)) { ?>
           <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
           <div class="contenitori">
+
+            <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>"> 
             <h3><?php echo $row["Titolo"];?></h3>
+            <h4><?php echo $row["Data"];?></h4>
             <p><?php echo $row["TESTO"];?></p>
 
             <div class="info_blog">
@@ -177,6 +168,7 @@
 
 
       <div>
+        <!-- SE CLICCHI I RISULTATI CHE ESCONO DAL CERCA UTENTE -->
         <?php if(isset($_GET["profilo"])) {
 
           echo "<br/><h3>".$_GET['profilo']."</h3>";
@@ -223,13 +215,14 @@
       
 
       <div id="sputa_categoria">
+        <!-- QUELLO CHE ESCE QUANDO SELEZIONI UNA CATEGORIA  -->
         <?php if (isset($_GET["categoria"])) { ?>
           
           <div class="annunciazio">
-            <?php echo "<br/><h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
+            <?php echo "<h5>Stai cercando in:&nbsp</h5><h4> ".$_GET["categoria"]."</h4>";?>             
           </div>
 
-          <div class="contenitori" >
+          <div class="contenitori">
             <?php 
               $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog FROM Articoli, Blog WHERE Articoli.Blog=Blog.CodiceBlog && Articoli.Categoria='".$_GET['categoria']."'"); 
               while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
@@ -249,7 +242,6 @@
       </div>   
       
       <?php  
-
         if(isset($_POST['click_utente'])){
             $search_utente = $_POST["cerca_utente"];
             $sql_cerca_utente = mysqli_query($connessione, "SELECT Nick FROM Utenti WHERE Nick LIKE '%" . $search_utente . "%'");
@@ -271,63 +263,61 @@
 
       <?php 
           if(isset($_POST['click_blog'])){
-              $search_blog = $_POST["cerca_blog"];
-              $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog, Descrizione, Sfondo FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
-              if(mysqli_num_rows($sql_cerca_blog) > 0){
-                  echo "<br/><h4>Risultati della tua ricerca</h4>";
-                  echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
+            $search_blog = $_POST["cerca_blog"];
+            $sql_cerca_blog = mysqli_query($connessione, "SELECT NomeBlog, Descrizione, Sfondo FROM Blog WHERE NomeBlog LIKE '%" . $search_blog . "%'");
+            if(mysqli_num_rows($sql_cerca_blog) > 0){
+                echo "<br/><h4>Risultati della tua ricerca</h4>";
+                echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_blog)." voci per il termine <b>".stripslashes($search_blog)."</b></p>\n";
 
-                  while($row = mysqli_fetch_array($sql_cerca_blog)) { ?>
+                while($row = mysqli_fetch_array($sql_cerca_blog)) { ?>
 
-                      <div class="contenitori">
-                          <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
-                          <h3><?php echo $row["NomeBlog"];?></h3>
-                          <p><?php echo $row["Descrizione"];?></p>             
-                      </div>   
-                      
-                  <?php }
+                    <div class="contenitori">
+                        <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
+                        <h3><?php echo $row["NomeBlog"];?></h3>
+                        <p><?php echo $row["Descrizione"];?></p>             
+                    </div>   
+                    
+                <?php }
 
-              }else{
-                  echo "<br/>Al momento non sono stati trovati blog con questo nome.";
-              }
+            }else{
+                echo "<br/>Al momento non sono stati trovati blog con questo nome.";
+            }
           }
       ?>    
 
       <?php 
-          if(isset($_POST['click_articolo'])){
-              $search_articolo = $_POST["cerca_articolo"];
-              $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%' GROUP BY Articoli.CodiceArt" );
-              if(mysqli_num_rows($sql_cerca_articolo) > 0){
-                  echo "<br/><h4>Risultati della tua ricerca</h4>";
-                  echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
+        if(isset($_POST['click_articolo'])){
+          $search_articolo = $_POST["cerca_articolo"];
+          $sql_cerca_articolo = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Titolo LIKE '%".$search_articolo."%' GROUP BY Articoli.CodiceArt" );
+          if(mysqli_num_rows($sql_cerca_articolo) > 0){
+            echo "<br/><h4>Risultati della tua ricerca</h4>";
+            echo "<p style='margin-left:25px;'>Trovate ". mysqli_num_rows($sql_cerca_articolo)." voci per il termine <b>".stripslashes($search_articolo)."</b></p>\n";
 
-                  while($row = mysqli_fetch_array($sql_cerca_articolo)) { ?>
-                      
-                      <div class="contenitori">
-                          <article>
+            while($row = mysqli_fetch_array($sql_cerca_articolo)) { ?>
+                
+              <div class="contenitori">
+                <article>
+                  <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">  
+                  <h3><?php echo $row["Titolo"];?></h3>
+                  <p><?php echo $row["Data"];?></p>
+                  <p><?php echo $row["TESTO"];?></p>
+                </article>
+                <div class="info_blog">
+                    <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+                </div>
+              </div>
+                
+            <?php }
 
-                              <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">  
-                              <h3><?php echo $row["Titolo"];?></h3>
-                              <p><?php echo $row["Data"];?></p>
-                              <p><?php echo $row["TESTO"];?></p>
-                          </article>
-                          <div class="info_blog">
-                              <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
-                          </div>
-                      </div>
-                      
-                  <?php }
-
-              }else{
-                  echo "<br/>Al momento non sono stati trovati articoli con questo nome.";
-              }
-          }    
+          }else{
+              echo "<br/>Al momento non sono stati trovati articoli con questo nome.";
+          }
+        }    
       ?>
 
     </div>
 
     <div id="right">
-      <br/>
       <h3>Cosa ti interessa?</h3>
       <form method="post" action="index.php">
           <input type="text" name="cerca_utente" placeholder="Cerca utente" />
