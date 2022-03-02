@@ -91,7 +91,12 @@ footer {
     padding: 4.4em 2.4em 1em;
 }
 
+img {
+    vertical-align: middle;
+    border-style: none;
+    width: 100%;
 
+}
 
 
 

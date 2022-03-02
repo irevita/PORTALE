@@ -10,9 +10,8 @@
   //elenco categorie
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   //elenco articoli in ordine di popolarità
-  $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Blog.CodiceBlog, Articoli.TESTO, Blog.NomeBlog, Articoli.Data
-    FROM Likes, Articoli, Blog
-    WHERE Likes.CodiceArt = Articoli.CodiceArt && Articoli.Blog=Blog.CodiceBlog
+  $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Blog.CodiceBlog, Articoli.TESTO, Blog.NomeBlog, Articoli.Data, Multimedia.Nome
+    FROM Blog JOIN Articoli ON Articoli.Blog=Blog.CodiceBlog JOIN Likes ON Likes.CodiceArt = Articoli.CodiceArt LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt
     GROUP BY (Articoli.CodiceArt)
     ORDER BY (COUNT(Articoli.CodiceArt)) DESC");
 
@@ -162,7 +161,7 @@
             <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"] ?></a>
             </div>
           </div>
-        </a>
+          </a>
         <?php } ?>
       </div>
 
@@ -317,7 +316,7 @@
                   <p><?php echo $row["TESTO"];?></p>
                 </article>
                 <div class="info_blog">
-                    <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+                    <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"]?></a>
                 </div>
               </a>
               </div>

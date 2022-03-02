@@ -4,7 +4,7 @@
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
-  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog FROM Articoli, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Articoli.Blog");
+  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
@@ -71,127 +71,136 @@
                 </div>
                
                 <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};
-                if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
+                    if(isset($_POST["click_utente"])){echo "hidden";}; if(isset($_POST["click_blog"])){echo "hidden";}; if(isset($_POST["click_articolo"])){echo "hidden";}; if(isset($_GET["profilo"])){echo "hidden";}?>">
                     
-                    <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>
-                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>    
+                    <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>    
                     <div class="contenitori">
-                        <h3><?php echo $row["Titolo"];?></h3>
-                        <p><?php echo $row["TESTO"];?></p>
-                        <span class="likes ">
-                        <form method="post">
+                        <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
+                        <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
+                        <button class="btn default">Segui già</button>
+                        <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
-                        <!-- LIKESSSSS  -->
+                            <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
+                            <h3><?php echo $row["Titolo"];?></h3>
+                            <p><?php echo $row["TESTO"];?></p>
+                            <span class="likes ">
+                                <form method="post">
 
-                            <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
-                            <?php 
-                                $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
-                                $check_like = mysqli_fetch_array($query_check_like);
+                                    <!-- LIKESSSSS  -->
 
-                                if(!empty($check_like)){
-                                    echo ' disabled=disabled ';
-                                }
+                                    <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
+                                    <?php 
+                                        $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+                                        $check_like = mysqli_fetch_array($query_check_like);
 
-                                //if(isset($_POST['like_'.$row['CodiceArt'].''])){
-                                    //echo ' disabled=disabled ';
-                                //}
-                            ?>
-                            >Like</button>
-                            <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
-                            <?php 
-                                
-                                if(empty($check_like)){
-                                    echo ' disabled=disabled ';
-                                }
-                                
-                                //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
-                                   //echo ' disabled=disabled ';
-                                //}
-                            ?>
-                            >Unlike</button>
-                        </form>
+                                        if(!empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
 
-                            <!-- <span class="likes_number"></span> -->
-                            <?php 
-                                if(isset($_POST['like_'.$row['CodiceArt'].''])){
+                                        //if(isset($_POST['like_'.$row['CodiceArt'].''])){
+                                            //echo ' disabled=disabled ';
+                                        //}
+                                    ?> 
+                                    >Like</button>
 
-                                    $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
-                                    VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
+                                    <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
+                                    <?php 
+                                        
+                                        if(empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
+                                        
+                                        //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+                                        //echo ' disabled=disabled ';
+                                        //}
+                                    ?>
+                                    >Unlike</button>
 
-                                    if(!$query_add_like){
+                                </form>
 
-                                        header('Location: area_riservata.php');
-                                        die('Query fallita'.mysqli_error($connessione));
-                                        echo "query fallita";
-                                    }
+                                <!-- <span class="likes_number"></span> -->
+                                <?php 
+                                    if(isset($_POST['like_'.$row['CodiceArt'].''])){
 
-                                }
+                                        $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
+                                        VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
 
-                                if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+                                        if(!$query_add_like){
 
-                                    $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
-                                    WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
-
-                                    if(!$query_remove_like){
-
-                                        header('Location: area_riservata.php');
-                                        die('Query fallita'.mysqli_error($connessione));
-                                        echo "query fallita";
-                                    }
-
-                                }
-
-                                $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
-                                $likes = mysqli_fetch_array($query_like);
-                                if(empty($likes)) { ?>
-                                    <span>Likes: 0 </span>
-                                <?php } else {?> 
-                                    <span>Likes: <?php echo $likes[0];?></span>
-                                <?php } ?> 
-                        </span>
-                        
-                        <!-- COMMENTI -->
-                        
-                        <div class="full comment_form">
-                            <h4>Post your comment</h4>
-                             <form method="post">
-                                <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
-                                <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
-                            </form>
-                            <?php
-                                
-                                if(isset($_POST['add_comm_'.$row['CodiceArt'].''])){
-                                    
-                                    $testo = $_POST['text_comment_'.$row['CodiceArt'].''];
-                                
-                                    if(!empty($testo)){ 
-
-                                        $query_insert_comment = "INSERT INTO Commenta(Testo, Data, ID_Utente, CodiceArt)
-                                        VALUES ('{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$row['CodiceArt']}')";
-                                                                                            
-                                        $creaCommento = mysqli_query($connessione, $query_insert_comment);
-                                        if(!$creaCommento){
                                             header('Location: area_riservata.php');
                                             die('Query fallita'.mysqli_error($connessione));
                                             echo "query fallita";
                                         }
+
                                     }
-                                }
-                                
-                            ?>
-                        </div>
-                        <div id='commenti'>
-                            <h6> Commenti: </h6>
-                            <?php // query commenti
-                            $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
-                            while($row_comm = mysqli_fetch_array($query_commenti)) {?>
-                                <p><?php echo $row_comm["Testo"];?></p>
-                                <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
-                            <?php } ?>
-                        </div>
+
+                                    if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+
+                                        $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
+                                        WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+
+                                        if(!$query_remove_like){
+
+                                            header('Location: area_riservata.php');
+                                            die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+
+                                    }
+
+                                    $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
+                                    $likes = mysqli_fetch_array($query_like);
+                                    
+                                    if(empty($likes)) { ?>
+                                        <span>Likes: 0 </span>
+                                    <?php } else {?> 
+                                        <span>Likes: <?php echo $likes[0];?></span>
+                                    <?php } 
+                                ?> 
+
+                            </span>
+                    
+                            <!-- COMMENTI -->
+                    
+                            <div class="full comment_form">
+                                <h4>Post your comment</h4>
+                                <form method="post">
+                                    <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
+                                    <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
+                                </form>
+
+                                <?php                                        
+                                    if(isset($_POST['add_comm_'.$row['CodiceArt'].''])){
+                                        
+                                        $testo = $_POST['text_comment_'.$row['CodiceArt'].''];
+                                        if(!empty($testo)){ 
+
+                                            $query_insert_comment = "INSERT INTO Commenta(Testo, Data, ID_Utente, CodiceArt)
+                                            VALUES ('{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$row['CodiceArt']}')";
+                                                                                                
+                                            $creaCommento = mysqli_query($connessione, $query_insert_comment);
+                                            if(!$creaCommento){
+                                                header('Location: area_riservata.php');
+                                                die('Query fallita'.mysqli_error($connessione));
+                                                echo "query fallita";
+                                            }
+                                        }
+                                    }  
+                                ?>
+                            </div>
+
+                            <div id='commenti'>
+                                <h6> Commenti: </h6>
+                                <?php // query commenti
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
+                                    <p><?php echo $row_comm["Testo"];?></p>
+                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                                <?php } ?>
+                            </div>
                         </a>
                     </div>
-                    <?php } ?>
+                    <?php } ?>                    
                 </div>
             <?php } ?> 
 
@@ -219,6 +228,7 @@
    
                                 <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                                 <h3><?php echo $row["NomeBlog"];?></h3>
+                                <button class="btn success">Segui</button>
                                 <p><?php echo $row["Descrizione"];?></p>
                             </a>    
                             </div>
@@ -237,6 +247,7 @@
     
                                 <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                                 <h3><?php echo $row["NomeBlog"];?></h3>
+                                <button class="btn success">Segui</button>
                                 <p><?php echo $row["Descrizione"];?></p>
                             </a>
                             </div>
@@ -251,24 +262,21 @@
             <?php if (isset($_GET["categoria"])) { ?>
                 <div>
                     <?php 
-                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Articoli.Blog FROM Articoli WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
+                    $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Articoli.Blog, Multimedia.Nome, Blog.NomeBlog FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Categoria='".$_GET['categoria']."'"); 
                     while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
-                    <div class="contenitori">
-                    <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
+                        <div class="contenitori">
+                            <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
+                            <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
+                            <button class="btn-success">Segui</button>
+                            <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
-                        <h3><?php echo $row["Titolo"];?></h3>
-                        <p><?php echo $row["Data"];?></p>
-                        <p><?php echo $row["TESTO"];?></p>
+                                <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
+                                <h3><?php echo $row["Titolo"];?></h3>
+                                <p><?php echo $row["TESTO"];?></p>
                         
-                        <div class="full comment_form">
-                            <h4>Post your comment</h4>
-                            <!-- <form action="index.html">    -->
-                            <input placeholder="Comment"></input>
-                            <button type="button" class="btn btn-success">Send</button>
-                            <!-- </form> -->
+                            </a>
                         </div>
-                    </a>
-                    </div>
+                    
                     <?php } ?>
                 </div> 
             <?php } ?>
@@ -278,8 +286,8 @@
                 <div>
                     
                     <?php 
-                    $query_nomeblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione FROM Blog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
-                    $info = mysqli_fetch_array($query_nomeblog);
+                        $query_nomeblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione FROM Blog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                        $info = mysqli_fetch_array($query_nomeblog);
                     ?>
                     <div>
                         <br />
@@ -288,6 +296,9 @@
                     </div>
 
                     <!-- MODIFICA BLOG + AGGIUNGI ARTICOLO --> 
+                    <form enctype="multipart/form-data" action="/upload/image" method="post">
+                        <input id="image-file" type="file" />
+                    </form>
 
                     <form action="" method="post">
      
@@ -308,23 +319,24 @@
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row= mysqli_fetch_array($query_articoli)) {?> 
-                    <div class="contenitori">
-                        <h3><?php echo $row["Titolo"];?></h3>
-                        <p><?php echo $row["Data"];?></p>
-                        <p><?php echo $row["TESTO"];?></p>
-                        
+
+                        <div class="contenitori">
+                            <h3><?php echo $row["Titolo"];?></h3>
+                            <p><?php echo $row["Data"];?></p>
+                            <p><?php echo $row["TESTO"];?></p>
                             
-                        <div class="full comment_form">
-                            <h4>Post your comment</h4>
-                            <!-- <form action="index.html">    -->
-                            <input  placeholder="Comment"></input>
-                            <button type="button" class="btn btn-success">Send</button>
-                            <!-- </form> -->
+                                
+                            <div class="full comment_form">
+                                <h4>Post your comment</h4>
+                                <!-- <form action="index.html">    -->
+                                <input  placeholder="Comment"></input>
+                                <button type="button" class="btn btn-success">Send</button>
+                                <!-- </form> -->
+                            </div>
+                            <div class="vedi-ctg">
+                                <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
+                            </div>
                         </div>
-                        <div class="vedi-ctg">
-                            <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
-                        </div>
-                    </div>
                     <?php } ?>
                 </div> 
             <?php } ?>
@@ -337,7 +349,9 @@
                     <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                      
                         <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
-                        <h3><?php echo $row["NomeBlog"];?></h3>
+                        <h3><?php echo $row["NomeBlog"];?></h3></a> 
+                        <button class="btn-success">Segui</button>
+                        <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                         <p><?php echo $row["Descrizione"];?></p>
                     </a>    
                     </div>
@@ -356,7 +370,7 @@
 
                         while($row = mysqli_fetch_array($sql_cerca_utente)) {
 
-                            echo '<a href="area_riservata.php?profilo='.$row["Nick"].'">'.$row["Nick"]."</a>";
+                            echo '<li><a href="area_riservata.php?profilo='.$row["Nick"].'">'.$row["Nick"]."</a></li>";
                         }
                         
                     }else{
@@ -379,7 +393,9 @@
                             <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
 
                                 <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
-                                <h3><?php echo $row["NomeBlog"];?></h3>
+                                <h3><?php echo $row["NomeBlog"];?></h3></a>
+                                <button class="btn-success">Segui</button>
+                                <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                                 <p><?php echo $row["Descrizione"];?></p> 
                             </a>                
                             </div>   
@@ -412,7 +428,8 @@
                                     <p><?php echo $row["TESTO"];?></p>
                                 </article>
                                 <div class="info_blog">
-                                    <h4>Blog: &nbsp</h4><a href='"<?php echo $row["NomeBlog"] ?>".".php"'><?php echo $row["NomeBlog"] ?></a>
+                                    <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"]?></a>
+                                    <button class="btn-success">Segui</button>
                                 </div>
                                 </a>
                             </div>

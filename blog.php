@@ -69,9 +69,6 @@
 
                 <div id="infoblog">
                     <!-- funzione sfoglia  -->
-                    <form enctype="multipart/form-data" action="/upload/image" method="post">
-                        <input id="image-file" type="file" />
-                    </form>
 
                     <form action="blog.php" method="post">
                         <div class="input-group mb-3">
