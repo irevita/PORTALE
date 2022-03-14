@@ -1,10 +1,11 @@
 <?php
-  include "connessione.php";
   session_start();
+  include "connessione.php";
   // QUERIES LIST
   $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
   // $query_articoliseguiti 
-  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
+  $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
+  $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, CONCAT(SUBSTRING(Articoli.TESTO, 1, 500), '...') AS TESTO, Articoli.Blog, Blog.NomeBlog, IF((SELECT COUNT(*) FROM Multimedia WHERE Multimedia.CodiceArt = Articoli.CodiceArt) > 0, (SELECT Multimedia.Nome FROM Multimedia WHERE Multimedia.CodiceArt = Articoli.CodiceArt LIMIT 1), \"img/default.jpeg\") AS Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
   // query login utente
   $query_mostraProfilo = mysqli_query($connessione, "SELECT Nick, Nazione, DatadiNascita, Email FROM Utenti WHERE ID_Utente = {$_SESSION['id']}" );
   // query i miei blog
@@ -15,6 +16,23 @@
   $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
   // $query_blogseguiti 
   $query_blogseguiti = mysqli_query($connessione, "SELECT Blog.CodiceBlog, Blog.NomeBlog, Blog.Descrizione, Blog.Sfondo FROM Blog, Segui WHERE Segui.ID_Utente = {$_SESSION['id']} && Segui.CodiceBlog=Blog.CodiceBlog"); 
+  
+  $logged = false;
+  if(isset($_SESSION["id"])){
+      $logged = true;
+  }
+
+  /*
+  if($logged){
+    ?>
+    <p>Loggato</p>
+    <?php
+  }else{
+    ?>
+    <p>non loggato</p>
+    <?php
+  }
+  */
   
   // query_articoli tutti, problema di scoping per la get, vedere sotto
 //   $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog={$_GET['blog']} ");
@@ -80,7 +98,7 @@
                         <button class="btn default">Segui già</button>
                         <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
-                            <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
+                            <img style="min-height: 400px; height: 400px;" src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
                             <h3><?php echo $row["Titolo"];?></h3>
                             <p><?php echo $row["TESTO"];?></p>
                             <span class="likes ">
@@ -200,8 +218,8 @@
                             </div>
                         </a>
                     </div>
-                    <?php } ?>                    
-                </div>
+                    <?php } ?>      
+            </div>
             <?php } ?> 
 
             <div>

@@ -37,7 +37,15 @@ if(isset($_POST['login'])){
     $_SESSION['id']=$idUtente;
     header("Location: area_riservata.php");
   }else{
-    header("Location: index.php");
+    header("Location: index.php?login=passIsWrong");
+    // La cosa che devi fare nella pagina in cui vuoi recuperare il valore (in questo esempio index.php)
+    // Se vuoi far visualizzare una box
+    // if($_GET['login'] == 'passIsWrong'){
+    //   Metto la mia box
+    //}
+    // ?backTo=.....
+    // quel link li lo mettete poi come href nell'a 
+    // <a href="<?php echo $_GET[\'backTo\'] \"></a>
   }
 }
 
