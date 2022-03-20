@@ -319,18 +319,19 @@
                     </form>
 
                     <form action="" method="post">
-     
                         <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
-                        <button name="modifica_blog" type="submit" class="button">Modifica blog</button>    
-                        </br>
-                        
+                        <button name="modifica_blog" type="submit" class="button">Modifica blog</button>           
                     </form>
 
                     <form action=<?php echo 'add_articolo.php?blog='.$_GET["blog"].'&AutoreArt='.$_SESSION["id"].'' ?> method="post">
-
                         <!-- <input type="text" name="testoart_txt" placeholder="Testo..."> -->
                         <button name="add_articolo" type="submit" class="button">Aggiungi nuovo articolo </button>
+                    </form>
 
+                    <form method="post">
+                        <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
+                        <input></input>
+                        <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
                     </form>
 
 
@@ -549,14 +550,76 @@
         <div class="list-item">
             <button class="menu-btn">Impostazioni profilo</button>
             <!-- sottocategoria -->
+
+            <button name="modificadati" type="submit" class="btn btn-success sub-menu" data-toggle="modal" data-target="#modDati" id="mexdel">
+                <!-- <span class="material-icons">delete</span>  -->
+                Modifica dati personali
+            </button>
             <button name="eliminazione" type="submit" class="btn btn-danger sub-menu" data-toggle="modal" data-target="#deleteModal" id="mexdel">
                 <!-- <span class="material-icons">delete</span>  -->
                 Elimina account
             </button>
         </div>
-
+   
     
     </nav>
+
+    <div class="modal fade" id="modDati" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Modifica i campi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="area_riservata.php" method="post">
+            <div class="form-group">
+                <input name="username" type="text" class="form-control" placeholder="Nickname">
+                <input name="password" type="password" class="form-control" placeholder="Password">
+                <input name="email" type="email" class="form-control" placeholder="Email Address">
+                <input name="tel" type="tel" class="form-control" placeholder="Telefono">      
+            </div>
+            <button name="submit_modifiche" type="submit" class="btn btn-primary">Modifica</button>
+            </form>
+        </div> 
+        </div>
+    </div> 
+
+    <?php
+
+    $avviso = "";
+
+    if(isset($_POST['submit_modifiche'])){
+
+        $email = $_POST['email'];
+        $telefono = $_POST['tel'];
+        $nickname = $_POST['username'];
+        $password = $_POST['password'];
+        
+        if(!empty($email) &&!empty($telefono) &&!empty($nickname) &&!empty($password)){
+
+            $query = "UPDATE Utenti SET Nick = $nickname, PasswordID = $password, Email = $email, Telefono = $telefono WHERE ID_Utente = {$_SESSION['id']})";
+        
+            // $query = "UPDATE Utenti INTO Utenti SET Nick=?, PasswordID=?, Telefono=?, Email=? WHERE ID_Utente={$_SESSION['id']}";
+            $modUtente = mysqli_query($connessione, $query);
+
+            if(!$modUtente){
+                die('Query fallita'.mysqli_error($connessione));
+                echo "query fallita";
+            }
+
+            $avviso = "Dati modificati con successo";
+            echo $avviso;
+
+            }else{
+            $avviso = "I campi non devono essere vuoti";
+            echo $avviso;
+            }
+        }
+
+    ?>
+
 
     <?php include "footer.php" ?>
 

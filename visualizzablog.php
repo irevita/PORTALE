@@ -1,4 +1,5 @@
-<?php session_start(); 
+<?php 
+ session_start(); 
  include 'connessione.php';
  $is_logged = isset($_SESSION["id"]);
 
@@ -13,6 +14,10 @@
  $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
  $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
  
+ $logged = false;
+  if(isset($_SESSION["id"])){
+      $logged = true;
+  }
 ?>
 
 <!DOCTYPE html>
@@ -34,19 +39,28 @@
             </a>
             <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
-        <a href="index.php">
-            <button type="button" class="btn btn-danger">Torna indietro</button>
-        </a>
-        <?php  //if($is_logged){
-            
-                //echo '<a href="logout.php">';
-                //echo '<button type="button" class="btn btn-danger">Logout</button> </a>';
 
-                //} else {
+        <!-- <form method="POST">
+            <button nome="torna_indietro" type="button" class="btn btn-danger">Torna indietro</button>
+        </form> -->
+
+        <?php  
+            // if(isset($_POST['torna_indietro'])){
+                if($is_logged){
+           
+                echo '<a href="area_riservata.php">';
+                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
+                // header ("Location: area_riservata.php");
+
+                } else {
                 
-                //echo '';
+                echo '<a href="index.php">';
+                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
+                // header ("Location: index.php");
 
-                //}?> 
+                }
+            // }
+        ?> 
       
     </header>
 

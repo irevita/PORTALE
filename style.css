@@ -245,6 +245,16 @@ header #pbmenu:hover{
     color: seashell;
 
 }
+#menu .btn-success{
+    margin: 0px 12px;
+    background-color: #495057 !important;
+    border-color: #212529 !important;
+}
+#menu .btn-success:hover{
+    background-color: #28a745 !important;
+    color: seashell;
+
+}
  #homepage {
     margin: 1em 2em 1em 1em;
     float: left;
@@ -354,4 +364,8 @@ nav.sticky a:hover {
 }
 div #articoliBlog.hidden{
     display: none !important;
+}
+div #img_blog.hidden{
+    display: none !important;
+
 }
