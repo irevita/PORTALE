@@ -346,12 +346,24 @@
                         <button name="add_articolo" type="submit" class="button">Aggiungi nuovo articolo </button>
                     </form>
 
-                    <form method="post">
-                        <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
-                        <input></input>
-                        <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
-                    </form>
+                    <?php
+                        $query="SELECT COUNT(*) FROM Coautore WHERE CodiceBlog='".$_GET["blog"]."' AND ID_Utente='".$_SESSION["id"]."'";
+                        $risultato=mysqli_query($connessione, $query);
+                        $row=$risultato->fetch_row();
+                        $is_coautore= $row[0]==1;
+                        if (!$is_coautore) { ?>
 
+                        <form method="post">
+                            <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
+                            <input></input>
+                            <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
+                        </form>
+
+                        <?php
+
+                        }
+                    ?>
+                   
 
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
