@@ -285,8 +285,26 @@
                         <div class="contenitori">
                             <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                             <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
-                            <button class="btn-success">Segui</button>
+
+                            <button name="segui" type="submit" class="btn-success" 
+                             <?php
+                                $query = "INSERT INTO Segui(CodiceBlog, ID_Utente, Data)
+                                       VALUES ({$row['Blog']},'{$_SESSION['id']}', SYSDATE())";
+                                       
+                                       $segui_q = mysqli_query($connessione, $query);
+                                        if(!$segui_q){
+                                            die('Query fallita SEGUI'.mysqli_error($connessione));
+                                            echo "query fallita SEGUI";
+                                        }
+                            
+                                
+                                $avviso = "Dati registrati con successo";
+                                echo $avviso;
+                            ?>
+                                >Segui
+                            </button>
                             <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
+
 
                                 <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
                                 <h3><?php echo $row["Titolo"];?></h3>
