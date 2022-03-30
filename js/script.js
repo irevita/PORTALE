@@ -21,6 +21,7 @@ document.querySelectorAll('.list-item').forEach(element => {
 //scegli tema 
 
 var b = document.getElementById('color');
+/*
 b.onclick = function(){
   let colorpicker = document.getElementById('colorpicker');
   setInterval(()=>{
@@ -29,4 +30,4 @@ b.onclick = function(){
 }, 200);
 
 }; 
-
+*/

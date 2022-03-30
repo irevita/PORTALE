@@ -7,6 +7,8 @@
     $query_tema = mysqli_query($connessione, "SELECT Tema FROM Blog WHERE Autore = {$_SESSION['id']}");
     // query i blog di cui sono coautore
     $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
+    $query_blog = mysqli_query($connessione, "SELECT * FROM Blog WHERE CodiceBlog={$_GET['blog']}");
+    $row = mysqli_fetch_array($query_blog);
 ?>
 
 <!DOCTYPE html>
@@ -82,92 +84,27 @@
                             document.getElementById("current_date").value = year + "-" + month + "-" + day;
                         </script>
 
+                        <input type="hidden" name="id_blog" value="<?php echo $_GET["blog"]; ?>">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Titolo</span>
                             </div>
     
-                            <input type="text" name="nome_txt" placeholder="Nome del blog">
+                            <input type="text" name="nome_txt" placeholder="Nome del blog" value="<?php echo addslashes($row["NomeBlog"]); ?>">
                         </div>   
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Descrizione</span>
                             </div>
-                            <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."></textarea>
-
+                            <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."><?php echo $row["Descrizione"]; ?></textarea>
                         </div>
-                        <button name="add_nome" type="submit" class="btn btn-success">Aggiungi nuovo blog</button>
+                        <button name="add_nome" type="submit" class="btn btn-success">Modifica nuovo blog</button>
 
                     </form>
 
                     <?php
 
-
-if(isset($_POST['id_blog'])){
-
-    $nome = $_POST['nome_txt'];
-    $descrizione = $_POST['descrizione_txt'];
-    // $querydata = "SELECT current_time()"; 
-    // $data = mysqli_query($connessione,$querydata); 
-
-    
-    if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
-
-    $query = "UPDATE Blog SET Blog.NomeBlog ='{$nome}', Blog.Descrizione = '{$descrizione}' WHERE Blog.CodiceBlog={$_POST['id_blog']}";
-    
-    $creaBlog = mysqli_query($connessione, $query);
-
-    if(!$creaBlog){
-        die('Query fallita'.mysqli_error($connessione));
-        echo "query fallita";
-    }
-
-    $avviso = "Dati registrati con successo";
-    echo $avviso;
-    $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
-    $row = mysqli_fetch_array($queryCodblog);
-        
-    header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
-    
-    }else{
-        $avviso = "I campi non devono essere vuoti";
-        echo $avviso;
-    }
-}
-
-                        if(isset($_POST['add_nome'])){
-
-                            $nome = $_POST['nome_txt'];
-                            $descrizione = $_POST['descrizione_txt'];
-                            // $querydata = "SELECT current_time()"; 
-                            // $data = mysqli_query($connessione,$querydata); 
-
-                            
-                            if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
-
-                            $query = "INSERT INTO Blog(NomeBlog, Descrizione, Data, Autore)
-                            VALUES ('{$nome}','{$descrizione}', SYSDATE(), '{$_SESSION['id']}')";
-                            
-                            $creaBlog = mysqli_query($connessione, $query);
-
-                            if(!$creaBlog){
-                                die('Query fallita'.mysqli_error($connessione));
-                                echo "query fallita";
-                            }
-
-                            $avviso = "Dati registrati con successo";
-                            echo $avviso;
-                            $queryCodblog = mysqli_query($connessione,"SELECT Blog.CodiceBlog FROM Blog WHERE Blog.NomeBlog ='{$nome}'AND Blog.Descrizione = '{$descrizione}'AND Blog.Autore = '{$_SESSION['id']}'");
-                            $row = mysqli_fetch_array($queryCodblog);
-                                
-                            header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
-                            
-                            }else{
-                                $avviso = "I campi non devono essere vuoti";
-                                echo $avviso;
-                            }
-                        }
                         $avviso = "";
 
                         if(isset($_POST['add_nome'])){

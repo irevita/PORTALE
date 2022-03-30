@@ -36,6 +36,18 @@
     if(!empty($nome) &&!empty($cognome) &&!empty($nazione)
     &&!empty($email) &&!empty($dataN) &&!empty($telefono)
     &&!empty($documento) &&!empty($nickname) &&!empty($password)){
+      
+      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
+        echo "Lo nome non è valido"; 
+      } 
+
+      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
+         echo "Lo cognome non è valido";
+      } 
+
+      if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
+        echo "La password non è valido";
+      } 
 
       $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
       VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";

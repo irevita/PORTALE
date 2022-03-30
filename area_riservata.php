@@ -286,23 +286,7 @@
                             <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                             <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
 
-                            <button name="segui" type="submit" class="btn-success" 
-                             <?php
-                                $query = "INSERT INTO Segui(CodiceBlog, ID_Utente, Data)
-                                       VALUES ({$row['Blog']},'{$_SESSION['id']}', SYSDATE())";
-                                       
-                                       $segui_q = mysqli_query($connessione, $query);
-                                        if(!$segui_q){
-                                            die('Query fallita SEGUI'.mysqli_error($connessione));
-                                            echo "query fallita SEGUI";
-                                        }
-                            
-                                
-                                $avviso = "Dati registrati con successo";
-                                echo $avviso;
-                            ?>
-                                >Segui
-                            </button>
+                            <button name="segui" type="submit" class="btn-success btn-segui" id="<?php echo $row["Blog"]; ?>">Segui</button>
                             <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
 
@@ -336,7 +320,7 @@
                         <input id="image-file" type="file" />
                     </form>
 
-                    <form action="" method="post">
+                    <form action="<?php echo 'blog-modifica.php?blog='.$_GET["blog"] ?>" method="post">
                         <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                         <button name="modifica_blog" type="submit" class="button">Modifica blog</button>           
                     </form>
@@ -353,10 +337,9 @@
                         $is_coautore= $row[0]==1;
                         if (!$is_coautore) { ?>
 
-                        <form method="post">
-                            <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
-                            <input></input>
-                            <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
+                        <form method="post" id="form_coautore">
+                            <input type="text" id="box_coautore" name="titoloart_txt" placeholder="Titolo...">
+                            <button name="add_coautore" id="btn_coautore"  type="submit" class="button">Aggiungi coautore</button>           
                         </form>
 
                         <?php
@@ -654,6 +637,45 @@
     <?php include "footer.php" ?>
 
 
+    <script>
+$(".btn-segui").click(function() {
+    //console.log();
+    id_btn = $(this).attr("id");
+    $.ajax({
+  method: "GET",
+  url: "segui.php",
+  data: { id: id_btn}
+})
+  .done(function( msg ) {
+    const myArr = JSON.parse(msg);
+
+    if(myArr["status"] == 201){
+        $("#"+id_btn).html("Segui");
+    } else {
+        $("#"+id_btn).html("Seguito");
+    }
+  });
+});
+
+$("#form_coautore").submit(function( event ) {
+  coautore = $("#box_coautore").val();
+  $.ajax({
+  method: "GET",
+  url: "coautore.php",
+  data: { id: coautore, blog: <?php echo $_GET["blog"]; ?>}
+})
+  .done(function( msg ) {
+    const myArr = JSON.parse(msg);
+    alert(myArr["msg"]);
+    if(myArr["status"] == 200){
+        $("#box_coautore").html("");
+    }
+  });
+  event.preventDefault();
+});
+
+
+</script>
 </body>
 
 </html>             

@@ -1,0 +1,37 @@
+Sicurezza
+
+- Addslashes quando vado a inserire dei testi nei value dei tag html, perchè altrimenti le virgolette stampata da php rompono tutto, e.g.
+
+<input type="..." val="<?php echo $foo; ?>" />
+
+$foo ha valore 'Pippo dice: "Come stai?"'
+
+Questo mi genera
+
+<input type="..." val="Pippo dice: "Come sta?"" />
+
+Che mi tiene un po' di roba fuori dalle virgolette. Ciò vuol dire che devo fare:
+
+<input type="..." val="<?php echo addslashes($foo); ?>" />
+
+Che fa  
+
+<input type="..." val="Pippo dice: \"Come sta?\"" />
+
+- Devo inserire html_entity_escape in tutti gli input "larghi" dell'utente. Sono input "larghi" tutti questi input su cui non faccio controlli
+di lunghezza e in generale di altre robe, il testo libero in sintesi.
+
+- Evitate le SQL INJECTION. Quando l'utente malevolo si trova nella condizione di insirire un input deve non poter alterare lo stato DB.
+Tradotto
+
+INSERT INTO Tabella(...) VALUES (....{$pippo})
+
+non deve diventare
+
+INSERT INTO Tabella(...) VALUES (....'ciao';);(DELETE * FROM Tabella)
+
+per fare questo basta che il valore di pippo sia pippo = "'ciao';);(DELETE * FROM Tabella"
+
+- Se due immagini hanno un conflitto lo risolvo generando un id unico e dandolo come nome all'immagine
+
+https://www.php.net/manual/en/function.uniqid.php
