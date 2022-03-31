@@ -32,40 +32,48 @@
     $documento = $_POST['documento'];
     $nickname = $_POST['username'];
     $password = $_POST['password'];
+    $conferma_password = $_POST['c_password'];
 
     if(!empty($nome) &&!empty($cognome) &&!empty($nazione)
     &&!empty($email) &&!empty($dataN) &&!empty($telefono)
-    &&!empty($documento) &&!empty($nickname) &&!empty($password)){
+    &&!empty($documento) &&!empty($nickname) &&!empty($password) &&!empty($conferma_password)){
       
-      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
-        echo "Lo nome non è valido"; 
-      } 
+    {if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
+      echo "Lo nome non è valido"; 
+    } 
 
-      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
-         echo "Lo cognome non è valido";
-      } 
+    if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
+        echo "Lo cognome non è valido";
+    } 
 
-      if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
-        echo "La password non è valido";
-      } 
+    if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
+      echo "La password non è valido";
+    } 
 
-      $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
-      VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
+    $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
+    VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
 
-      $creaUtenti = mysqli_query($connessione, $query);
+    
+    if ($password === $conferma_password){
 
-      if(!$creaUtenti){
-        die('Query fallita'.mysqli_error($connessione));
-        echo "query fallita";
-      }
+        $creaUtenti = mysqli_query($connessione, $query);  
 
-      $avviso = "Dati registrati con successo";
-      echo $avviso;
+        if(!$creaUtenti){
+            die('Query fallita'.mysqli_error($connessione));
+            echo "query fallita";
+        }
 
-    }else{
-      $avviso = "I campi non devono essere vuoti";
-      echo $avviso;
-    }
+        $avviso = "Dati registrati con successo";
+        echo $avviso;
+
+        }else
+            $avviso = "I campi non devono essere vuoti";
+            echo $avviso;
+        }
+
+        }else{
+            $avviso = "Password non corrispondenti";
+        }
   }
 
 ?>
@@ -132,6 +140,7 @@
               <input name="documento" type="text" class="form-control" placeholder="Documento">
               <input name="username" type="text" class="form-control" placeholder="Nickname">
               <input name="password" type="password" class="form-control" placeholder="Password">
+              <input name="c_password" type="password" class="form-control" placeholder="Conferma password">
           </div>
           <button name="submit" type="submit" class="btn btn-primary">Invia</button>
         </form>
