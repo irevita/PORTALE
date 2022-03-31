@@ -99,7 +99,7 @@
                             </div>
                             <textarea cols="20" rows="6" name="descrizione_txt" placeholder="Descrizione..."><?php echo $row["Descrizione"]; ?></textarea>
                         </div>
-                        <button name="add_nome" type="submit" class="btn btn-success">Modifica nuovo blog</button>
+                        <button name="update_nome" type="submit" class="btn btn-success">Modifica blog</button>
 
                     </form>
 
@@ -107,7 +107,7 @@
 
                         $avviso = "";
 
-                        if(isset($_POST['add_nome'])){
+                        if(isset($_POST['update_nome'])){
 
                             $nome = $_POST['nome_txt'];
                             $descrizione = $_POST['descrizione_txt'];
@@ -117,12 +117,11 @@
                             
                             if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
 
-                            $query = "INSERT INTO Blog(NomeBlog, Descrizione, Data, Autore)
-                            VALUES ('{$nome}','{$descrizione}', SYSDATE(), '{$_SESSION['id']}')";
+                            $query = " UPDATE Blog SET NomeBlog = '{$nome}', Descrizione = '{$descrizione}', Data = SYSDATE(), Autore = '{$_SESSION['id']}'";
                             
-                            $creaBlog = mysqli_query($connessione, $query);
+                            $modificaBlog = mysqli_query($connessione, $query);
 
-                            if(!$creaBlog){
+                            if(!$modificaBlog){
                                 die('Query fallita'.mysqli_error($connessione));
                                 echo "query fallita";
                             }
