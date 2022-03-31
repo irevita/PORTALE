@@ -15,8 +15,8 @@ if(isset($_POST['login'])){
     die("Lo username non è valido"); 
   }
    
-  if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
-   die("La password non è valido"); 
+  if (!preg_match('/^[a-zA-Z0-9_-]{4,18}$/', $password)){
+   die("La password non è valida"); 
   }
 
   $username = mysqli_real_escape_string($connessione, $username);
