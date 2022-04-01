@@ -11,11 +11,11 @@ if(isset($_POST['login'])){
   $username = $_POST['username'];
   $password =$_POST['password'];
   
-  if (!preg_match('/^[a-z0-9_-]{3,16}$/', $password)){
+  if (!preg_match('/^[a-zA-Z0-9_-]{3,16}$/', $username)){
     die("Lo username non è valido"); 
   }
    
-  if (!preg_match('/^[a-zA-Z0-9_-]{4,18}$/', $password)){
+  if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
    die("La password non è valida"); 
   }
 

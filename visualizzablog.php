@@ -103,7 +103,7 @@
             <!-- <img src="<?php //echo $row["Sfondo"];?>" alt="<?php //echo $row["Sfondo"];?>"> -->
             <style>
                 body{
-                    background-image: url('<?php echo $row["Sfondo"];?>');
+                    <img src=" url('<?php echo $row["Sfondo"];?>');">
                 }
             </style>
             <h3><?php echo $row["NomeBlog"];?></h3>

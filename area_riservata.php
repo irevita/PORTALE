@@ -68,8 +68,9 @@
         <div id="right" class="<?php if(isset($_GET["blog"])) {echo "hidden";};?>">
             <br/>
             <h3>Cosa ti interessa?</h3>
+            
             <form method="post" action="area_riservata.php">
-                <input type="text" name="cerca_utente" placeholder="Cerca utente" />
+                <input type="text" name="cerca_utente"> <label for="Cerca utente"></label>
                 <input type="submit" name="click_utente" value="CERCA"  /><br  />
                 <input type="text" name="cerca_blog" placeholder="Cerca blog" />
                 <input type="submit" name="click_blog" value="CERCA"  /><br  />
@@ -84,8 +85,8 @@
             <?php if (!isset($_GET["blog"])) { ?>
                 <div>
                     <h1>Homepage</h1>
-                    <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>    
-                    <h6> Articoli dei blog che segui... </h6>
+                    <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>  
+                    <h3 class="contenitori"> Articoli dei blog che segui... </h3>   
                 </div>
                
                 <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};
@@ -93,7 +94,7 @@
                     
                     <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>    
                     <div class="contenitori">
-                        <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
+                        <div> Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                         <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
                         <button class="btn default">Segui già</button>
                         <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
@@ -182,6 +183,7 @@
                     
                             <div class="full comment_form">
                                 <h4>Post your comment</h4>
+                    
                                 <form method="post">
                                     <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
                                     <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
@@ -207,7 +209,7 @@
                                 ?>
                             </div>
 
-                            <div id='commenti'>
+                            <div id='commenti' class="contenitori">
                                 <h6> Commenti: </h6>
                                 <?php // query commenti
                                 $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
