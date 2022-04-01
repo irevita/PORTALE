@@ -117,7 +117,7 @@
                             
                             if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
 
-                            $query = " UPDATE Blog SET NomeBlog = '{$nome}', Descrizione = '{$descrizione}', Data = SYSDATE(), Autore = '{$_SESSION['id']}'";
+                            $query = "UPDATE Blog SET NomeBlog = '{$nome}', Descrizione = '{$descrizione}', Data = SYSDATE(), Autore = '{$_SESSION['id']}'";
                             
                             $modificaBlog = mysqli_query($connessione, $query);
 
