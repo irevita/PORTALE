@@ -37,6 +37,7 @@
     &&!empty($email) &&!empty($dataN) &&!empty($telefono)
     &&!empty($documento) &&!empty($nickname) &&!empty($password)){
       
+<<<<<<< HEAD
       if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
         echo "Il nome è valido"; 
       } 
@@ -48,6 +49,19 @@
       if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
         echo "La password non è valida";
       } 
+=======
+    {if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
+        die("Il nome non è valido"); 
+    } 
+
+    if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
+        die("Il cognome non è valido");
+    } 
+
+    if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
+        die("La password non è valida");
+    } 
+>>>>>>> e6468cb0f1bda5df4584e25d02508dfaacf7b5cb
 
       $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
       VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
@@ -62,10 +76,25 @@
       $avviso = "Dati registrati con successo";
       echo $avviso;
 
+<<<<<<< HEAD
     }else{
       $avviso = "I campi non devono essere vuoti";
       echo $avviso;
     }
+=======
+        $avviso = "Dati registrati con successo";
+        echo $avviso;
+
+        }else
+            $avviso = "I campi non devono essere vuoti";
+            echo $avviso;
+        }
+
+        }else{
+            $avviso = "Password non corrispondenti";
+            echo $avviso;
+        }
+>>>>>>> e6468cb0f1bda5df4584e25d02508dfaacf7b5cb
   }
 
 ?>
