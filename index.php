@@ -32,24 +32,12 @@
     $documento = $_POST['documento'];
     $nickname = $_POST['username'];
     $password = $_POST['password'];
+    $conferma_password = $_POST['c_password'];
 
     if(!empty($nome) &&!empty($cognome) &&!empty($nazione)
     &&!empty($email) &&!empty($dataN) &&!empty($telefono)
-    &&!empty($documento) &&!empty($nickname) &&!empty($password)){
+    &&!empty($documento) &&!empty($nickname) &&!empty($password) &&!empty($conferma_password)){
       
-<<<<<<< HEAD
-      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
-        echo "Il nome è valido"; 
-      } 
-
-      if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
-         echo "Il cognome non è valido";
-      } 
-
-      if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
-        echo "La password non è valida";
-      } 
-=======
     {if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
         die("Il nome non è valido"); 
     } 
@@ -61,27 +49,20 @@
     if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
         die("La password non è valida");
     } 
->>>>>>> e6468cb0f1bda5df4584e25d02508dfaacf7b5cb
 
-      $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
-      VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
+    $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
+    VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
 
-      $creaUtenti = mysqli_query($connessione, $query);
+    
+    if ($password === $conferma_password){
 
-      if(!$creaUtenti){
-        die('Query fallita'.mysqli_error($connessione));
-        echo "query fallita";
-      }
+        $creaUtenti = mysqli_query($connessione, $query);  
 
-      $avviso = "Dati registrati con successo";
-      echo $avviso;
+        if(!$creaUtenti){
+            die('Query fallita'.mysqli_error($connessione));
+            echo "query fallita";
+        }
 
-<<<<<<< HEAD
-    }else{
-      $avviso = "I campi non devono essere vuoti";
-      echo $avviso;
-    }
-=======
         $avviso = "Dati registrati con successo";
         echo $avviso;
 
@@ -94,7 +75,6 @@
             $avviso = "Password non corrispondenti";
             echo $avviso;
         }
->>>>>>> e6468cb0f1bda5df4584e25d02508dfaacf7b5cb
   }
 
 ?>
