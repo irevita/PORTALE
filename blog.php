@@ -65,20 +65,15 @@
         </a>
     </header>
 
-    <div class="container-fluid">
-        <div class="row text-center" style="padding-top:130px;">
-            <div class="col-md-4">
-            </div>
-
-            <div class="col-md-4 contenitori">
+    <div class="container-flex">
+        
+            <div id="centro" class="contenitori">
                 <h3>Crea il tuo blog </h3>
 
                 <div id="infoblog">
                     <!-- funzione sfoglia  -->
 
                     <form action="blog.php" method="post">
-                        <div class="input-group mb-3">
-                        </div>
 
                         <script>
                             date = new Date();
@@ -89,19 +84,13 @@
                         </script>
 
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Titolo</span>
-                            </div>
-    
-                            <textarea type="text" name="nome_txt" placeholder="Nome del blog" cols="45"></textarea>
+                            <h4 class="nuovo_blog">Titolo</h4>
+                            <textarea class="scrivi" type="text" name="nome_txt" placeholder="Nome del blog" ></textarea>
                         </div>   
 
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Descrizione</span>
-                            </div>
-                            <textarea cols="40" rows="17" name="descrizione_txt" placeholder="Descrizione..."></textarea>
-
+                            <h4 class="nuovo_blog">Descrizione</h4>
+                            <textarea class="scrivi" rows="17" name="descrizione_txt" placeholder="Descrizione..."></textarea>
                         </div>
                         <button name="add_nome" type="submit" class="btn btn-success">Aggiungi nuovo blog</button>
 
@@ -147,7 +136,7 @@
 
                 </div>
             </div>
-        </div>
+
         <!-- modale elimina blog -->
 
         <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -222,6 +211,8 @@
 
     </nav>
 
+    <?php include "footer.php" ?>
+    
 </body>
 
 </html>

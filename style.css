@@ -523,3 +523,20 @@ div #img_blog.hidden{
 #carouselExampleControls{
     width: 50%;
 }
+.container-fluid{
+    width: 98%;
+}
+div #centro{
+    margin: 2em 24em !important;
+}
+.nuovo_blog{
+
+    width: 100%;
+    margin: 0.5em 0em 0em;
+    background-color: lightgrey;
+    padding: 1%;
+    border: 1px solid;
+}
+.scrivi{
+    width: 100%;
+}
