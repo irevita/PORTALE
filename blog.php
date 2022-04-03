@@ -81,7 +81,7 @@
                             day = date.getDate();
                             document.getElementById("current_date").value = year + "-" + month + "-" + day;
                         </script>
-
+                        <div class="contenitori">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Titolo</span>
@@ -89,6 +89,7 @@
     
                             <input type="text" name="nome_txt" placeholder="Nome del blog">
                         </div>   
+                        </div>
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
