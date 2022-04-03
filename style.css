@@ -471,3 +471,6 @@ div #img_blog.hidden{
 #fai{
     margin:0;
 }
+#carouselExampleControls{
+    width: 50%;
+}
