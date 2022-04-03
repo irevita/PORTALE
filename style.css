@@ -49,7 +49,7 @@ header {
     position: fixed;
 }
 header a{
-    color: #28a745;
+    color: #e6616d;
     text-decoration: none;
     background-color: transparent;   
 }
@@ -58,10 +58,20 @@ header h1{
     display: contents;
 }
 header #pb:hover{
-    color:#1e7e34;
-    text-decoration: none;     
+    color:#fd3f4f;
+    text-decoration: none;   
+    border: none;  
 }
-
+header #pb:focus{
+    color:#fd3f4f;
+    text-decoration: none;  
+    border: none;     
+}
+header #pb:active{
+    color:#fd3f4f;
+    text-decoration: none;  
+    border: none;     
+}
 button {
     cursor: pointer;
     display: flex;
@@ -71,7 +81,7 @@ button {
 
 .contenitori {
     border-radius: 25px;
-    border: 6px double #28a745;
+    border: 6px double #e6616d;
     padding: 2%;
     margin-top: 2%
 }
@@ -108,9 +118,47 @@ img {
 }
 
 .btn_cerca:hover{
-    background-color: #28a745;
+    background-color: #e6616d;
     color: white;
     text-decoration: none;
+}
+.btn-success{
+    background-color: #e6616d;
+    color: white;
+    text-decoration: none;
+    border: none;
+
+}
+.btn-success:hover{
+    background-color: #fd3f4f;
+    color: white;
+    text-decoration: none;
+    border: none;
+
+}
+.btn-success:not(:disabled):not(.disabled):active{
+    background-color: #fd3f4f !important;
+    color: white;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+
+}
+.btn-success:active{
+    background-color: #fd3f4f !important;
+    color: white;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+
+}
+.btn-success:focus{
+    background-color: #fd3f4f;
+    color: white;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+
 }
 
 
@@ -162,7 +210,7 @@ img {
     text-decoration: none;
 }
 .menu-ctg:hover{
-    background-color: #28a745;
+    background-color: #e6616d;
     color: white;
     text-decoration: none;
 }
@@ -418,6 +466,7 @@ div #img_blog.hidden{
 
 #formadestra{
     display: inline;
+    margin: 0;
 }
 
 .navbar .btn_menuVB{

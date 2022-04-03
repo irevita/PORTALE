@@ -13,11 +13,9 @@
 
  $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.Blog = {$_GET['blog']}");
  $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
+ $query_contaimmagini = mysqli_query($connessione, "SELECT COUNT(*) FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']} Group by (Articoli.CodiceArt)" );
  
-//  $logged = false;
-//   if(isset($_SESSION["id"])){
-//       $logged = true;
-//   }
+ 
 ?>
 
 <!DOCTYPE html>
@@ -40,22 +38,16 @@
             <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
 
-        <?php  
-            // if(isset($_POST['torna_indietro'])){
-                if($is_logged){
-           
+        <?php       
+            if($is_logged){
                 echo '<a href="area_riservata.php">';
-                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
-                // header ("Location: area_riservata.php");
+                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';    
 
-                } else {
-                
+            } else {          
                 echo '<a href="index.php">';
                 echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
-                // header ("Location: index.php");
 
-                }
-            // }
+            }    
         ?> 
       
     </header>
@@ -131,34 +123,153 @@
         
         <div id = "articoliBlog" class="<?php if(isset($_POST["infoblog"])) {echo "hidden";}; if(isset($_POST['click_articolo'])) {echo "hidden";};?>">
             <?php while($row = mysqli_fetch_array($query_articoliBlog)) { ?> 
+                
                 <div class="contenitori">
                     <article>
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["TESTO"];?></p>
                     </article>
-                  
-             
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="<?php $prev = $row["Nome"].''; echo $row["Nome"]; ?>" alt="First slide">
+                   
+                    <?php //if($query_contaimmagini > 0){?>
+
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="<?php $prev = $row["Nome"].''; echo $row["Nome"]; ?>" alt="First slide">
+                                </div>
+                                <?php } ?>
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="<?php echo ($prev); ?>" alt="First slide">
+                                </div>
                             </div>
-                            <?php } ?>
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="<?php echo ($prev); ?>" alt="First slide">
-                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>   
+
+                    <?php // }?>    
+
+                
+                    <?php       
+                        if($is_logged){ ?> 
+                
+                            <span class="likes ">
+                                <form method="post">
+
+                                    <!-- LIKESSSSS  -->
+                                    <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
+                                    <?php 
+                                        $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+                                        $check_like = mysqli_fetch_array($query_check_like);
+
+                                        if(!empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
+
+                                    ?> 
+                                    >Like</button>
+
+                                    <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
+                                    <?php 
+                                        
+                                        if(empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
+                                    
+                                    ?>
+                                    >Unlike</button>
+
+                                </form>
+
+                                    <!-- <span class="likes_number"></span> -->
+                                <?php 
+                                    if(isset($_POST['like_'.$row['CodiceArt'].''])){
+
+                                        $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
+                                        VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
+
+                                        if(!$query_add_like){
+
+                                            header('Location: area_riservata.php');
+                                            die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+
+                                    }
+
+                                    if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+
+                                        $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
+                                        WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+
+                                        if(!$query_remove_like){
+
+                                            header('Location: area_riservata.php');
+                                            die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+
+                                    }
+
+                                    $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
+                                    $likes = mysqli_fetch_array($query_like);
+                                    
+                                    if(empty($likes)) { ?>
+                                        <span>Likes: 0 </span>
+                                    <?php } else {?> 
+                                        <span>Likes: <?php echo $likes[0];?></span>
+                                    <?php } 
+                                ?> 
+                            </span>
+                            
+                                    <!-- COMMENTI -->
+                            
+                            <div class="full comment_form">
+                                <h4>Post your comment</h4>
+                                <form method="post">
+                                    <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
+                                    <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
+                                </form>
+
+                                <?php                                        
+                                    if(isset($_POST['add_comm_'.$row['CodiceArt'].''])){
+                                        
+                                        $testo = $_POST['text_comment_'.$row['CodiceArt'].''];
+                                        if(!empty($testo)){ 
+
+                                            $query_insert_comment = "INSERT INTO Commenta(Testo, Data, ID_Utente, CodiceArt)
+                                            VALUES ('{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$row['CodiceArt']}')";
+                                                                                                
+                                            $creaCommento = mysqli_query($connessione, $query_insert_comment);
+                                            if(!$creaCommento){
+                                                header('Location: area_riservata.php');
+                                                die('Query fallita'.mysqli_error($connessione));
+                                                echo "query fallita";
+                                            }
+                                        }
+                                    }  
+                                ?>
+                            </div>
+
+                            <div id='commenti'>
+                                <h6> Commenti: </h6>
+                                <?php // query commenti
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
+                                    <p><?php echo $row_comm["Testo"];?></p>
+                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                                <?php } ?>
+                            </div>
+                    <?php } ?>  
+                    
+                </div>
+ 
             <?php } ?>
         </div>  
 
