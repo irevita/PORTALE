@@ -11,9 +11,13 @@
 
  $query_mostraBlog = mysqli_query($connessione,"SELECT NomeBlog, Sfondo, Descrizione FROM Blog WHERE Blog.CodiceBlog = {$_GET['blog']}");
 
- $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
+ $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.Blog = {$_GET['blog']}");
  $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
-
+ 
+//  $logged = false;
+//   if(isset($_SESSION["id"])){
+//       $logged = true;
+//   }
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +47,7 @@
         <?php  
             // if(isset($_POST['torna_indietro'])){
                 if($is_logged){
+           
                 echo '<a href="area_riservata.php">';
                 echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
                 // header ("Location: area_riservata.php");
@@ -97,24 +102,22 @@
 
     <?php while($row = mysqli_fetch_array($queryUtente)){echo $row["Nick"];}?>
 
-    <div id="homepage">
+    <div id="homepage_blog">
         <?php while($row = mysqli_fetch_array($query_mostraBlog)) { ?> 
         <div>
-            <!-- <img src="<?php //echo $row["Sfondo"];?>" alt="<?php //echo $row["Sfondo"];?>"> -->
-            <style>
-                body{
-                    <img src=" url('<?php echo $row["Sfondo"];?>');">
-                }
-            </style>
-            <h3><?php echo $row["NomeBlog"];?></h3>
-            <nav class="sticky">				
+            <nav class="sticky">
+                <div class="sfondo_blog">
+                    <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">  
+                </div>
+                <div class="nome_blog">
+                    <h3><?php echo $row["NomeBlog"];?></h3>
+                </div>
                 <ul id="meno">
-                    <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>" method="post">
-                    <!-- OPPURE CON I BOTTONI -->
-                        <li><button title="Home" href="visualizzablog.php?blog=<?php echo $_GET['blog'];?>"><u>Articoli</u></Button></li>
-                        <li><button name="infoblog">Info Blog</button></li>
-                        <li><input type="submit" name="click_articolo" value="CERCA" />
-                            <input type="text" name="cerca_articolo" placeholder="Cerca articolo"/></li>
+                    <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>" method="post"> 
+                        <button class="button" title="Home" href="visualizzablog.php?blog=<?php echo $_GET['blog'];?>"><u>Articoli</u></button>
+                        <button class="button" name="infoblog">Info Blog</button>
+                        <input type="text" name="cerca_articolo" placeholder="Cerca articolo"/>  
+                        <input class="button" type="submit" name="click_articolo" value="CERCA" />
                     </form>
                 </ul>			
             </nav>
@@ -124,32 +127,47 @@
         <div id = "articoliBlog" class="<?php if(isset($_POST["infoblog"])) {echo "hidden";}; if(isset($_POST['click_articolo'])) {echo "hidden";};?>">
             <?php while($row = mysqli_fetch_array($query_articoliBlog)) { ?> 
             <article>
-                <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>"> 
                 <h3><?php echo $row["Titolo"];?></h3>
                 <p><?php echo $row["TESTO"];?></p>
             </article>
             <?php } ?>
         </div>       
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="<?php $prev = $row["Nome"].''; echo $row["Nome"]; ?>" alt="First slide">
-                            </div>
-                            <?php } ?>
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="<?php echo ($prev); ?>" alt="First slide">
-                            </div>
-                        </div>
-  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="<?php $prev = $row["Nome"].''; echo $row["Nome"]; ?>" alt="First slide">
                 </div>
+                <?php } ?>
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="<?php echo ($prev); ?>" alt="First slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+            <?php  
+            // if(isset($_POST['torna_indietro'])){
+                if($is_logged){
+           
+                echo '<a href="area_riservata.php">';
+                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
+                // header ("Location: area_riservata.php");
+
+                } else {
+                
+                echo '';
+                // header ("Location: index.php");
+
+                }
+            // }
+        ?> 
+        </div>
 
         <?php 
             if (isset($_POST['infoblog'])){

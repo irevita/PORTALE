@@ -98,6 +98,20 @@ img {
 
 }
 
+.btn_cerca{
+
+    border: none; 
+    display: block;
+    padding: 7px;
+    text-decoration: none;
+    margin: 0.1em 0em 0.8em;
+}
+
+.btn_cerca:hover{
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+}
 
 
 /* INDEX STYLE     */
@@ -334,19 +348,31 @@ body.theme-2 {background-color: pink;}
 body.theme-3 {background-color: green;}
 body.theme-4 {background-color: teal;}
 
+.menu_blog{
+    display: table-cell;
+    float: left;
+}
+.sfondo_blog{
+    width: 25%;
+    float: right;
+}
 #nuovopost .button {
     border-radius: 2em !important;
     box-shadow: 0 3px 10px -2px #0008 !important;
     padding: 0 10px;
 }
-
+#homepage_blog{
+    margin: 5em 1em 1em 1em;
+    float: left;
+    display: block;
+    width: 98%;
+}
 nav.sticky ul li {
 	display: inline;
 	padding: 2%;
 }
 #meno {
 	text-align: center;
-	background-color: #0D0E17;
 	margin: 0px;
     padding: 10px;
     border-top: 2px solid rgb(255,241,175);

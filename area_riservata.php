@@ -68,14 +68,18 @@
         <div id="right" class="<?php if(isset($_GET["blog"])) {echo "hidden";};?>">
             <br/>
             <h3>Cosa ti interessa?</h3>
-            
+
             <form method="post" action="area_riservata.php">
-                <input type="text" name="cerca_utente"> <label for="Cerca utente"></label>
-                <input type="submit" name="click_utente" value="CERCA"  /><br  />
+                <input type="text" name="cerca_utente" placeholder="Cerca utente" />
+                <button type="submit" name="click_utente" value="CERCA" class="btn_cerca">CERCA</button>
+            </form>
+            <form method="post" action="area_riservata.php">
                 <input type="text" name="cerca_blog" placeholder="Cerca blog" />
-                <input type="submit" name="click_blog" value="CERCA"  /><br  />
+                <button type="submit" name="click_blog" value="CERCA"  class="btn_cerca">CERCA</button>
+            </form>
+            <form method="post" action="area_riservata.php">
                 <input type="text" name="cerca_articolo" placeholder="Cerca articolo" />
-                <input type="submit" name="click_articolo" value="CERCA"  /><br  />
+                <button type="submit" name="click_articolo" value="CERCA"  class="btn_cerca">CERCA</button>
             </form>
         </div> 
 
@@ -85,8 +89,8 @@
             <?php if (!isset($_GET["blog"])) { ?>
                 <div>
                     <h1>Homepage</h1>
-                    <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>  
-                    <h3 class="contenitori"> Articoli dei blog che segui... </h3>   
+                    <h4>Ciao <?php echo $_SESSION['utente']; ?>, benvenutə nella tua area personale!</h4>    
+                    <h6> Articoli dei blog che segui... </h6>
                 </div>
                
                 <div id="articoli" class="<?php if(isset($_GET["categoria"])) {echo "hidden";}; if(isset($_GET["blog"])) {echo "hidden";}; if(isset($_POST["blog_seguiti"])) {echo "hidden";};
@@ -94,7 +98,7 @@
                     
                     <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>    
                     <div class="contenitori">
-                        <div> Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
+                        <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                         <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
                         <button class="btn default">Segui già</button>
                         <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
@@ -183,7 +187,6 @@
                     
                             <div class="full comment_form">
                                 <h4>Post your comment</h4>
-                    
                                 <form method="post">
                                     <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
                                     <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
@@ -209,7 +212,7 @@
                                 ?>
                             </div>
 
-                            <div id='commenti' class="contenitori">
+                            <div id='commenti'>
                                 <h6> Commenti: </h6>
                                 <?php // query commenti
                                 $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
@@ -288,9 +291,24 @@
                             <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                             <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
 
-                            <button name="segui" type="submit" class="btn-success btn-segui" id="<?php echo $row["Blog"]; ?>">Segui</button>
+                            <button name="segui" type="submit" class="btn-success" 
+                             <?php
+                                $query = "INSERT INTO Segui(CodiceBlog, ID_Utente, Data)
+                                       VALUES ({$row['Blog']},'{$_SESSION['id']}', SYSDATE())";
+                                       
+                                       $segui_q = mysqli_query($connessione, $query);
+                                        if(!$segui_q){
+                                            die('Query fallita SEGUI'.mysqli_error($connessione));
+                                            echo "query fallita SEGUI";
+                                        }
+                            
+                                
+                                $avviso = "Dati registrati con successo";
+                                echo $avviso;
+                            ?>
+                                >Segui
+                            </button>
                             <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
-
 
                                 <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
                                 <h3><?php echo $row["Titolo"];?></h3>
@@ -322,7 +340,7 @@
                         <input id="image-file" type="file" />
                     </form>
 
-                    <form action="<?php echo 'blog-modifica.php?blog='.$_GET["blog"] ?>" method="post">
+                    <form action="" method="post">
                         <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                         <button name="modifica_blog" type="submit" class="button">Modifica blog</button>           
                     </form>
@@ -332,23 +350,14 @@
                         <button name="add_articolo" type="submit" class="button">Aggiungi nuovo articolo </button>
                     </form>
 
-                    <?php
-                        $query="SELECT COUNT(*) FROM Coautore WHERE CodiceBlog='".$_GET["blog"]."' AND ID_Utente='".$_SESSION["id"]."'";
-                        $risultato=mysqli_query($connessione, $query);
-                        $row=$risultato->fetch_row();
-                        $is_coautore= $row[0]==1;
-                        if (!$is_coautore) { ?>
-
-                        <form method="post" id="form_coautore">
-                            <input type="text" id="box_coautore" name="titoloart_txt" placeholder="Titolo...">
-                            <button name="add_coautore" id="btn_coautore"  type="submit" class="button">Aggiungi coautore</button>           
-                        </form>
-
-                        <?php
-
-                        }
-                    ?>
                    
+
+                    <form method="post">
+                        <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
+                        <input></input>
+                        <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
+                    </form>
+
 
                     <?php 
                     $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
@@ -548,7 +557,9 @@
 
         <!-- BLOG DI CUI SONO COAUTORE -->
         <div class="list-item" id="blogcoautore">
-            <button class="menu-btn">I blog di cui sono coautore</button>
+            
+            <button nome ="pulsante_coautore" class="menu-btn">I blog di cui sono coautore</button>
+            
             <ul>
                 <?php while($row = mysqli_fetch_array($query_coautore)) { ?>
                 <h6>
@@ -639,45 +650,6 @@
     <?php include "footer.php" ?>
 
 
-    <script>
-$(".btn-segui").click(function() {
-    //console.log();
-    id_btn = $(this).attr("id");
-    $.ajax({
-  method: "GET",
-  url: "segui.php",
-  data: { id: id_btn}
-})
-  .done(function( msg ) {
-    const myArr = JSON.parse(msg);
-
-    if(myArr["status"] == 201){
-        $("#"+id_btn).html("Segui");
-    } else {
-        $("#"+id_btn).html("Seguito");
-    }
-  });
-});
-
-$("#form_coautore").submit(function( event ) {
-  coautore = $("#box_coautore").val();
-  $.ajax({
-  method: "GET",
-  url: "coautore.php",
-  data: { id: coautore, blog: <?php echo $_GET["blog"]; ?>}
-})
-  .done(function( msg ) {
-    const myArr = JSON.parse(msg);
-    alert(myArr["msg"]);
-    if(myArr["status"] == 200){
-        $("#box_coautore").html("");
-    }
-  });
-  event.preventDefault();
-});
-
-
-</script>
 </body>
 
 </html>             

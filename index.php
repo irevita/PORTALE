@@ -56,25 +56,25 @@
     
     if ($password === $conferma_password){
 
-        $creaUtenti = mysqli_query($connessione, $query);  
+      $creaUtenti = mysqli_query($connessione, $query);  
 
-        if(!$creaUtenti){
-            die('Query fallita'.mysqli_error($connessione));
-            echo "query fallita";
-        }
+      if(!$creaUtenti){
+          die('Query fallita'.mysqli_error($connessione));
+          echo "query fallita";
+      }
 
-        $avviso = "Dati registrati con successo";
+      $avviso = "Dati registrati con successo";
+      echo $avviso;
+
+    }else
+        $avviso = "I campi non devono essere vuoti";
         echo $avviso;
+    }
 
-        }else
-            $avviso = "I campi non devono essere vuoti";
-            echo $avviso;
-        }
-
-        }else{
-            $avviso = "Password non corrispondenti";
-            echo $avviso;
-        }
+    }else{
+        $avviso = "Password non corrispondenti";
+        echo $avviso;
+    }
   }
 
 ?>
@@ -353,19 +353,20 @@
     </div>
 
     <div id="right">
-      <h3>Cosa ti interessa?</h3>
-      <form method="post" action="index.php">
-          <input type="text" name="cerca_utente" placeholder="Cerca utente" />   
-          <input type="submit" name="click_utente" value="CERCA"  /><br  />
-      </form>
-      <form method="post" action="index.php">
-          <input type="text" name="cerca_blog" placeholder="Cerca blog" />
-          <input type="submit" name="click_blog" value="CERCA"  /><br  />
-      </form>
-          <form method="post" action="index.php">
-          <input type="text" name="cerca_articolo" placeholder="Cerca titolo articolo" />
-          <input type="submit" name="click_articolo" value="CERCA"  /><br  />
-      </form>
+        <h3>Cosa ti interessa?</h3>
+        
+        <form method="post" action="index.php">
+            <input type="text" name="cerca_utente" placeholder="Cerca utente" />   
+            <button type="submit" name="click_utente" value="CERCA" class="btn_cerca">CERCA</button>
+        </form>
+        <form method="post" action="index.php">
+            <input type="text" name="cerca_blog" placeholder="Cerca blog" />
+            <button type="submit" name="click_blog" value="CERCA" class="btn_cerca">CERCA</button>
+        </form>
+        <form method="post" action="index.php">
+            <input type="text" name="cerca_articolo" placeholder="Cerca titolo articolo" />
+            <button type="submit" name="click_articolo" value="CERCA" class="btn_cerca">CERCA</button>
+        </form>
     </div> 
     
   </div>
