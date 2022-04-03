@@ -98,14 +98,17 @@
                     
                     <?php  while($row = mysqli_fetch_array($query_articoliseguiti)) { ?>    
                     <div class="contenitori">
-                        <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
-                        <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
-                        <button class="btn default">Segui già</button>
+                        <div class="scatola">
+                            <h5>Blog: </h5><a class="pulsante" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a>
+                            <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
+                            <button class="btn default float">Segui già</button>
+                        </div>
                         <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
                             <img style="min-height: 400px; height: 400px;" src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
                             <h3><?php echo $row["Titolo"];?></h3>
                             <p><?php echo $row["TESTO"];?></p>
+
                             <span class="likes ">
                                 <form method="post">
 
@@ -120,9 +123,6 @@
                                             echo ' disabled=disabled ';
                                         }
 
-                                        //if(isset($_POST['like_'.$row['CodiceArt'].''])){
-                                            //echo ' disabled=disabled ';
-                                        //}
                                     ?> 
                                     >Like</button>
 
@@ -132,10 +132,7 @@
                                         if(empty($check_like)){
                                             echo ' disabled=disabled ';
                                         }
-                                        
-                                        //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
-                                        //echo ' disabled=disabled ';
-                                        //}
+                                    
                                     ?>
                                     >Unlike</button>
 
@@ -185,17 +182,7 @@
                     
                             <!-- COMMENTI -->
                     
-                            
-                            <div id='commenti' class="box">
-                                <h6> Commenti: </h6>
-                                <?php // query commenti
-                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
-                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
-                                    <p><?php echo $row_comm["Testo"];?></p>
-                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
-                                <?php } ?>
-                            </div>
-                            <div class="full comment_form box">
+                            <div class="full comment_form">
                                 <h4>Post your comment</h4>
                                 <form method="post">
                                     <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
@@ -222,6 +209,15 @@
                                 ?>
                             </div>
 
+                            <div id='commenti'>
+                                <h6> Commenti: </h6>
+                                <?php // query commenti
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
+                                    <p><?php echo $row_comm["Testo"];?></p>
+                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                                <?php } ?>
+                            </div>
                         </a>
                     </div>
                     <?php } ?>      

@@ -153,7 +153,7 @@
   </div>
 
 
-  <div class="container-flex ">
+  <div class="container-flex">
     
     <div id="left">
 
@@ -181,12 +181,11 @@
             <h3><?php echo $row["Titolo"];?></h3>
             <h4><?php echo $row["Data"];?></h4>
             <p><?php echo $row["TESTO"];?></p>
-
+          </a>
             <div class="info_blog">
-            <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"] ?></a>
+              <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"] ?></a>
             </div>
           </div>
-          </a>
         <?php } ?>
       </div>
 
