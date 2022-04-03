@@ -11,12 +11,12 @@ if(isset($_POST['login'])){
   $username = $_POST['username'];
   $password =$_POST['password'];
   
-  if (!preg_match('/^[a-zA-Z0-9_-]{3,16}$/', $username)){
+  if (!preg_match('/^[a-z0-9_-]{3,16}$/', $password)){
     die("Lo username non è valido"); 
   }
    
-  if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
-   die("La password non è valida"); 
+  if (!preg_match('/^[a-zA-Z0-9_-]{4,18}$/', $password)){
+    die("La password non è valida"); 
   }
 
   $username = mysqli_real_escape_string($connessione, $username);
@@ -38,22 +38,16 @@ if(isset($_POST['login'])){
 
   }
 
-  
   if ($username === $userUtente && $password === $passUtente ){
     
     $_SESSION['utente'] = $userUtente;
     $_SESSION['id']=$idUtente;
     header("Location: area_riservata.php");
+
   }else{
-    header("Location: index.php?login=passIsWrong");
-    // La cosa che devi fare nella pagina in cui vuoi recuperare il valore (in questo esempio index.php)
-    // Se vuoi far visualizzare una box
-    // if($_GET['login'] == 'passIsWrong'){
-    //   Metto la mia box
-    //}
-    // ?backTo=.....
-    // quel link li lo mettete poi come href nell'a 
-    // <a href="<?php echo $_GET[\'backTo\'] \"></a>
+    $avviso = "Password o nickname errati";
+    echo "<script type='text/javascript'>alert('$avviso');</script>";
+    
   }
 }
 

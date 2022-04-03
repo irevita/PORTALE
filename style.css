@@ -99,7 +99,7 @@ img {
 }
 
 .btn_cerca{
-
+    color: black;
     border: none; 
     display: block;
     padding: 7px;
@@ -348,6 +348,22 @@ body.theme-2 {background-color: pink;}
 body.theme-3 {background-color: green;}
 body.theme-4 {background-color: teal;}
 
+
+.navbar {
+    width: 98%;
+    overflow: auto;
+    background-color: lightgrey;
+}
+  
+.navbar button {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
 .menu_blog{
     display: table-cell;
     float: left;
@@ -371,12 +387,12 @@ nav.sticky ul li {
 	display: inline;
 	padding: 2%;
 }
-#meno {
+/* #meno {
 	text-align: center;
 	margin: 0px;
     padding: 10px;
     border-top: 2px solid rgb(255,241,175);
-}
+} */
 nav.sticky a {
 	color: rgb(255,241,175);
 	text-align: center;
@@ -394,4 +410,64 @@ div #articoliBlog.hidden{
 div #img_blog.hidden{
     display: none !important;
 
+}
+
+#cercanellarticolo{
+    float: right;
+}
+
+#formadestra{
+    display: inline;
+}
+
+.navbar .btn_menuVB{
+
+    color: black;
+    border: none; 
+    display: block;
+    padding: 7px;
+    text-decoration: none;
+    margin: 0em 0.5em 0em 0em;
+    background-color: slategrey;
+    
+}
+
+.navbar .btn_menuVB:hover{
+    background-color: slategrey;
+    color: white;
+    text-decoration: none;
+}
+#inputasinistra{
+    overflow: visible;
+    margin: 0.3em 0.3em 0.3em 1.4em;
+    float: left;
+}
+.nome_blog {
+    position: relative;
+    text-align: center;
+}
+.nome_blog img{
+    width: 30%;
+    opacity: 0.5;
+    margin: 0em 0em 1em;
+
+}  
+.nome_blog img:hover{
+    opacity: 0.9;
+
+}  
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4.0rem;
+
+}  
+.naviga{
+    float:left;
+    margin: 0em;
+}
+#fai{
+    margin:0;
 }

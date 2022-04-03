@@ -40,10 +40,6 @@
             <!-- <h1 class="pointer"> PORTALE</h1> -->
         </span>
 
-        <!-- <form method="POST">
-            <button nome="torna_indietro" type="button" class="btn btn-danger">Torna indietro</button>
-        </form> -->
-
         <?php  
             // if(isset($_POST['torna_indietro'])){
                 if($is_logged){
@@ -104,34 +100,46 @@
 
     <div id="homepage_blog">
         <?php while($row = mysqli_fetch_array($query_mostraBlog)) { ?> 
-        <div>
-            <nav class="sticky">
-                <div class="sfondo_blog">
-                    <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">  
+        
+            <!-- <div class="sfondo_blog">
+                <img src="<?php //echo $row["Sfondo"];?>" alt="<?php //echo $row["Sfondo"];?>">  
+            </div> -->
+            <div class="nome_blog">
+            
+                
+                <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">  
+                <h3 class="centered"><b><?php echo $row["NomeBlog"];?></b></h3> 
+                
+            </div>
+
+            <div class="navbar">
+                <div class="naviga">
+                    <h3 id="fai">Naviga nel blog...</h3>
                 </div>
-                <div class="nome_blog">
-                    <h3><?php echo $row["NomeBlog"];?></h3>
-                </div>
-                <ul id="meno">
-                    <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>" method="post"> 
-                        <button class="button" title="Home" href="visualizzablog.php?blog=<?php echo $_GET['blog'];?>"><u>Articoli</u></button>
-                        <button class="button" name="infoblog">Info Blog</button>
-                        <input type="text" name="cerca_articolo" placeholder="Cerca articolo"/>  
-                        <input class="button" type="submit" name="click_articolo" value="CERCA" />
-                    </form>
-                </ul>			
-            </nav>
-        </div>
+                <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>" method="post" id="formadestra"> 
+                    <button class="btn_menuVB" title="Home" href="visualizzablog.php?blog=<?php echo $_GET['blog'];?>">Articoli</button>
+                    <button class="btn_menuVB" name="infoblog">Info Blog</button>
+                    
+                    <div id="cercanellarticolo">
+                        <input type="text" name="cerca_articolo" placeholder="Cerca articolo" id="inputasinistra"/>  
+                        <button class="btn_menuVB" type="submit" name="click_articolo">CERCA</button>
+                    </div>  
+                </form>
+            </div>       			
+
         <?php } ?>
         
         <div id = "articoliBlog" class="<?php if(isset($_POST["infoblog"])) {echo "hidden";}; if(isset($_POST['click_articolo'])) {echo "hidden";};?>">
             <?php while($row = mysqli_fetch_array($query_articoliBlog)) { ?> 
-            <article>
-                <h3><?php echo $row["Titolo"];?></h3>
-                <p><?php echo $row["TESTO"];?></p>
-            </article>
+                <div class="contenitori">
+                    <article>
+                        <h3><?php echo $row["Titolo"];?></h3>
+                        <p><?php echo $row["TESTO"];?></p>
+                    </article>
+                </div>    
             <?php } ?>
-        </div>       
+        </div>   
+
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
@@ -151,22 +159,6 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
-            <?php  
-            // if(isset($_POST['torna_indietro'])){
-                if($is_logged){
-           
-                echo '<a href="area_riservata.php">';
-                echo '<button type="button" class="btn btn-danger">Torna indietro</button> </a>';
-                // header ("Location: area_riservata.php");
-
-                } else {
-                
-                echo '';
-                // header ("Location: index.php");
-
-                }
-            // }
-        ?> 
         </div>
 
         <?php 

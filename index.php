@@ -35,45 +35,48 @@
     $conferma_password = $_POST['c_password'];
 
     if(!empty($nome) &&!empty($cognome) &&!empty($nazione)
-    &&!empty($email) &&!empty($dataN) &&!empty($telefono)
-    &&!empty($documento) &&!empty($nickname) &&!empty($password) &&!empty($conferma_password)){
+        &&!empty($email) &&!empty($dataN) &&!empty($telefono)
+        &&!empty($documento) &&!empty($nickname) &&!empty($password) &&!empty($conferma_password)){
       
-    {if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
-        die("Il nome non è valido"); 
-    } 
+        if (!preg_match('/^[a-z0-9_-]{3,15}$/', $nome)){
+            $avviso = "Il nome inserito non è valido"; 
+            echo "<script type='text/javascript'>alert('$avviso');</script>";
+        } 
 
-    if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
-        die("Il cognome non è valido");
-    } 
+        if (!preg_match('/^[a-z0-9_-]{3,15}$/', $cognome)){
+            $avviso = "Il cognome inserito non è valido";
+            echo "<script type='text/javascript'>alert('$avviso');</script>";
+        } 
 
-    if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
-        die("La password non è valida");
-    } 
+        if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
+            $avviso = "La password inserita non è valida";
+            echo "<script type='text/javascript'>alert('$avviso');</script>";
+        } 
 
-    $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
-    VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
+        $query = "INSERT INTO Utenti(Nick, PasswordID, Nome, Cognome, Nazione, Email, DatadiNascita, Telefono, Documento)
+        VALUES ('{$nickname}','{$password}','{$nome}','{$cognome}','{$nazione}','{$email}','{$dataN}','{$telefono}','{$documento}')";
 
-    
-    if ($password === $conferma_password){
+        if ($password === $conferma_password){
 
-      $creaUtenti = mysqli_query($connessione, $query);  
+            $creaUtenti = mysqli_query($connessione, $query);  
 
-      if(!$creaUtenti){
-          die('Query fallita'.mysqli_error($connessione));
-          echo "query fallita";
-      }
+            if(!$creaUtenti){
+                die('Query fallita'.mysqli_error($connessione));
+                $avviso = "query fallita";
+                echo "<script type='text/javascript'>alert('$avviso');</script>";
+            }
 
-      $avviso = "Dati registrati con successo";
-      echo $avviso;
+            $avviso = "Dati registrati con successo";
+            echo "<script type='text/javascript'>alert('$avviso');</script>";
 
-    }else
-        $avviso = "I campi non devono essere vuoti";
-        echo $avviso;
-    }
+        }else{
+            $avviso = "Password non corrispondenti";
+            echo "<script type='text/javascript'>alert('$avviso');</script>";
+        }
 
     }else{
-        $avviso = "Password non corrispondenti";
-        echo $avviso;
+        $avviso = "I campi non devono essere vuoti";
+        echo "<script type='text/javascript'>alert('$avviso');</script>";
     }
   }
 
@@ -141,6 +144,7 @@
               <input name="documento" type="text" class="form-control" placeholder="Documento">
               <input name="username" type="text" class="form-control" placeholder="Nickname">
               <input name="password" type="password" class="form-control" placeholder="Password">
+              <input name="c_password" type="password" class="form-control" placeholder="Conferma password">
           </div>
           <button name="submit" type="submit" class="btn btn-primary">Invia</button>
         </form>
@@ -354,7 +358,7 @@
 
     <div id="right">
         <h3>Cosa ti interessa?</h3>
-        
+
         <form method="post" action="index.php">
             <input type="text" name="cerca_utente" placeholder="Cerca utente" />   
             <button type="submit" name="click_utente" value="CERCA" class="btn_cerca">CERCA</button>
