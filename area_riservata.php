@@ -185,7 +185,17 @@
                     
                             <!-- COMMENTI -->
                     
-                            <div class="full comment_form">
+                            
+                            <div id='commenti' class="box">
+                                <h6> Commenti: </h6>
+                                <?php // query commenti
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
+                                    <p><?php echo $row_comm["Testo"];?></p>
+                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                                <?php } ?>
+                            </div>
+                            <div class="full comment_form box">
                                 <h4>Post your comment</h4>
                                 <form method="post">
                                     <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
@@ -212,15 +222,6 @@
                                 ?>
                             </div>
 
-                            <div id='commenti'>
-                                <h6> Commenti: </h6>
-                                <?php // query commenti
-                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
-                                while($row_comm = mysqli_fetch_array($query_commenti)) {?>
-                                    <p><?php echo $row_comm["Testo"];?></p>
-                                    <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
-                                <?php } ?>
-                            </div>
                         </a>
                     </div>
                     <?php } ?>      

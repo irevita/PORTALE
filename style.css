@@ -85,7 +85,12 @@ button {
     padding: 2%;
     margin-top: 2%
 }
-
+.box {
+    
+    border-top: 6px double #e6616d;
+    padding: 2%;
+    margin-top: 2%
+}
 footer {
     text-align: center;
     bottom: 0;
@@ -129,6 +134,7 @@ img {
     border: none;
 
 }
+
 .btn-success:hover{
     background-color: #fd3f4f;
     color: white;
@@ -144,6 +150,7 @@ img {
     box-shadow: none;
 
 }
+
 .btn-success:active{
     background-color: #fd3f4f !important;
     color: white;
@@ -245,10 +252,10 @@ img {
 /* AREA RISERVATA STYLE */
 
 header #pbmenu:hover{
-    color: #28a745;
+    color: #e6616d;
 }
 header #pbmenu:hover{
-    color: #28a745;
+    color: #fd3f4f;
 }
 
 .title {
@@ -296,7 +303,7 @@ header #pbmenu:hover{
     color: var(--light-txt);
 }
 #menu .list-item *:hover{
-    color: #28a745;
+    color: #e6616d;
     text-decoration: none;
 }
 #menu .btn-danger{
@@ -313,7 +320,7 @@ header #pbmenu:hover{
     border-color: #212529 !important;
 }
 #menu .btn-success:hover{
-    background-color: #28a745 !important;
+    background-color: #fd3f4f !important;
     color: seashell;
 
 }
@@ -323,6 +330,18 @@ header #pbmenu:hover{
     display: block;
     width: 75%;
 } 
+a {
+    color: #e6616d; 
+    text-decoration: none;
+    background-color: transparent;
+}
+
+a:hover {
+    color: #fd3f4f ;
+    text-decoration: none;
+    background-color: transparent;;
+    
+}
 .button {
     display: inline-block;
     padding: 15px 25px;
@@ -332,15 +351,15 @@ header #pbmenu:hover{
     text-decoration: none;
     outline: none;
     color: #fff;
-    background-color: #4CAF50;
+    background-color: #e6616d;
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
   }  
-.button:hover {background-color: #3e8e41}
+.button:hover {background-color: #fd3f4f;}
 
 .button:active {
-background-color: #3e8e41;
+background-color: #fd3f4f;;
 box-shadow: 0 5px #666;
 transform: translateY(4px);
 }
