@@ -241,6 +241,30 @@ img {
 }
 
 
+a:hover {
+    
+    text-decoration: none;
+    background-color: transparent;;
+    
+}
+.info_blog{
+    margin: 1.3em 0em;
+}
+.info_blog h4{
+    display: contents;
+}
+.info_blog a{
+    background-color: #f8f9fa;
+    color: #e6616d;
+    padding: 16px;
+    text-decoration: none;
+}
+.info_blog a:hover{
+    background-color: lightgrey;  
+    color: #fd3f4f ;
+    padding: 16px;
+    text-decoration: none;
+}
 /* .container-flex > *{
     min-width: 50%;
 } */
@@ -330,18 +354,7 @@ header #pbmenu:hover{
     display: block;
     width: 75%;
 } 
-a {
-    color: #e6616d; 
-    text-decoration: none;
-    background-color: transparent;
-}
 
-a:hover {
-    color: #fd3f4f ;
-    text-decoration: none;
-    background-color: transparent;;
-    
-}
 .button {
     display: inline-block;
     padding: 15px 25px;
@@ -403,8 +416,28 @@ transform: translateY(4px);
     border: none;
     
 }
+.contenitori h5{
+    display: contents;
 
-
+}
+.contenitori .pulsante{
+    background-color: #f8f9fa;
+    color: #e6616d;
+    padding: 16px;
+    text-decoration: none;
+}
+.contenitori .pulsante:hover{
+    background-color: lightgrey;  
+    color: #fd3f4f ;
+    padding: 16px;
+    text-decoration: none;
+}
+.contenitori .scatola{
+    margin: 0.7em 0em 1em;
+}
+.contenitori .float{
+    float: right;
+}
 
 
 /* MYBLOG STYLE */
