@@ -13,9 +13,9 @@
 
  $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.Blog = {$_GET['blog']}");
  $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
- $query_contaimmagini = mysqli_query($connessione, "SELECT COUNT(*) FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']} Group by (Articoli.CodiceArt)" );
+ $query_contaimmagini = mysqli_query($connessione, "SELECT * FROM Articoli JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']} Group by (Articoli.CodiceArt)" );
  
- 
+ $vedi_profilo = !empty($_GET["vedi_profilo"]);
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +56,8 @@
 
         <!-- PROFILO UTENTE -->
         <div class="list-item">
-            <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>" method="post">
-                <button name="vedi_profilo" class="menu-btn">Profilo di <?php while($row = mysqli_fetch_array($queryUtente)){echo $row["Nick"];}?></button>
+            <form action="visualizzablog.php?blog=<?php echo $_GET['blog'];?>&vedi_profilo=true" method="post">    
+            <button name="vedi_profilo" class="menu-btn">Profilo di <?php while($row = mysqli_fetch_array($queryUtente)){echo $row["Nick"];}?></button>
             </form>
         </div>
 
@@ -130,13 +130,13 @@
                         <p><?php echo $row["TESTO"];?></p>
                     </article>
                    
-                    <?php //if($query_contaimmagini > 0){?>
+                    <?php if(mysqli_num_rows($query_contaimmagini) > 0){ ?>
 
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                <?php while($row = mysqli_fetch_array($query_immagini)) { ?>
+                                <?php while($row2 = mysqli_fetch_array($query_immagini)) { ?>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="<?php $prev = $row["Nome"].''; echo $row["Nome"]; ?>" alt="First slide">
+                                    <img class="d-block w-100" src="<?php $prev = $row2["Nome"].''; echo $row2["Nome"]; ?>" alt="First slide">
                                 </div>
                                 <?php } ?>
                                 <div class="carousel-item active">
@@ -153,9 +153,49 @@
                             </a>
                         </div>
 
-                    <?php // }?>    
+                    <?php }?>    
 
                 
+
+                                    <!-- <span class="likes_number"></span> -->
+                                    <?php 
+                                    if(isset($_POST['like_'.$row['CodiceArt'].''])){
+
+                                        $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
+                                        VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
+
+                                        if(!$query_add_like){
+
+                                            header('Location: area_riservata.php');
+                                            //die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+
+                                    }
+
+                                    if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+
+                                        $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
+                                        WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+
+                                        if(!$query_remove_like){
+
+                                            header('Location: area_riservata.php');
+                                            //die('Query fallita'.mysqli_error($connessione));
+                                            echo "query fallita";
+                                        }
+
+                                    }
+
+                                    $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
+                                    $likes = mysqli_fetch_array($query_like);
+                                    
+                                    if(empty($likes)) { ?>
+                                        <span>Likes: 0 </span>
+                                    <?php } else {?> 
+                                        <span>Likes: <?php echo $likes[0];?></span>
+                                    <?php } 
+                                ?> 
                     <?php       
                         if($is_logged){ ?> 
                 
@@ -186,46 +226,6 @@
                                     >Unlike</button>
 
                                 </form>
-
-                                    <!-- <span class="likes_number"></span> -->
-                                <?php 
-                                    if(isset($_POST['like_'.$row['CodiceArt'].''])){
-
-                                        $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
-                                        VALUES ('{$_SESSION['id']}', SYSDATE(), '{$row['CodiceArt']}')");
-
-                                        if(!$query_add_like){
-
-                                            header('Location: area_riservata.php');
-                                            die('Query fallita'.mysqli_error($connessione));
-                                            echo "query fallita";
-                                        }
-
-                                    }
-
-                                    if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
-
-                                        $query_remove_like =  mysqli_query($connessione, "DELETE FROM Likes
-                                        WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
-
-                                        if(!$query_remove_like){
-
-                                            header('Location: area_riservata.php');
-                                            die('Query fallita'.mysqli_error($connessione));
-                                            echo "query fallita";
-                                        }
-
-                                    }
-
-                                    $query_like = mysqli_query($connessione, "SELECT COUNT(*) FROM Likes WHERE CodiceArt = {$row['CodiceArt']}");
-                                    $likes = mysqli_fetch_array($query_like);
-                                    
-                                    if(empty($likes)) { ?>
-                                        <span>Likes: 0 </span>
-                                    <?php } else {?> 
-                                        <span>Likes: <?php echo $likes[0];?></span>
-                                    <?php } 
-                                ?> 
                             </span>
                             
                                     <!-- COMMENTI -->
@@ -249,7 +249,7 @@
                                             $creaCommento = mysqli_query($connessione, $query_insert_comment);
                                             if(!$creaCommento){
                                                 header('Location: area_riservata.php');
-                                                die('Query fallita'.mysqli_error($connessione));
+                                                //die('Query fallita'.mysqli_error($connessione));
                                                 echo "query fallita";
                                             }
                                         }
@@ -272,7 +272,8 @@
  
             <?php } ?>
         </div>  
-
+        <div id="bottom-page">
+            
         <?php 
             if (isset($_POST['infoblog'])){
                 $query_mostraBlog = mysqli_query($connessione,"SELECT NomeBlog, Sfondo, Descrizione FROM Blog WHERE Blog.CodiceBlog = {$_GET['blog']}");
@@ -312,9 +313,10 @@
             }    
         ?>
         
-        <?php 
-            if (isset($_POST['vedi_profilo'])){
+        <?php
+            if ($vedi_profilo){
                 $query_mostraUtente = mysqli_query($connessione, "SELECT Nick, Nome, Cognome, Nazione, DatadiNascita, Email FROM Utenti, Blog WHERE Blog.Autore=Utenti.ID_Utente && Blog.CodiceBlog={$_GET['blog']} ");
+                
                 while($row = mysqli_fetch_array($query_mostraUtente)) { ?> 
 
                     <div class="contenitori">
@@ -331,7 +333,7 @@
         <?php } ?> 
 
 
-
+                </div>
     </div>    
 
 </body>

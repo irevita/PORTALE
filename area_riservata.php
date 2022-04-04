@@ -339,12 +339,9 @@
                         <h6><?php echo $info[1]; ?></h6>
                     </div>
 
-                    <!-- MODIFICA BLOG + AGGIUNGI ARTICOLO --> 
-                    <form enctype="multipart/form-data" action="/upload/image" method="post">
-                        <input id="image-file" type="file" />
-                    </form>
+                    <!-- MODIFICA BLOG + AGGIUNGI ARTICOLO -->
 
-                    <form action="blog-modifica.php?blog=<?php echo $_GET["blog"]; ?>" method="get">
+                    <form action="<?php echo 'blog-modifica.php?blog='.$_GET["blog"] ?>" method="post">
                         <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                         <button name="modifica_blog" type="submit" class="button">Modifica blog</button>           
                     </form>
@@ -356,37 +353,32 @@
 
                    
 
-                    <form method="post">
-                        <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
-                        <input></input>
-                        <button name="add_coautore" type="submit" class="button">Aggiungi coautore</button>           
-                    </form>
-
+                    <form method="post" id="form_coautore">
+                            <input type="text" id="box_coautore" name="titoloart_txt" placeholder="Titolo...">
+                            <button name="add_coautore" id="btn_coautore"  type="submit" class="button">Aggiungi coautore</button>           
+                        </form>
 
                     <?php 
-                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Blog.CodiceBlog FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row= mysqli_fetch_array($query_articoli)) {?> 
 
                         <div class="contenitori">
-                            <h3><?php echo $row["Titolo"];?></h3>
+                            <h3><?php echo $row["Titolo"];?></h3><?php echo '<a href="visualizzablog.php?blog='.$row["CodiceBlog"].'">Leggi Articolo</a>'; ?></p>
                             <p><?php echo $row["Data"];?></p>
                             <p><?php echo $row["TESTO"];?></p>
-                            
-                                
-                            <div class="full comment_form">
-                                <h4>Post your comment</h4>
-                                <!-- <form action="index.html">    -->
-                                <input  placeholder="Comment"></input>
-                                <button type="button" class="btn btn-success">Send</button>
-                                <!-- </form> -->
-                            </div>
                             <div class="vedi-ctg">
                                 <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
+                                <form action="<?php echo 'blog-art.php?blog='.$_GET["blog"] ?>" method="post">
+                                    <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
+                                       <button name="modifica_art" type="submit" class="button">Modifica articolo</button>           
+                                </form>
+                        
                             </div>
                         </div>
                     <?php } ?>
                 </div> 
             <?php } ?>
+            
 
 
             <?php if(isset($_POST["blog_seguiti"])){ ?>
@@ -397,7 +389,6 @@
                      
                         <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                         <h3><?php echo $row["NomeBlog"];?></h3></a> 
-                        <button class="btn-success">Segui</button>
                         <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                         <p><?php echo $row["Descrizione"];?></p>
                     </a>    
@@ -652,6 +643,48 @@
 
 
     <?php include "footer.php" ?>
+
+
+
+    <script>
+$(".btn-segui").click(function() {
+    //console.log();
+    id_btn = $(this).attr("id");
+    $.ajax({
+  method: "GET",
+  url: "segui.php",
+  data: { id: id_btn}
+})
+  .done(function( msg ) {
+    const myArr = JSON.parse(msg);
+
+    if(myArr["status"] == 201){
+        $("#"+id_btn).html("Segui");
+    } else {
+        $("#"+id_btn).html("Seguito");
+    }
+  });
+});
+
+$("#form_coautore").submit(function( event ) {
+  coautore = $("#box_coautore").val();
+  $.ajax({
+  method: "GET",
+  url: "coautore.php",
+  data: { id: coautore, blog: <?php echo $_GET["blog"]; ?>}
+})
+  .done(function( msg ) {
+    const myArr = JSON.parse(msg);
+    alert(myArr["msg"]);
+    if(myArr["status"] == 200){
+        $("#box_coautore").html("");
+    }
+  });
+  event.preventDefault();
+});
+
+
+</script>
 
 
 </body>

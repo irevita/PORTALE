@@ -151,6 +151,11 @@ img {
 
 }
 
+.btn-success.disabled, .btn-success:disabled
+{
+    background-color: white!IMPORTANT;
+    color: #fd3f4f;
+}
 .btn-success:active{
     background-color: #fd3f4f !important;
     color: white;
@@ -591,4 +596,8 @@ div #centro{
 }
 .scrivi{
     width: 100%;
+}
+
+.visible{
+    z-index: 9999;
 }

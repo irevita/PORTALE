@@ -66,7 +66,7 @@
         <h3>Crea un nuovo articolo </h3>
 
         <div id="articolo">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 
                 <input type="text" name="titolo_art" placeholder="Titolo articolo">
                 </br>
@@ -82,21 +82,21 @@
                     
                 </select>
                 </br>
+                <input type="file" name="fileToUpload" id="fileToUpload"/>
                 <button name="add_art" type="submit" class="button">Pubblica Articolo</button>
 
-            </form>
-
-
-            <!-- funzione sfoglia  -->
-            <form enctype="multipart/form-data" action="/upload/image" method="post">
-                <input id="image-file" type="file" />
             </form>
         
         <?php
 
 
         $avviso = "";
-
+        $target_dir = "img/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $target_file = $target_dir .uniqid().".". strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
         if(isset($_POST['add_art'])){
 
             $titolo = $_POST['titolo_art'];
@@ -106,21 +106,75 @@
 
             if(!empty($titolo) &&!empty($testo)){ 
 
-            $query = "INSERT INTO Articoli(Titolo, TESTO, Data, AutoreArt, Blog, Categoria)
-            VALUES ('{$titolo}','{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$blog}', '{$category}')";
-            
-            $creaBlog = mysqli_query($connessione, $query);
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if($check !== false) {
+                  echo "File is an image - " . $check["mime"] . ".";
+                  $uploadOk = 1;
+                } else {
+                  echo "File is not an image.";
+                  $uploadOk = 0;
+                }
 
-            if(!$creaBlog){
-                die('Query fallita'.mysqli_error($connessione));
-                echo "query fallita";
-            }
 
-            $avviso = "Dati registrati con successo";
-            echo $avviso;
-            
-            header("Location: area_riservata.php?blog=".$blog);
+// Check if file already exists
+if (file_exists($target_file)) {
+  echo "Sorry, file already exists.";
+  $uploadOk = 0;
+}
 
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+  echo "Sorry, your file is too large.";
+  $uploadOk = 0;
+}
+
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+  echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  $uploadOk = 0;
+}
+
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+  echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    var_dump($_FILES);
+    var_dump($target_file);
+  if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+
+    // IL nome dell'immagine è $target_file
+    $query = "INSERT INTO Articoli(Titolo, TESTO, Data, AutoreArt, Blog, Categoria)
+    VALUES ('{$titolo}','{$testo}', SYSDATE(), '{$_SESSION['id']}', '{$blog}', '{$category}')";
+    
+    $creaBlog = mysqli_query($connessione, $query);
+
+    if(!$creaBlog){
+        die('Query fallita'.mysqli_error($connessione));
+        echo "query fallita";
+    }
+
+    $last_id = mysqli_insert_id($connessione);
+
+    $query = "INSERT INTO Multimedia(Nome, Data, ID_Utente, CodiceArt) VALUES ('{$target_file}', SYSDATE(), '{$_SESSION['id']}', '{$last_id}')";
+
+    $img = mysqli_query($connessione, $query);
+
+    if(!$img){
+        die('Query fallita'.mysqli_error($connessione));
+        echo "query fallita";
+    }
+
+    $avviso = "Dati registrati con successo";
+    echo $avviso;
+    
+    header("Location: area_riservata.php?blog=".$blog);
+
+  } else {
+    echo "Sorry, there was an error uploading your file.";
+  }
+}
             }else{
             $avviso = "I campi non devono essere vuoti";
         echo $avviso;

@@ -46,7 +46,7 @@ if(isset($_POST['login'])){
 
   }else{
     $avviso = "Password o nickname errati";
-    echo "<script type='text/javascript'>alert('$avviso');</script>";
+    echo "<script type='text/javascript'>alert('$avviso');window.location.replace(\"index.php\");</script>";
     
   }
 }
