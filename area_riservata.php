@@ -107,42 +107,7 @@
                             <h3><?php echo $row["Titolo"];?></h3>
                             <p><?php echo $row["TESTO"];?></p>
                             <span class="likes ">
-                                <form method="post">
-
-                                    <!-- LIKESSSSS  -->
-
-                                    <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
-                                    <?php 
-                                        $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
-                                        $check_like = mysqli_fetch_array($query_check_like);
-
-                                        if(!empty($check_like)){
-                                            echo ' disabled=disabled ';
-                                        }
-
-                                        //if(isset($_POST['like_'.$row['CodiceArt'].''])){
-                                            //echo ' disabled=disabled ';
-                                        //}
-                                    ?> 
-                                    >Like</button>
-
-                                    <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
-                                    <?php 
-                                        
-                                        if(empty($check_like)){
-                                            echo ' disabled=disabled ';
-                                        }
-                                        
-                                        //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
-                                        //echo ' disabled=disabled ';
-                                        //}
-                                    ?>
-                                    >Unlike</button>
-
-                                </form>
-
-                                <!-- <span class="likes_number"></span> -->
-                                <?php 
+                            <?php 
                                     if(isset($_POST['like_'.$row['CodiceArt'].''])){
 
                                         $query_add_like =  mysqli_query($connessione, "INSERT INTO Likes(ID_Utente, Data, CodiceArt)
@@ -180,6 +145,42 @@
                                         <span>Likes: <?php echo $likes[0];?></span>
                                     <?php } 
                                 ?> 
+                                <form method="post">
+
+                                    <!-- LIKESSSSS  -->
+
+                                    <button name=<?php echo "like_".$row['CodiceArt'].""?> type='submit' class="btn btn-success"
+                                    <?php 
+                                        $query_check_like = mysqli_query($connessione, "SELECT * FROM Likes WHERE ID_Utente = '{$_SESSION['id']}' AND CodiceArt = '{$row['CodiceArt']}'");
+                                        $check_like = mysqli_fetch_array($query_check_like);
+
+                                        if(!empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
+
+                                        //if(isset($_POST['like_'.$row['CodiceArt'].''])){
+                                            //echo ' disabled=disabled ';
+                                        //}
+                                    ?> 
+                                    >Like</button>
+
+                                    <button name=<?php echo "unlike_".$row['CodiceArt'].""?> type='submit' class="btn btn-success" 
+                                    <?php 
+                                        
+                                        if(empty($check_like)){
+                                            echo ' disabled=disabled ';
+                                        }
+                                        
+                                        //if(isset($_POST['unlike_'.$row['CodiceArt'].''])){
+                                        //echo ' disabled=disabled ';
+                                        //}
+                                    ?>
+                                    >Unlike</button>
+
+                                </form>
+
+                                <!-- <span class="likes_number"></span> -->
+
 
                             </span>
                     
@@ -341,7 +342,7 @@
                         <input id="image-file" type="file" />
                     </form>
 
-                    <form action="" method="post">
+                    <form action="blog-modifica.php?blog=<?php echo $_GET["blog"]; ?>" method="get">
                         <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                         <button name="modifica_blog" type="submit" class="button">Modifica blog</button>           
                     </form>
