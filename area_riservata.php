@@ -359,7 +359,7 @@
                         </form>
 
                     <?php 
-                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Blog.CodiceBlog FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
+                    $query_articoli = mysqli_query($connessione, "SELECT Blog.NomeBlog, Articoli.Titolo, Articoli.TESTO, Articoli.Data, Articoli.Categoria, Blog.CodiceBlog, Articoli.CodiceArt FROM Articoli JOIN Blog ON Articoli.Blog = Blog.CodiceBlog WHERE Blog.CodiceBlog='".$_GET['blog']."'");
                     while($row= mysqli_fetch_array($query_articoli)) {?> 
 
                         <div class="contenitori">
@@ -368,7 +368,7 @@
                             <p><?php echo $row["TESTO"];?></p>
                             <div class="vedi-ctg">
                                 <h5>Categoria:<p><?php echo '<a href="area_riservata.php?categoria='.$row["Categoria"].'">'.$row["Categoria"]."</a>"; ?></p></h5>
-                                <form action="<?php echo 'blog-art.php?blog='.$_GET["blog"] ?>" method="post">
+                                <form action="<?php echo 'modifica-art.php?blog='.$_GET["blog"].'&CodiceArt='.$row["CodiceArt"] ?>" method="post">
                                     <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                                        <button name="modifica_art" type="submit" class="button">Modifica articolo</button>           
                                 </form>

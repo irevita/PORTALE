@@ -8,9 +8,10 @@
     // query i blog di cui sono coautore
     $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
     $query_blog = mysqli_query($connessione, "SELECT * FROM Blog WHERE CodiceBlog={$_GET['blog']}");
-    $row = mysqli_fetch_array($query_blog);
+    
     $query_mieiart = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.AutoreArt = {$_SESSION['id']}");
-    $query_art = mysqli_query($connessione, "SELECT * FROM Articoli WHERE CodiceArt={$_GET['blog']}");
+    $query_art = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Blog FROM Articoli WHERE CodiceArt={$_GET['CodiceArt']}");
+    $row = mysqli_fetch_array($query_art);
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +58,7 @@
                 <div id="infoblog">
                     <!-- funzione sfoglia  -->
 
-                    <form action="blog.php" method="post">
+                    <form method="post">
                         <div class="input-group mb-3">
                         </div>
 
@@ -102,7 +103,7 @@
                             
                             if(!empty($titolo) &&!empty($testo)){ //&&!empty($data)){
 
-                            $query = "UPDATE Articoli SET Titolo = '{$titolo}', TESTO = '{$testo}', Data = SYSDATE(), Autore = '{$_SESSION['id']}'";
+                            $query = "UPDATE Articoli SET Titolo = '{$titolo}', TESTO = '{$testo}', Data = SYSDATE(), AutoreArt = '{$_SESSION['id']}'";
                             
                             $modificaArt = mysqli_query($connessione, $query);
 
@@ -113,17 +114,23 @@
 
                             $avviso = "Dati registrati con successo";
                             echo $avviso;
-                            $queryCodArt = mysqli_query($connessione,"SELECT Articoli.CodiceArt FROM Articoli WHERE Articoli.Titolo ='{$titolo}'AND Articoli.TESTO = '{$testo}'AND Blog.Autore = '{$_SESSION['id']}'");
-                            $row = mysqli_fetch_array($queryCodArt);
-                                
-                            header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
                             
-                            }else{
-                                $avviso = "I campi non devono essere vuoti";
-                                echo $avviso;
+
+                            
+                            // $queryCodArt = mysqli_query($connessione,"SELECT Articoli.CodiceArt FROM Articoli WHERE Articoli.Titolo ='{$titolo}'AND Articoli.TESTO = '{$testo}'AND Blog.Autore = '{$_SESSION['id']}'");
+                            // $row = mysqli_fetch_array($queryCodArt);
+                                
+                            // header("Location: area_riservata.php?blog=".$row['CodiceBlog']);
+                            
+                            // }else{
+                            //     $avviso = "I campi non devono essere vuoti";
+                            //     echo $avviso;
                             }
                         } 
                     ?>
+                    
+                    <a href="area_riservata.php?blog=<?php echo $row['Blog']?>">Torna al tuo blog</a>
+
 
                 </div>
             </div>
