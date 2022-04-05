@@ -190,11 +190,6 @@
                             <!-- COMMENTI -->
                     
                             <div class="full comment_form">
-                                <h4>Post your comment</h4>
-                                <form method="post">
-                                    <input name=<?php echo "text_comment_".$row['CodiceArt'].""?> type="text" placeholder="Comment"></input>
-                                    <button name=<?php echo "add_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Send</button>
-                                </form>
 
                                 <?php                                        
                                     if(isset($_POST['add_comm_'.$row['CodiceArt'].''])){
@@ -225,13 +220,14 @@
                                 while($row_comm = mysqli_fetch_array($query_commenti)) {?>
                                     <p><?php echo $row_comm["Testo"];?></p>
                                     <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>  
-                                    <form action="elimina_comm.php" method="post">
+                                    <?php $query_comm = mysqli_query($connessione, "SELECT * FROM Commenta WHERE ID_Utente = {$_SESSION['id']} AND CodCom = {$row_comm['CodCom']}"); if(mysqli_num_rows($query_comm)){ ?>
+                                        <form action="elimina_comm.php" method="post">
                                     <input type="hidden" name="cod_com" value="<?php echo $row_comm["CodCom"];?>"/>
                                     <input type="hidden" name="articolo" value="<?php echo $row["CodiceArt"];?>"/>
-                                    <?php $query_comm = mysqli_query($connessione, "SELECT * FROM Commenta WHERE ID_Utente = {$_SESSION['id']} AND CodCom = {$row_comm['CodCom']}"); if(mysqli_num_rows($query_comm)){ ?>
-                                    <button name=<?php echo "delete_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Cancella commento</button>
-                                    <?php } ?>
-                                    </form>
+                                        <button name=<?php echo "delete_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Cancella commento</button>
+                                    
+                                        </form>
+                                        <?php } ?>
                                 <?php } ?>
                             </div>
                         </a>
