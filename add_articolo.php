@@ -91,13 +91,14 @@
 
 
         $avviso = "";
-        $target_dir = "img/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $target_file = $target_dir .uniqid().".". strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         
         if(isset($_POST['add_art'])){
+
+            $target_dir = "img/";
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            $target_file = $target_dir .uniqid().".". strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
             $titolo = $_POST['titolo_art'];
             $testo = $_POST['testo_art'];
