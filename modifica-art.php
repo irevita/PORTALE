@@ -9,8 +9,8 @@
     $query_coautore = mysqli_query($connessione,"SELECT Blog.CodiceBlog, Blog.NomeBlog FROM Blog, Coautore WHERE Blog.CodiceBlog = Coautore.CodiceBlog && Coautore.ID_Utente = {$_SESSION['id']}");
     $query_blog = mysqli_query($connessione, "SELECT * FROM Blog WHERE CodiceBlog={$_GET['blog']}");
     
-    $query_mieiart = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.AutoreArt = {$_SESSION['id']}");
-    $query_art = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Blog FROM Articoli WHERE CodiceArt={$_GET['CodiceArt']}");
+    $query_mieiart = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.CodiceArt FROM Articoli WHERE Articoli.AutoreArt = {$_SESSION['id']}");
+    $query_art = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Blog, Articoli.CodiceArt FROM Articoli WHERE CodiceArt={$_GET['CodiceArt']}");
     $row = mysqli_fetch_array($query_art);
 ?>
 
@@ -59,6 +59,7 @@
                     <!-- funzione sfoglia  -->
 
                     <form method="post">
+                        <input type="hidden" name="id" value="<?php echo $row['CodiceArt']; ?>"/>
                         <div class="input-group mb-3">
                         </div>
 
@@ -102,8 +103,10 @@
 
                             
                             if(!empty($titolo) &&!empty($testo)){ //&&!empty($data)){
+                            $testo = addslashes($testo);
+                            $titolo = addslashes($titolo);
 
-                            $query = "UPDATE Articoli SET Titolo = '{$titolo}', TESTO = '{$testo}', Data = SYSDATE(), AutoreArt = '{$_SESSION['id']}'";
+                            $query = "UPDATE Articoli SET Titolo = '{$titolo}', TESTO = '{$testo}', Data = SYSDATE(), AutoreArt = '{$_SESSION['id']}' WHERE CodiceArt = '{$_POST['id']}'";
                             
                             $modificaArt = mysqli_query($connessione, $query);
 

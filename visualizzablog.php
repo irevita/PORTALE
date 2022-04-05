@@ -12,9 +12,7 @@
  $query_mostraBlog = mysqli_query($connessione,"SELECT NomeBlog, Sfondo, Descrizione FROM Blog WHERE Blog.CodiceBlog = {$_GET['blog']}");
 
  $query_articoliBlog = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO FROM Articoli WHERE Articoli.Blog = {$_GET['blog']}");
- $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}");
- $query_contaimmagini = mysqli_query($connessione, "SELECT * FROM Articoli JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']} Group by (Articoli.CodiceArt)" );
- 
+
  $vedi_profilo = !empty($_GET["vedi_profilo"]);
 ?>
 
@@ -129,7 +127,12 @@
                         <h3><?php echo $row["Titolo"];?></h3>
                         <p><?php echo $row["TESTO"];?></p>
                     </article>
-                   
+                   <?php 
+
+                    $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Multimedia.Nome FROM Articoli JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']} AND Articoli.CodiceArt = {$row['CodiceArt']}");
+                    $query_contaimmagini = mysqli_query($connessione, "SELECT * FROM Articoli JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt WHERE Articoli.Blog = {$_GET['blog']}  AND Articoli.CodiceArt = {$row['CodiceArt']} Group by (Articoli.CodiceArt)");
+                    
+                   ?>
                     <?php if(mysqli_num_rows($query_contaimmagini) > 0){ ?>
 
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -260,10 +263,17 @@
                             <div id='commenti'>
                                 <h6> Commenti: </h6>
                                 <?php // query commenti
-                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick, C.CodCom FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
                                 while($row_comm = mysqli_fetch_array($query_commenti)) {?>
                                     <p><?php echo $row_comm["Testo"];?></p>
                                     <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
+                                    <form action="elimina_comm.php" method="post">
+                                    <input type="hidden" name="cod_com" value="<?php echo $row_comm["CodCom"];?>"/>
+                                    <input type="hidden" name="articolo" value="<?php echo $row["CodiceArt"];?>"/>
+                                    <?php $query_comm = mysqli_query($connessione, "SELECT * FROM Commenta WHERE ID_Utente = {$_SESSION['id']} AND CodCom = {$row_comm['CodCom']}"); if(mysqli_num_rows($query_comm)){ ?>
+                                    <button name=<?php echo "delete_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Cancella commento</button>
+                                    <?php } ?>
+                                    </form>
                                 <?php } ?>
                             </div>
                     <?php } ?>  

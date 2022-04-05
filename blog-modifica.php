@@ -72,7 +72,7 @@
                 <div id="infoblog">
                     <!-- funzione sfoglia  -->
 
-                    <form action="blog.php" method="post">
+                    <form action="#" method="post">
                         <div class="input-group mb-3">
                         </div>
 
@@ -117,7 +117,9 @@
                             
                             if(!empty($nome) &&!empty($descrizione)){ //&&!empty($data)){
 
-                            $query = "UPDATE Blog SET NomeBlog = '{$nome}', Descrizione = '{$descrizione}', Data = SYSDATE(), Autore = '{$_SESSION['id']}'";
+                            $nome = addslashes($nome);
+                            $descrizione = addslashes($descrizione);
+                            $query = "UPDATE Blog SET NomeBlog = '{$nome}', Descrizione = '{$descrizione}', Data = SYSDATE(), Autore = '{$_SESSION['id']}' WHERE Blog.CodiceBlog = '{$_GET['blog']}'";
                             
                             $modificaBlog = mysqli_query($connessione, $query);
 
