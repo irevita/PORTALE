@@ -223,7 +223,7 @@
                                     <?php $query_comm = mysqli_query($connessione, "SELECT * FROM Commenta WHERE ID_Utente = {$_SESSION['id']} AND CodCom = {$row_comm['CodCom']}"); if(mysqli_num_rows($query_comm)){ ?>
                                         <form action="elimina_comm.php" method="post">
                                     <input type="hidden" name="cod_com" value="<?php echo $row_comm["CodCom"];?>"/>
-                                    <input type="hidden" name="articolo" value="<?php echo $row["CodiceArt"];?>"/>
+                                    <input type="hidden" name="articolo" value="<?php echo $row["Blog"];?>"/>
                                         <button name=<?php echo "delete_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Cancella commento</button>
                                     
                                         </form>

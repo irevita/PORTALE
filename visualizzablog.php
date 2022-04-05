@@ -263,7 +263,7 @@
                             <div id='commenti'>
                                 <h6> Commenti: </h6>
                                 <?php // query commenti
-                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick, C.CodCom FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
+                                $query_commenti =  mysqli_query($connessione, "SELECT C.Testo, C.Data, U.Nick, C.CodCom  FROM Commenta AS C JOIN Utenti AS U ON C.ID_Utente = U.ID_Utente WHERE CodiceArt = {$row['CodiceArt']}");
                                 while($row_comm = mysqli_fetch_array($query_commenti)) {?>
                                     <p><?php echo $row_comm["Testo"];?></p>
                                     <p><?php echo $row_comm["Data"];?> write by <?php echo $row_comm["Nick"];?> </p>
@@ -271,7 +271,7 @@
                                     
                                         <form action="elimina_comm.php" method="post">
                                     <input type="hidden" name="cod_com" value="<?php echo $row_comm["CodCom"];?>"/>
-                                    <input type="hidden" name="articolo" value="<?php echo $row["CodiceArt"];?>"/>
+                                    <input type="hidden" name="articolo" value="<?php echo $_GET["blog"];?>"/>
                                         <button name=<?php echo "delete_comm_".$row['CodiceArt'].""?> type="submit" class="btn btn-success">Cancella commento</button>
                                     
                                         </form>
