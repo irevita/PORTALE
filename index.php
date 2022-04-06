@@ -8,7 +8,7 @@
 
   }
   //elenco categorie
-  $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
+  $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Articoli");
   //elenco articoli in ordine di popolarità
   $query_articolitendenza = mysqli_query($connessione, "SELECT Articoli.Titolo, Blog.CodiceBlog, Articoli.TESTO, Blog.NomeBlog, Articoli.Data, Multimedia.Nome
     FROM Blog JOIN Articoli ON Articoli.Blog=Blog.CodiceBlog JOIN Likes ON Likes.CodiceArt = Articoli.CodiceArt LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt

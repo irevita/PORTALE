@@ -2,7 +2,7 @@
   session_start();
   include "connessione.php";
   // QUERIES LIST
-  $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
+  $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Articoli");
   // $query_articoliseguiti 
   $query_immagini = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, Articoli.TESTO, Articoli.Blog, Blog.NomeBlog, Multimedia.Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
   $query_articoliseguiti = mysqli_query($connessione, "SELECT Articoli.CodiceArt, Articoli.Titolo, CONCAT(SUBSTRING(Articoli.TESTO, 1, 500), '...') AS TESTO, Articoli.Blog, Blog.NomeBlog, IF((SELECT COUNT(*) FROM Multimedia WHERE Multimedia.CodiceArt = Articoli.CodiceArt) > 0, (SELECT Multimedia.Nome FROM Multimedia WHERE Multimedia.CodiceArt = Articoli.CodiceArt LIMIT 1), \"img/default.jpeg\") AS Nome FROM Blog JOIN Articoli ON Articoli.Blog = Blog.CodiceBlog LEFT JOIN Segui ON Segui.CodiceBlog=Articoli.Blog WHERE Segui.ID_Utente = {$_SESSION['id']} ");
@@ -299,24 +299,7 @@
                         <div class="contenitori">
                             <div>Blog: <a href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'><?php echo $row["NomeBlog"]?></a></div>
                             <!-- BOTTONI SEGUI DA MOFICARE CON IF -->
-
-                            <button name="segui" type="submit" class="btn-success" 
-                             <?php
-                                $query = "INSERT INTO Segui(CodiceBlog, ID_Utente, Data)
-                                       VALUES ({$row['Blog']},'{$_SESSION['id']}', SYSDATE())";
-                                       
-                                       $segui_q = mysqli_query($connessione, $query);
-                                        if(!$segui_q){
-                                            die('Query fallita SEGUI'.mysqli_error($connessione));
-                                            echo "query fallita SEGUI";
-                                        }
-                            
-                                
-                                $avviso = "Dati registrati con successo";
-                                echo $avviso;
-                            ?>
-                                >Segui
-                            </button>
+                            <button name="segui" type="submit" class="btn-success btn-segui" id="<?php echo $row["Blog"]; ?>">Segui</button>
                             <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["Blog"] ?>'>
 
                                 <img src="<?php echo $row["Nome"];?>" alt="<?php echo $row["Nome"];?>">
@@ -443,7 +426,9 @@
 
                                 <img src="<?php echo $row["Sfondo"];?>" alt="<?php echo $row["Sfondo"];?>">
                                 <h3><?php echo $row["NomeBlog"];?></h3></a>
-                                <button class="btn-success">Segui</button>
+
+                                <button name="segui" type="submit" class="btn-success btn-segui" id="<?php echo $row["CodiceBlog"]; ?>">Segui</button>
+ 
                                 <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>
                                 <p><?php echo $row["Descrizione"];?></p> 
                             </a>                
@@ -476,11 +461,11 @@
                                     <p><?php echo $row["Data"];?></p>
                                     <p><?php echo $row["TESTO"];?></p>
                                 </article>
+                                </a>
                                 <div class="info_blog">
                                     <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"]?></a>
-                                    <button class="btn-success">Segui</button>
                                 </div>
-                                </a>
+                               
                             </div>
                             
                         <?php }
@@ -677,6 +662,7 @@ $(".btn-segui").click(function() {
   });
 });
 
+<?php if(isset($_GET["blog"])){ ?>
 $("#form_coautore").submit(function( event ) {
   coautore = $("#box_coautore").val();
   $.ajax({
@@ -693,7 +679,7 @@ $("#form_coautore").submit(function( event ) {
   });
   event.preventDefault();
 });
-
+<?php } ?>
 
 </script>
 
