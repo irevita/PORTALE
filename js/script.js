@@ -4,12 +4,7 @@ function toggleMenu() {
     menu.classList.toggle('visible')
 }
 
-// function stutaTendenza(){
-//     var div_a_scomparsa = getElementById("#articoli_tendenza");
-//     div_a_scomparsa.style.dispaly = "none";
-//     //document.querySelector("#articoli_tendenza").style.display = "none";
 
-// }
 
 // assegna al click sulle entry del menu, l'attivazione/disattivazione del relativo sottomenu, attraverso classi css
 document.querySelectorAll('.list-item').forEach(element => {
