@@ -89,7 +89,6 @@
         
         <?php
 
-
         $avviso = "";
         
         if(isset($_POST['add_art'])){
