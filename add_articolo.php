@@ -2,7 +2,7 @@
     include "connessione.php";
     session_start();
     // query categorie
-    $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Categoria");
+    $query_categorie = mysqli_query($connessione, "SELECT Categoria FROM Articoli");
     // query i miei blog
     $query_mieiblog = mysqli_query($connessione, "SELECT Blog.NomeBlog, Blog.Descrizione, Blog.CodiceBlog FROM Blog WHERE Blog.Autore = {$_SESSION['id']}");
     //QUERY SCEGLI TEMA

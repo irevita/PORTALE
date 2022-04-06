@@ -366,6 +366,13 @@
                                     <!--<input type="text" name="titoloart_txt" placeholder="Titolo..."> -->
                                        <button name="modifica_art" type="submit" class="button">Modifica articolo</button>           
                                 </form>
+                                <form action="elimina_art.php" method="post" id="form_eliminaArt">
+                                    <input type="hidden" name="id_art" value="<?php echo $row["CodiceArt"]; ?>">
+                                    <button name="delete_art" id="btn_deleteart"  type="submit" class="button">Elimina articolo</button>           
+                                </form> 
+                                
+
+                               
                         
                             </div>
                         </div>
