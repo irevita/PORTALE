@@ -48,7 +48,7 @@
             echo "<script type='text/javascript'>alert('$avviso');</script>";
         } 
 
-        if (!preg_match('/^[a-zA-Z0-9_-]{6,18}$/', $password)){
+        if (!preg_match('/^[a-zA-Z0-9_-]{4,18}$/', $password)){
             $avviso = "La password inserita non è valida";
             echo "<script type='text/javascript'>alert('$avviso');</script>";
         } 
@@ -257,16 +257,15 @@
               $query_articolicategoria = mysqli_query($connessione, "SELECT Articoli.Titolo, Articoli.TESTO, Articoli.Data, Blog.NomeBlog, Blog.CodiceBlog FROM Articoli, Blog WHERE Articoli.Blog=Blog.CodiceBlog && Articoli.Categoria='".$_GET['categoria']."'"); 
               while($row = mysqli_fetch_array($query_articolicategoria)) { ?> 
                 <a class="clicca" href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'>    
-                <article>
-                  <h3><?php echo $row["Titolo"];?></h3>
-                  <p><?php echo $row["Data"];?></p>
-                  <p><?php echo $row["TESTO"];?></p>
-                </article>
-
+                  <article>
+                    <h3><?php echo $row["Titolo"];?></h3>
+                    <p><?php echo $row["Data"];?></p>
+                    <p><?php echo $row["TESTO"];?></p>
+                  </article>
+                </a>
                 <div class="info_blog">
                   <h4>Blog: &nbsp</h4><a href='<?php echo "visualizzablog.php?blog=".$row["CodiceBlog"] ?>'><?php echo $row["NomeBlog"]?></a>
                 </div>
-                </a>
             <?php } ?>
           </div> 
           
