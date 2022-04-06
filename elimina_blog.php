@@ -7,7 +7,6 @@
         $logged = true;
     }
 
-
     if($logged){
         $id = $_POST["id_blog"];
         $query = mysqli_query($connessione,"DELETE FROM Blog WHERE CodiceBlog = '{$id}' AND Autore = {$_SESSION['id']}");
@@ -16,7 +15,6 @@
             die('Query fallita'.mysqli_error($connessione));
             echo "query fallita";
         }
-
 
         header("Location: area_riservata.php");
 

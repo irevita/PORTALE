@@ -12,5 +12,5 @@
   }else{
     die("impossibile connettersi");
   }
-
+  
 ?>

@@ -47,7 +47,6 @@
 
         // }
     }
-
 ?>
 
 <body class="theme-<?php //$theme = mysqli_fetch_field($query_tema); echo $theme; ?>">

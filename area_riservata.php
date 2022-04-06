@@ -84,7 +84,6 @@
         </div> 
 
         <!-- HOMEPAGE -->
-
         <div id="homepage">
             <?php if (!isset($_GET["blog"])) { ?>
                 <div>

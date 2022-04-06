@@ -1,6 +1,7 @@
 <?php
     session_start();
     include "connessione.php";
+    
 
     $logged = false;
     if(isset($_SESSION["id"])){

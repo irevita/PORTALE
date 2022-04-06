@@ -6,7 +6,6 @@
         $anno = date("Y");
         echo "Copyright &copy - $anno";
        ?>
-
     </p>
   </div>
 </footer>

@@ -1,6 +1,7 @@
 <?php include 'connessione.php' ?>
 <?php session_start(); ?>
 <?php
+
     $msg = ["status" => 404, "msg" => "Tutto okay!"];
 
     if(isset($_GET["id"]) && !empty($_GET["id"])){

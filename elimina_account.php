@@ -1,6 +1,5 @@
 <?php include 'connessione.php' ?>
 <?php session_start(); ?>
-
 <?php $query_eliminautente = mysqli_query($connessione, "DELETE FROM Utenti WHERE ID_Utente=".$_SESSION['id']); ?>
 
 <?php // bottone elimina php

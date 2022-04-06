@@ -19,7 +19,6 @@
     <?php }?>
 </ul>
 
-
 <div class="w3-col m3">
         <h4 class="w3-marginLeft">Il mio profilo</h4>
         <ul>

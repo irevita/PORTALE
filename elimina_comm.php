@@ -7,7 +7,6 @@
         $logged = true;
     }
 
-
     if($logged){
         $id = $_POST["cod_com"];
         $query = mysqli_query($connessione,"DELETE FROM Commenta WHERE CodCom = '{$id}' AND ID_Utente = {$_SESSION['id']}");
@@ -16,7 +15,6 @@
             die('Query fallita'.mysqli_error($connessione));
             echo "query fallita";
         }
-
 
         header("Location: visualizzablog.php?blog=".$_POST["articolo"]);
 

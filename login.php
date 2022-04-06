@@ -4,9 +4,6 @@
 <?php
 
 if(isset($_POST['login'])){
-// echo "tutto ok";
-// }else {
-//  echo "non va";
   
   $username = $_POST['username'];
   $password =$_POST['password'];

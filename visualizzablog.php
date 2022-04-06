@@ -26,7 +26,6 @@
 
 
 <body>
-
     <header>
         <span onclick="toggleMenu()">
             <h1 class="pointer" id="pbmenu">&#9776;</h1>

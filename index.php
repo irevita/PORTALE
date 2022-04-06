@@ -14,7 +14,6 @@
     FROM Blog JOIN Articoli ON Articoli.Blog=Blog.CodiceBlog JOIN Likes ON Likes.CodiceArt = Articoli.CodiceArt LEFT JOIN Multimedia ON Multimedia.CodiceArt = Articoli.CodiceArt
     GROUP BY (Articoli.CodiceArt)
     ORDER BY (COUNT(Articoli.CodiceArt)) DESC");
-
 ?>
 
 <?php

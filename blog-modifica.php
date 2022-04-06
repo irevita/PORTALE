@@ -26,22 +26,7 @@
 
         header("Location: area_riservata.php");
 
-        // $newTitolo = $_POST["titolo_txt"];
 
-        // if(!empty($newTitolo)){
-
-        //     $queryTitolo = "INSERT INTO Articoli(Titolo) VALUES ('{$newTitolo}')";
-
-        //     $creaTitolo = mysqli_query($connessione, $queryTitolo);
-        
-        //     if(!$creaTitolo){
-        //     die('Query fallita'.mysqli_error($connessione));
-        //     echo "query fallita";
-        //     }else{
-        //         echo 'nuovo post aggiunto';
-        //     }
-
-        // }
     }
 
 ?>
